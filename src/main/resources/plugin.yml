@@ -1,0 +1,192 @@
+name: ExpandedBans
+version: '0.1'
+main: pl.olafcio.expandedbans.ExpandedBans
+api-version: '1.21'
+load: STARTUP
+authors: [Olafcio]
+description: The most feature-rich free punishment plugin.
+website: https://olafcio1.github.io
+softdepend:
+  - protocolextension
+libraries:
+  - org.xerial:sqlite-jdbc:3.51.1.0
+commands:
+  expandedbans:
+    description: The main plugin command.
+  xban: # AB
+    description: Bans a player.
+    permission: expandedbans.ban
+    aliases: [ban]
+  xbanip: # AB
+    description: Bans an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.banip
+    aliases: [banip]
+  xtempban: # AB
+    description: Temporarily bans a player.
+    permission: expandedbans.tempban
+    aliases: [tempban]
+  xtempbanip: # AB
+    description: Temporarily bans an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.tempbanip
+    aliases: [tempbanip]
+  xkick: # AB
+    description: Kicks a player.
+    permission: expandedbans.kick
+    aliases: [kick]
+  xmute: # AB
+    description: Mutes a player.
+    permission: expandedbans.mute
+    aliases: [mute]
+  xmuteip: # LB
+    description: Mutes an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.muteip
+    aliases: [muteip]
+  xtempmute: # AB
+    description: Temporarily mutes a player.
+    permission: expandedbans.tempmute
+    aliases: [tempmute]
+  xtempmuteip: # AB
+    description: Temporarily mutes an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.tempmuteip
+    aliases: [tempmuteip]
+  xunmute: # Original
+    description: Unmutes a player.
+    permission: expandedbans.unmute
+    aliases: [unmute]
+  xunmuteip: # Original
+    description: Unmutes an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.unmuteip
+    aliases: [unmuteip]
+  xwarn: # AB
+    description: Warns a player.
+    permission: expandedbans.warn
+    aliases: [warn]
+  xwarnip: # Original
+    description: Warns an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.warnip
+    aliases: [warnip]
+  xtempwarn: # AB
+    description: Temporarily warns a player.
+    permission: expandedbans.tempwarn
+    aliases: [tempwarn]
+  xtempwarnip: # Original
+    description: Temporarily warns an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.tempwarnip
+    aliases: [tempwarnip]
+  xunwarn: # Original
+    description: Removes a warning of the specified ID or a player's last warning.
+    permission: expandedbans.unwarn
+    aliases: [unwarn]
+  xunwarnip: # Original
+    description: Removes a warning of the specified ID or an IP address's last warning.
+    permission: expandedbans.unwarnip
+    aliases: [unwarnip]
+  xnote: # AB
+    description: Adds a note to a player.
+    permission: expandedbans.note
+    aliases: [note]
+  xnoteip: # AB
+    description: Adds a note to an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.noteip
+    aliases: [noteip]
+  xnotes: # AB
+    description: Gets notes about a player.
+    permission: expandedbans.notes
+    aliases: [notes]
+  xnotesip: # AB
+    description: Gets notes about an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.notesip
+    aliases: [notesip]
+  xunnote: # Original
+    description: Removes a note with the given ID.
+    permission: expandedbans.unnote
+    aliases: [unnote]
+  xclearnotes: # Original
+    description: Clears all notes of a player.
+    permission: expandedbans.clearnotes
+    aliases: [clearnotes]
+  xclearnotesip: # Original
+    description: Clears all notes of an IP address.
+    permission: expandedbans.clearnotesip
+    aliases: [clearnotesip]
+  xalts: # LB
+    description: Gets a player's alt list.
+    permission: expandedbans.alts
+    aliases: [alts]
+  xfreeze: # Original
+    description: Freezes a player.
+    permission: expandedbans.freeze
+    aliases: [freeze]
+  xunfreeze: # Original
+    description: Unfreezes a player.
+    permission: expandedbans.unfreeze
+    aliases: [unfreeze]
+  xlockdown: # LB
+    description: Locks the server down.
+    permission: expandedbans.lockdown
+    aliases: [lockdown]
+  xwhois: # AB
+    description: Gets information about a player.
+    permission: expandedbans.whois
+    aliases: [whois]
+  xhistory: # AB/LB
+    description: Gets punishment history of a player.
+    permission: expandedbans.history
+    aliases: [history]
+  xbanlist: # AB/LB
+    description: Gets ban history of a player or an IP address.
+    permission: expandedbans.banlist
+    aliases: [banlist]
+  xmutelist: # LB
+    description: Gets mute history of a player or an IP address.
+    permission: expandedbans.mutelist
+    aliases: [mutelist]
+  xwarnlist: # LB
+    description: Gets warn history of a player or an IP address.
+    permission: expandedbans.warnlist
+    aliases: [warnlist]
+permissions:
+  expandedbans.ban:
+    default: op
+  expandedbans.banip:
+    default: op
+  expandedbans.tempban:
+    default: op
+  expandedbans.tempbanip:
+    default: op
+  expandedbans.kick:
+    default: op
+  expandedbans.mute:
+    default: op
+  expandedbans.muteip:
+    default: op
+  expandedbans.tempmute:
+    default: op
+  expandedbans.tempmuteip:
+    default: op
+  expandedbans.warn:
+    default: op
+  expandedbans.warnip:
+    default: op
+  expandedbans.tempwarn:
+    default: op
+  expandedbans.tempwarnip:
+    default: op
+  expandedbans.alts:
+    default: op
+  expandedbans.freeze:
+    default: op
+  expandedbans.unfreeze:
+    default: op
+  expandedbans.lockdown:
+    default: op
+  expandedbans.whois:
+    default: op
+  expandedbans.history:
+    default: op
+  expandedbans.banlist:
+    default: op
+  expandedbans.mutelist:
+    default: op
+  expandedbans.warnlist:
+    default: op
