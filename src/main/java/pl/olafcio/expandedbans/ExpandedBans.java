@@ -40,15 +40,15 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
 
         INSTANCE = this;
 
+        configurations = new Configurations();
+        messages = new Messages();
+
         configurations.messages = YamlConfiguration.loadConfiguration(getTextResource("messages.yml"));
         configurations.punishments = YamlConfiguration.loadConfiguration(getTextResource("punishments.yml"));
 
         db_path = getDataFolder().toPath().resolve("expandedbans.sqlite3");
         database = new Database();
         commands = section.getKeys(false).stream().map(this::getCommand).toList();
-
-        configurations = new Configurations();
-        messages = new Messages();
     }
 
     // If changing the plugin's API base (Paper/Forge, etc.), change this!
