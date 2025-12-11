@@ -15,6 +15,8 @@ public final class Database implements TBan {
     public Database() {
         (startThread = new Thread(() -> {
             try {
+                connect();
+
                 while (true) {
                     while (!connection.isClosed());
                     connect();
