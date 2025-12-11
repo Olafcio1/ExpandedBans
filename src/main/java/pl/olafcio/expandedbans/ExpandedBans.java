@@ -48,7 +48,9 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
 
         db_path = getDataFolder().toPath().resolve("expandedbans.sqlite3");
         database = new Database();
+        System.out.println(section.getKeys(false));
         commands = section.getKeys(false).stream().map(this::getCommand).toList();
+        System.out.println(commands);
     }
 
     // If changing the plugin's API base (Paper/Forge, etc.), change this!
@@ -62,7 +64,7 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getCommand("expandedbans").setExecutor(new XExpandedBans());
-        getCommand("ban").setExecutor(new XBan());
+        getCommand("xban").setExecutor(new XBan());
     }
 
     @Override

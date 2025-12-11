@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class XBan implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equals("ban")) {
+        if (command.getName().equals("xban")) {
             if (!sender.hasPermission("expandedbans.ban")) {
                 sender.sendMessage(ExpandedBans.INSTANCE.configurations.messages.getString("prefix") +
                                     "§cError:§4 Insufficient permissions.");
