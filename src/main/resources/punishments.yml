@@ -1,0 +1,12 @@
+ban:
+  default-reason: "&oNo reason provided."
+  perm: |-
+    &3[&9ExpandedBans&3]
+    &3&m                                                  &r
+    &3You have been permanently banned from this server.
+    &3&m                                                  &r
+    &3Banned by&8 ›&7 %admin%
+    &3Reason&8 ›&7 %reason%
+    &3Expires&8 ›&7 never
+    &3&m                                                  &r
+    &3Appeal at&8 ›&7 &nhttps://discord.gg/yourserver

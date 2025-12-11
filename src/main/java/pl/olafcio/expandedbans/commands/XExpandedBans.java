@@ -13,14 +13,20 @@ public class XExpandedBans implements CommandExecutor {
         if (command.getName().equals("expandedbans")) {
             var cmds = ExpandedBans.INSTANCE.commands.stream()
                     .filter(x -> sender.hasPermission(x.getPermission()))
-                    .map(Command::getName);
+                    .map(Command::getName)
+            .toList();
 
-            sender.sendMessage("§3[ExpandedBans]§7 Made by §2Olafcio§7 with §4♥");
-            if (cmds.findAny().isPresent())
+            sender.sendMessage(ExpandedBans.INSTANCE.configurations.messages.getString("prefix") +
+                                "§7Made by §2Olafcio§7 with §4♥");
+
+            if (!cmds.isEmpty())
                 sender.sendMessage(
-                        "§3[ExpandedBans]§7 Available commands: [" +
-                        cmds.collect(Collectors.joining(", ")) +
-                        "]"
+                        ExpandedBans.INSTANCE.configurations.messages.getString("prefix") +
+                        "§7Available commands: §8[" +
+                        cmds.stream()
+                            .map(x -> "§7" + x + "§8")
+                            .collect(Collectors.joining(", ")) +
+                        "§8]"
                 );
 
             return true;

@@ -1,19 +1,18 @@
-package pl.olafcio.expandedbans;
+package pl.olafcio.expandedbans.database;
 
 import org.bukkit.Bukkit;
+import pl.olafcio.expandedbans.ExpandedBans;
+import pl.olafcio.expandedbans.database.traits.TBan;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-public class Database {
+public final class Database implements TBan {
     private Connection connection;
     private Statement statement;
 
     private final Thread startThread;
 
-    Database() {
+    public Database() {
         (startThread = new Thread(() -> {
             try {
                 while (true) {
@@ -38,13 +37,20 @@ public class Database {
     }
 
     public void setup() throws SQLException {
-        this.statement.executeUpdate("CREATE TABLE `bans` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, expires DATE)");
-        this.statement.executeUpdate("CREATE TABLE `mutes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, expires DATE)");
-        this.statement.executeUpdate("CREATE TABLE `warns` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, expires DATE)");
-        this.statement.executeUpdate("CREATE TABLE `notes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING)");
+        this.statement.executeUpdate("CREATE TABLE `bans` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE `mutes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE `warns` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE `notes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL)");
     }
 
-//    public
+    public Connection connection() {
+        return connection;
+    }
+
+    @Override
+    public Statement statement() {
+        return statement;
+    }
 
     public void close() {
         try {

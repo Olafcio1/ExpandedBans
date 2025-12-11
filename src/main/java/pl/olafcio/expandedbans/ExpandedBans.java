@@ -2,17 +2,32 @@ package pl.olafcio.expandedbans;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.*;
+import pl.olafcio.expandedbans.database.Database;
+import pl.olafcio.expandedbans.messages.Messages;
 
 import java.nio.file.Path;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public final class ExpandedBans extends JavaPlugin {
+public final class ExpandedBans extends JavaPlugin implements Listener {
     public static ExpandedBans INSTANCE;
 
-    public YamlConfiguration messages;
+    public static class Configurations {
+        private Configurations() {}
+
+        public YamlConfiguration messages;
+        public YamlConfiguration punishments;
+    }
+
+    public Configurations configurations;
+    public Messages messages;
 
     public Path db_path;
     public Database database;
@@ -25,11 +40,15 @@ public final class ExpandedBans extends JavaPlugin {
 
         INSTANCE = this;
 
-        messages = YamlConfiguration.loadConfiguration(getTextResource("messages.yml"));
+        configurations.messages = YamlConfiguration.loadConfiguration(getTextResource("messages.yml"));
+        configurations.punishments = YamlConfiguration.loadConfiguration(getTextResource("punishments.yml"));
 
         db_path = getDataFolder().toPath().resolve("expandedbans.sqlite3");
         database = new Database();
         commands = section.getKeys(false).stream().map(this::getCommand).toList();
+
+        configurations = new Configurations();
+        messages = new Messages();
     }
 
     // If changing the plugin's API base (Paper/Forge, etc.), change this!
@@ -49,5 +68,16 @@ public final class ExpandedBans extends JavaPlugin {
     @Override
     public void onDisable() {
         database.close();
+    }
+
+    @EventHandler
+    public void onPlayerLogin(PlayerLoginEvent event) throws SQLException {
+        ResultSet ban;
+        if ((ban = database.getBan("P" + event.getPlayer().getUniqueId())) != null)
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.ban(
+                    event.getPlayer(),
+                    ban.getString(1),
+                    ban.getString(2)
+            ));
     }
 }
