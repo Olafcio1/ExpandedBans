@@ -43,35 +43,32 @@ public interface TBan extends DBTrait {
         );
 
         var results = statement().getResultSet();
-        var ref = new Object() {
-            boolean proceed = true;
-        };
+        if (!results.next())
+            return Stream.empty();
 
-        return Stream.iterate(results, x -> ref.proceed, set -> {
+        return Stream.iterate(results, set -> {
             try {
-                if (ref.proceed = set.next())
-                    return set;
-                else return null;
+                return set.next();
             } catch (SQLException e) {
                 throw new XBDatabaseException("Failed to proceed to the next row", e);
             }
-        });
+        }, set -> set);
     }
 
     default void updateBan(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
         try (var stmt = connection().prepareStatement(
                 "UPDATE `bans` SET reason=?, by=?, expires=? WHERE target=?"
         )) {
-            stmt.setString(1, target);
-            stmt.setString(3, by);
+            stmt.setString(4, target);
+            stmt.setString(2, by);
 
             if (reason == null)
-                stmt.setNull(2, Types.LONGNVARCHAR);
-            else stmt.setString(2, reason);
+                stmt.setNull(1, Types.LONGNVARCHAR);
+            else stmt.setString(1, reason);
 
             if (expires == null)
-                stmt.setNull(4, Types.BIGINT);
-            else stmt.setLong(4, expires);
+                stmt.setNull(3, Types.BIGINT);
+            else stmt.setLong(3, expires);
 
             stmt.executeUpdate();
         }
