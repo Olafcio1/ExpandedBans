@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.database.traits.TBan;
 
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
@@ -12,14 +13,17 @@ public final class Database implements TBan {
     private Statement statement;
 
     private final Thread startThread;
+    private final Path path;
 
-    public Database() {
+    public Database(Path path) {
         Consumer<Throwable> handle = e -> {
             close();
-            Bukkit.getPluginManager().disablePlugin(ExpandedBans.INSTANCE);
+            Bukkit.getPluginManager().disablePlugin(ExpandedBans.getInstance());
 
             throw new RuntimeException(e);
         };
+
+        this.path = path;
 
         try { connect(); }
         catch (SQLException e) { handle.accept(e); }
@@ -32,14 +36,16 @@ public final class Database implements TBan {
 
                     connect();
                 }
-            } catch (SQLException | InterruptedException e) {
+            } catch (SQLException e) {
                 handle.accept(e);
+            } catch (InterruptedException e) {
+                ExpandedBans.Plugin.Logger.info("Stopped database reconnection thread");
             }
         })).start();
     }
 
     private void connect() throws SQLException {
-        this.connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(ExpandedBans.INSTANCE.db_path));
+        this.connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(path));
         this.statement = connection.createStatement();
         this.statement.setQueryTimeout(30);
 

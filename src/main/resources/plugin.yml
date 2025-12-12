@@ -13,135 +13,147 @@ libraries:
 commands:
   expandedbans:
     description: The main plugin command.
-  xban: # AB
+  xban:
     description: Bans a player.
     permission: expandedbans.ban
     aliases: [ban]
-  xbanip: # AB
+  xbanip:
     description: Bans an IP address. Can be provided a player to get its IP.
     permission: expandedbans.banip
     aliases: [banip]
-  xtempban: # AB
+  xtempban:
     description: Temporarily bans a player.
     permission: expandedbans.tempban
     aliases: [tempban]
-  xtempbanip: # AB
+  xtempbanip:
     description: Temporarily bans an IP address. Can be provided a player to get its IP.
     permission: expandedbans.tempbanip
     aliases: [tempbanip]
-  xkick: # AB
+  xunban:
+    description: Unbans a player.
+    permission: expandedbans.unban
+    aliases: [unban]
+  xunbanip:
+    description: Unbans an IP address. Can be provided a player to get its IP.
+    permission: expandedbans.unbanip
+    aliases: [unbanip]
+  xclearbans:
+    description: Unbans all players and IP addresses.
+    permission: expandedbans.clearbans
+    aliases: [clearbans]
+  xkick:
     description: Kicks a player.
     permission: expandedbans.kick
     aliases: [kick]
-  xmute: # AB
+  xmute:
     description: Mutes a player.
     permission: expandedbans.mute
     aliases: [mute]
-  xmuteip: # LB
+  xmuteip:
     description: Mutes an IP address. Can be provided a player to get its IP.
     permission: expandedbans.muteip
     aliases: [muteip]
-  xtempmute: # AB
+  xtempmute:
     description: Temporarily mutes a player.
     permission: expandedbans.tempmute
     aliases: [tempmute]
-  xtempmuteip: # AB
+  xtempmuteip:
     description: Temporarily mutes an IP address. Can be provided a player to get its IP.
     permission: expandedbans.tempmuteip
     aliases: [tempmuteip]
-  xunmute: # Original
+  xunmute:
     description: Unmutes a player.
     permission: expandedbans.unmute
     aliases: [unmute]
-  xunmuteip: # Original
+  xunmuteip:
     description: Unmutes an IP address. Can be provided a player to get its IP.
     permission: expandedbans.unmuteip
     aliases: [unmuteip]
-  xwarn: # AB
+  xwarn:
     description: Warns a player.
     permission: expandedbans.warn
     aliases: [warn]
-  xwarnip: # Original
+  xwarnip:
     description: Warns an IP address. Can be provided a player to get its IP.
     permission: expandedbans.warnip
     aliases: [warnip]
-  xtempwarn: # AB
+  xtempwarn:
     description: Temporarily warns a player.
     permission: expandedbans.tempwarn
     aliases: [tempwarn]
-  xtempwarnip: # Original
+  xtempwarnip:
     description: Temporarily warns an IP address. Can be provided a player to get its IP.
     permission: expandedbans.tempwarnip
     aliases: [tempwarnip]
-  xunwarn: # Original
+  xunwarn:
     description: Removes a warning of the specified ID or a player's last warning.
     permission: expandedbans.unwarn
     aliases: [unwarn]
-  xunwarnip: # Original
+  xunwarnip:
     description: Removes a warning of the specified ID or an IP address's last warning.
     permission: expandedbans.unwarnip
     aliases: [unwarnip]
-  xnote: # AB
+  xnote:
     description: Adds a note to a player.
     permission: expandedbans.note
     aliases: [note]
-  xnoteip: # AB
+  xnoteip:
     description: Adds a note to an IP address. Can be provided a player to get its IP.
     permission: expandedbans.noteip
     aliases: [noteip]
-  xnotes: # AB
+  xnotes:
     description: Gets notes about a player.
     permission: expandedbans.notes
     aliases: [notes]
-  xnotesip: # AB
+  xnotesip:
     description: Gets notes about an IP address. Can be provided a player to get its IP.
     permission: expandedbans.notesip
     aliases: [notesip]
-  xunnote: # Original
+  xunnote:
     description: Removes a note with the given ID.
     permission: expandedbans.unnote
     aliases: [unnote]
-  xclearnotes: # Original
+  xclearnotes:
     description: Clears all notes of a player.
     permission: expandedbans.clearnotes
     aliases: [clearnotes]
-  xclearnotesip: # Original
+  xclearnotesip:
     description: Clears all notes of an IP address.
     permission: expandedbans.clearnotesip
     aliases: [clearnotesip]
-  xalts: # LB
+  xalts:
     description: Gets a player's alt list.
     permission: expandedbans.alts
     aliases: [alts]
-  xfreeze: # Original
+  xfreeze:
     description: Freezes a player.
     permission: expandedbans.freeze
     aliases: [freeze]
-  xunfreeze: # Original
+  xunfreeze:
     description: Unfreezes a player.
     permission: expandedbans.unfreeze
     aliases: [unfreeze]
-  xlockdown: # LB
+  xlockdown:
     description: Locks the server down.
     permission: expandedbans.lockdown
     aliases: [lockdown]
-  xwhois: # AB
+  xwhois:
     description: Gets information about a player.
     permission: expandedbans.whois
     aliases: [whois]
-  xhistory: # AB/LB
+  xhistory:
     description: Gets punishment history of a player.
     permission: expandedbans.history
     aliases: [history]
-  xbanlist: # AB/LB
+  xbanlist:
     description: Gets ban history of a player or an IP address.
     permission: expandedbans.banlist
     aliases: [banlist]
-  xmutelist: # LB
+  xmutelist:
     description: Gets mute history of a player or an IP address.
     permission: expandedbans.mutelist
     aliases: [mutelist]
-  xwarnlist: # LB
+  xwarnlist:
     description: Gets warn history of a player or an IP address.
     permission: expandedbans.warnlist
     aliases: [warnlist]
@@ -154,6 +166,12 @@ permissions:
     default: op
   expandedbans.tempbanip:
     default: op
+  expandedbans.unban:
+    default: op
+  expandedbans.unbanip:
+    default: op
+  expandedbans.clearbans:
+    default: op
   expandedbans.kick:
     default: op
   expandedbans.mute:
@@ -164,6 +182,10 @@ permissions:
     default: op
   expandedbans.tempmuteip:
     default: op
+  expandedbans.unmute:
+    default: op
+  expandedbans.unmuteip:
+    default: op
   expandedbans.warn:
     default: op
   expandedbans.warnip:
@@ -171,6 +193,24 @@ permissions:
   expandedbans.tempwarn:
     default: op
   expandedbans.tempwarnip:
+    default: op
+  expandedbans.unwarn:
+    default: op
+  expandedbans.unwarnip:
+    default: op
+  expandedbans.note:
+    default: op
+  expandedbans.noteip:
+    default: op
+  expandedbans.notes:
+    default: op
+  expandedbans.notesip:
+    default: op
+  expandedbans.unnote:
+    default: op
+  expandedbans.clearnotes:
+    default: op
+  expandedbans.clearnotesip:
     default: op
   expandedbans.alts:
     default: op
