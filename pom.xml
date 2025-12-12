@@ -55,6 +55,10 @@
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -71,6 +75,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/protocolextension-5-api.jar</systemPath>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MatrixCreations</groupId>
+            <artifactId>MatrixColorAPI</artifactId>
+            <version>v1.0.7</version>
         </dependency>
     </dependencies>
 </project>

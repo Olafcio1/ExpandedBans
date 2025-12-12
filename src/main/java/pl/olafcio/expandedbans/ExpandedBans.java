@@ -1,15 +1,17 @@
 package pl.olafcio.expandedbans;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.messages.Messages;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,22 +37,25 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
 
     @Override
     public void onLoad() {
-        var config = getPluginYML();
-        var section = Objects.requireNonNull(config.getConfigurationSection("commands"));
-
         INSTANCE = this;
 
         configurations = new Configurations();
         messages = new Messages();
 
-        configurations.messages = YamlConfiguration.loadConfiguration(getTextResource("messages.yml"));
-        configurations.punishments = YamlConfiguration.loadConfiguration(getTextResource("punishments.yml"));
+        configurations.messages = config("messages.yml");
+        configurations.punishments = config("punishments.yml");
 
         db_path = getDataFolder().toPath().resolve("expandedbans.sqlite3");
-        database = new Database();
-        System.out.println(section.getKeys(false));
-        commands = section.getKeys(false).stream().map(this::getCommand).toList();
-        System.out.println(commands);
+    }
+
+    YamlConfiguration config(String path) {
+        var file = new File(getDataFolder(), path);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            saveResource(path, false);
+        }
+
+        return YamlConfiguration.loadConfiguration(file);
     }
 
     // If changing the plugin's API base (Paper/Forge, etc.), change this!
@@ -63,8 +68,16 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        var config = getPluginYML();
+        var section = Objects.requireNonNull(config.getConfigurationSection("commands"));
+
+        database = new Database();
+        commands = section.getKeys(false).stream().map(this::getCommand).toList();
+
         getCommand("expandedbans").setExecutor(new XExpandedBans());
         getCommand("xban").setExecutor(new XBan());
+
+        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
@@ -73,13 +86,17 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerLogin(PlayerLoginEvent event) throws SQLException {
-        ResultSet ban;
-        if ((ban = database.getBan("P" + event.getPlayer().getUniqueId())) != null)
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.ban(
-                    event.getPlayer(),
-                    ban.getString(1),
-                    ban.getString(2)
-            ));
+    public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
+        try {
+            ResultSet ban;
+            if ((ban = database.getBan("P" + event.getUniqueId())) != null)
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, messages.ban(
+                        Bukkit.getOfflinePlayer(event.getUniqueId()),
+                        ban.getString(2),
+                        ban.getString(3)
+                ));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

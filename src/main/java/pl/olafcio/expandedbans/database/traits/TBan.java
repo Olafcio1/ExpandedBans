@@ -20,24 +20,24 @@ public interface TBan extends DBTrait {
      * @param expires The time when the ban expires. Can be calculated by adding {@code System.currentTimeMillis() + banDurationInMs}
      */
     default void ban(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
-        var stmt = connection().prepareStatement("INSERT INTO `bans` (target, reason, by, expires) VALUES (%s, %s, %s, %s)");
-        stmt.setString(0, target);
+        var stmt = connection().prepareStatement("INSERT INTO `bans` (target, reason, by, expires) VALUES (?, ?, ?, ?)");
+        stmt.setString(1, target);
         stmt.setString(3, by);
 
         if (reason == null)
-            stmt.setNull(1, Types.LONGNVARCHAR);
-        else stmt.setString(1, reason);
+            stmt.setNull(2, Types.LONGNVARCHAR);
+        else stmt.setString(2, reason);
 
         if (expires == null)
-            stmt.setNull(2, Types.BIGINT);
-        else stmt.setLong(2, expires);
+            stmt.setNull(4, Types.BIGINT);
+        else stmt.setLong(4, expires);
 
         stmt.executeUpdate();
     }
 
     default @Nullable ResultSet getBan(@NonNull String target) throws SQLException {
-        var stmt = connection().prepareStatement("SELECT * FROM `bans` WHERE `target`=%s");
-        stmt.setString(0,  target);
+        var stmt = connection().prepareStatement("SELECT * FROM `bans` WHERE `target`=?");
+        stmt.setString(1,  target);
         stmt.execute();
         var res = stmt.getResultSet();
         if (res.next()) {

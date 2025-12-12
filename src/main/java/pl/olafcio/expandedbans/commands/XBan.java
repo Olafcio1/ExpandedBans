@@ -40,6 +40,9 @@ public class XBan implements CommandExecutor {
                 return true;
             }
 
+            sender.sendMessage(ExpandedBans.INSTANCE.configurations.messages.getString("prefix") +
+                               "§7Banned §6%s§7.".formatted(target.getName()));
+
             return true;
         }
 

@@ -5,6 +5,7 @@ import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.database.traits.TBan;
 
 import java.sql.*;
+import java.util.function.Consumer;
 
 public final class Database implements TBan {
     private Connection connection;
@@ -13,19 +14,26 @@ public final class Database implements TBan {
     private final Thread startThread;
 
     public Database() {
+        Consumer<Throwable> handle = e -> {
+            close();
+            Bukkit.getPluginManager().disablePlugin(ExpandedBans.INSTANCE);
+
+            throw new RuntimeException(e);
+        };
+
+        try { connect(); }
+        catch (SQLException e) { handle.accept(e); }
+
         (startThread = new Thread(() -> {
             try {
-                connect();
-
                 while (true) {
-                    while (!connection.isClosed());
+                    while (!connection.isClosed())
+                        Thread.sleep(1000);
+
                     connect();
                 }
-            } catch (SQLException e) {
-                close();
-                Bukkit.getPluginManager().disablePlugin(ExpandedBans.INSTANCE);
-
-                throw new RuntimeException(e);
+            } catch (SQLException | InterruptedException e) {
+                handle.accept(e);
             }
         })).start();
     }
@@ -39,10 +47,10 @@ public final class Database implements TBan {
     }
 
     public void setup() throws SQLException {
-        this.statement.executeUpdate("CREATE TABLE `bans` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE `mutes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE `warns` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE `notes` IF DOES NOT EXIST (target STRING NOT NULL, reason STRING, by STRING NOT NULL)");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `bans` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `mutes` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `warns` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `notes` (target STRING NOT NULL, reason STRING, by STRING NOT NULL)");
     }
 
     public Connection connection() {
