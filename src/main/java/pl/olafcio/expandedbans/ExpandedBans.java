@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
 import pl.olafcio.expandedbans.commands.impl.bans.XBan;
 import pl.olafcio.expandedbans.commands.impl.bans.XClearBans;
 import pl.olafcio.expandedbans.commands.impl.bans.XUnban;
+import pl.olafcio.expandedbans.commands.impl.nutes.XMute;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.Configurations;
 import pl.olafcio.expandedbans.main.Plugin;
@@ -89,6 +91,7 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
         getCommand("xban").setExecutor(new XBan());
         getCommand("xunban").setExecutor(new XUnban());
         getCommand("xclearbans").setExecutor(new XClearBans());
+        getCommand("xmute").setExecutor(new XMute());
 
         getServer().getPluginManager().registerEvents(this, this);
     }
@@ -102,14 +105,36 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
     public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
         try {
             ResultSet ban;
-            if ((ban = Database.getBan("P" + event.getUniqueId())) != null)
+
+            var uuid = event.getUniqueId();
+            if ((ban = Database.getBan("P" + uuid)) != null)
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Messages.ban(
-                        Bukkit.getOfflinePlayer(event.getUniqueId()),
+                        Bukkit.getOfflinePlayer(uuid),
                         ban.getString(2),
                         ban.getString(3)
                 ));
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's ban state on connect", e);
+        }
+    }
+
+    @EventHandler
+    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+        var player = event.getPlayer();
+        var uuid = player.getUniqueId();
+
+        try {
+            ResultSet mute;
+            if ((mute = Database.getMute("P" + uuid)) != null) {
+                event.setCancelled(true);
+                player.sendMessage(Messages.mute(
+                        player,
+                        mute.getString(2),
+                        mute.getString(3)
+                ));
+            }
+        } catch (SQLException e) {
+            throw new XBDatabaseException("Failed to check player's mute state on message send", e);
         }
     }
 }

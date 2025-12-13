@@ -12,10 +12,34 @@ public interface TBan {
             reason = ExpandedBans.Configurations.Punishments.getString("ban.default-reason");
 
         return MatrixColorAPI.process(
-                ExpandedBans.Configurations.Punishments.getString("ban.perm")
+                ExpandedBans.Configurations.Punishments.getString("ban.message")
                     .replace("%player%", player.getName())
                     .replace("%admin%", by)
                     .replace("%reason%", reason)
+        );
+    }
+
+    default String muteNotify(@NonNull OfflinePlayer player, @Nullable String reason, @NonNull String by) {
+        if (reason == null)
+            reason = ExpandedBans.Configurations.Punishments.getString("mute.default-reason");
+
+        return MatrixColorAPI.process(
+                ExpandedBans.Configurations.Punishments.getString("mute.notify")
+                        .replace("%player%", player.getName())
+                        .replace("%admin%", by)
+                        .replace("%reason%", reason)
+        );
+    }
+
+    default String mute(@NonNull OfflinePlayer player, @Nullable String reason, @NonNull String by) {
+        if (reason == null)
+            reason = ExpandedBans.Configurations.Punishments.getString("mute.default-reason");
+
+        return MatrixColorAPI.process(
+                ExpandedBans.Configurations.Punishments.getString("mute.on-message")
+                        .replace("%player%", player.getName())
+                        .replace("%admin%", by)
+                        .replace("%reason%", reason)
         );
     }
 }
