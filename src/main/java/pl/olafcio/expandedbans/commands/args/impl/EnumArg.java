@@ -91,11 +91,9 @@ public class EnumArg<T> extends Argument<T> {
 
     @Override
     public List<String> tabcomplete(CommandSender sender, Command command, String label, String[] args, String arg) {
-        System.out.println(arg);
-        System.out.println(keys);
         return keys
                 .stream()
-                .filter(arg::startsWith)
+                .filter(x -> !x.isEmpty() && x.startsWith(arg))
         .toList();
     }
 }
