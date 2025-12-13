@@ -3,6 +3,7 @@ package pl.olafcio.expandedbans.commands.impl.bans;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.XCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
@@ -27,31 +28,34 @@ public class XBan extends XCommand {
             return;
         }
 
-        if (args.isEmpty()) {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
-                    "§7Usage: §o/ban §n<player>§7§o §n[<reason>]");
-            return;
-        }
-
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
         String action;
         try {
             var target = "P" + player.getUniqueId();
+            var by = sender.getName();
+
             if (ExpandedBans.Database.getBan(target) == null) {
                 action = "Banned";
                 ExpandedBans.Database.ban(
                         target,
-                        sender.getName(),
+                        by,
                         reason,
                         null
                 );
+
+                if (player.isOnline())
+                    ((Player) player).kickPlayer(ExpandedBans.Messages.ban(
+                            player,
+                            reason,
+                            by
+                    ));
             } else {
                 action = "Updated the ban for";
                 ExpandedBans.Database.updateBan(
                         target,
-                        sender.getName(),
+                        by,
                         reason,
                         null
                 );

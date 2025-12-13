@@ -2,15 +2,13 @@ package pl.olafcio.expandedbans.database.traits;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import pl.olafcio.expandedbans.XBDatabaseException;
-import pl.olafcio.expandedbans.database.DBTrait;
+import pl.olafcio.expandedbans.database.DBPunishmentTrait;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.stream.Stream;
 
-public interface TBan extends DBTrait {
+public interface TBan extends DBPunishmentTrait {
     /**
      * Inserts a ban entry.
      * @param target A target can be either:
@@ -19,87 +17,29 @@ public interface TBan extends DBTrait {
      *                 <li>{@code "I" + ip},   for an IP address</li>
      *               </ul>
      * @param reason The ban reason. May be {@code null} which shows the default ban message.
-     * @param expires The time when the ban expires. Can be calculated by adding {@code System.currentTimeMillis() + banDurationInMs}
+     * @param expires The time when the ban expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}
      */
     default void ban(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
-        var stmt = connection().prepareStatement("INSERT INTO `bans` (target, reason, by, expires) VALUES (?, ?, ?, ?)");
-        stmt.setString(1, target);
-        stmt.setString(3, by);
-
-        if (reason == null)
-            stmt.setNull(2, Types.LONGNVARCHAR);
-        else stmt.setString(2, reason);
-
-        if (expires == null)
-            stmt.setNull(4, Types.BIGINT);
-        else stmt.setLong(4, expires);
-
-        stmt.executeUpdate();
+        punish("bans", target, by, reason, expires);
     }
 
     default Stream<ResultSet> bans() throws SQLException {
-        statement().execute(
-                "SELECT * FROM `bans`"
-        );
-
-        var results = statement().getResultSet();
-        if (!results.next())
-            return Stream.empty();
-
-        return Stream.iterate(results, set -> {
-            try {
-                return set.next();
-            } catch (SQLException e) {
-                throw new XBDatabaseException("Failed to proceed to the next row", e);
-            }
-        }, set -> set);
-    }
-
-    default void updateBan(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
-        try (var stmt = connection().prepareStatement(
-                "UPDATE `bans` SET reason=?, by=?, expires=? WHERE target=?"
-        )) {
-            stmt.setString(4, target);
-            stmt.setString(2, by);
-
-            if (reason == null)
-                stmt.setNull(1, Types.LONGNVARCHAR);
-            else stmt.setString(1, reason);
-
-            if (expires == null)
-                stmt.setNull(3, Types.BIGINT);
-            else stmt.setLong(3, expires);
-
-            stmt.executeUpdate();
-        }
-    }
-
-    default boolean removeBan(@NonNull String target, @Nullable String reason) throws SQLException {
-        try (var stmt = connection().prepareStatement(
-                "DELETE FROM `bans` WHERE target=?"
-        )) {
-            stmt.setString(1, target);
-            return stmt.executeUpdate() >= 1;
-        }
-    }
-
-    default int clearBans(@Nullable String reason) throws SQLException {
-        return statement().executeUpdate(
-                "DELETE FROM `bans`"
-        );
+        return punishments("bans");
     }
 
     default @Nullable ResultSet getBan(@NonNull String target) throws SQLException {
-        try (var stmt = connection().prepareStatement(
-                "SELECT * FROM `bans` WHERE `target`=?"
-        )) {
-            stmt.setString(1, target);
-            stmt.execute();
+        return punishments("bans", target);
+    }
 
-            var res = stmt.getResultSet();
-            if (res.next()) {
-                return res;
-            } else return null;
-        }
+    default void updateBan(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
+        updatePunishment("bans", target, by, reason, expires);
+    }
+
+    default boolean removeBan(@NonNull String target, @Nullable String reason) throws SQLException {
+        return removePunishment("bans", target, reason);
+    }
+
+    default int clearBans(@Nullable String reason) throws SQLException {
+        return clearPunishments("bans", reason);
     }
 }

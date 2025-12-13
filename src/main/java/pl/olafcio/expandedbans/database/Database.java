@@ -3,12 +3,14 @@ package pl.olafcio.expandedbans.database;
 import org.bukkit.Bukkit;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.database.traits.TBan;
+import pl.olafcio.expandedbans.database.traits.TMute;
+import pl.olafcio.expandedbans.database.traits.TWarn;
 
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
-public final class Database implements TBan {
+public final class Database implements TBan, TMute, TWarn {
     private Connection connection;
     private Statement statement;
 

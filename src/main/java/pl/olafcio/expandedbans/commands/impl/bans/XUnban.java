@@ -33,12 +33,6 @@ public class XUnban extends XCommand {
             return;
         }
 
-        if (args.isEmpty()) {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
-                    "§7Usage: §o/unban §n<player>§7§o §n[<reason>]");
-            return;
-        }
-
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 

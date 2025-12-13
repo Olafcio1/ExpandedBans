@@ -59,15 +59,21 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
+        <!-- Server -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Plugins -->
         <dependency>
             <groupId>pl.olafcio</groupId>
             <artifactId>protocolextension</artifactId>
@@ -76,6 +82,13 @@
             <systemPath>${project.basedir}/libs/protocolextension-5-api.jar</systemPath>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Libraries -->
         <dependency>
             <groupId>com.github.MatrixCreations</groupId>
             <artifactId>MatrixColorAPI</artifactId>

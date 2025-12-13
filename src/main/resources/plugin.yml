@@ -7,7 +7,8 @@ authors: [Olafcio]
 description: The most feature-rich free punishment plugin.
 website: https://olafcio1.github.io
 softdepend:
-  - protocolextension
+  - ProtocolExtension
+  - PlaceholderAPI
 libraries:
   - org.xerial:sqlite-jdbc:3.51.1.0
 commands:
