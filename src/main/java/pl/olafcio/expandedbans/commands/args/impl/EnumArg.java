@@ -84,9 +84,7 @@ public class EnumArg<T> extends Argument<T> {
 
     @Override
     public T parse(String input) {
-        if (input == null)
-            return null;
-        else return mapping.get(input);
+        return mapping.get(input);
     }
 
     @Override

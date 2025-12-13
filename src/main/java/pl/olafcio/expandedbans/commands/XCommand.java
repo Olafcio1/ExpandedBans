@@ -12,6 +12,7 @@ import pl.olafcio.expandedbans.commands.args.Tabcompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class XCommand implements CommandExecutor, TabExecutor {
@@ -98,8 +99,9 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                         input = String.join(" ", Arrays.copyOfRange(args, index, args.length));
                     }
 
-                    assert input != null;
-                    parsed.add(arg.parse(input));
+                    if (Objects.equals(input, ""))
+                        parsed.add(null);
+                    else parsed.add(arg.parse(input));
                 } catch (ArrayIndexOutOfBoundsException e) {
                     sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
                                        "§7Usage: §o/%s%s".formatted(name, usage));
