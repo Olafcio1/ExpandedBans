@@ -5,18 +5,33 @@ import org.bukkit.command.CommandSender;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.XCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
-import pl.olafcio.expandedbans.commands.args.impl.StringArg;
+import pl.olafcio.expandedbans.commands.args.impl.EnumArg;
 
 import java.util.List;
+import java.util.Objects;
 
 public class XExpandedBans extends XCommand {
     public XExpandedBans() {
         super.name("expandedbans")
-             .then("void", new StringArg(Argument.Type.REST));
+             .then("arg", new EnumArg.Builder<>()
+                     .type(Argument.Type.OPTIONAL)
+                     .with("", "help", "reload")
+             .build());
     }
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
+        var arg = args.getFirst();
+        if (Objects.equals(arg, "reload")) {
+            reload(sender);
+        } else if (Objects.equals(arg, "help")) {
+            help(sender);
+        } else {
+            about(sender);
+        }
+    }
+
+    private static void about(CommandSender sender) {
         var cmds = ExpandedBans.Plugin.Commands.stream()
                 .filter(x -> {
                     var perm = x.getPermission();
@@ -35,5 +50,27 @@ public class XExpandedBans extends XCommand {
                     String.join(", ", cmds) +
                     "§7]"
             );
+    }
+
+    private static void reload(CommandSender sender) {
+        var start = System.currentTimeMillis();
+        ExpandedBans.getInstance().reloadConfigurations();
+        var diff = System.currentTimeMillis() - start;
+
+        sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                           "§7Reloaded in §2" + diff + "ms§7.");
+    }
+
+    private static void help(CommandSender sender) {
+        sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                           "§7Available commands:");
+
+        for (var cmd : ExpandedBans.Plugin.Commands) {
+            var perm = cmd.getPermission();
+            if (perm != null && sender.hasPermission(perm)) {
+                sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                                   "§7› §3" + cmd.getName());
+            }
+        }
     }
 }

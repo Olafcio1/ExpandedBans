@@ -10,6 +10,7 @@ ban:
     &3Expires&8 ›&7 never
     &3&m                                                  &r
     &3Appeal at&8 ›&7 &nhttps://discord.gg/yourserver
+    &3&m                                                  &r
 
 mute:
   default-reason: "&oNo reason provided."
@@ -22,6 +23,7 @@ mute:
     &3Expires&8 ›&7 never
     &3&m                                                  &r
     &3Appeal at&8 ›&7 &nhttps://discord.gg/yourserver
+    &3&m                                                  &r
   notify: |-
     &3&m                                                  &r
     &3You have been muted.
@@ -31,3 +33,4 @@ mute:
     &3Expires&8 ›&7 never
     &3&m                                                  &r
     &3Appeal at&8 ›&7 &nhttps://discord.gg/yourserver
+    &3&m                                                  &r

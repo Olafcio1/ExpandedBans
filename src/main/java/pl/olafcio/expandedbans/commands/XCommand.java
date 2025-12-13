@@ -94,7 +94,6 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                     } else if (arg.type == Argument.Type.OPTIONAL) {
                         if (args.length > index)
                             input = args[index];
-                        else break;
                     } else if (arg.type == Argument.Type.REST) {
                         input = String.join(" ", Arrays.copyOfRange(args, index, args.length));
                     }
@@ -143,10 +142,10 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
 
     protected List<String> tabcomplete(CommandSender sender, Command command, String label, String[] args) throws Exception {
         var index = Math.max(0, args.length - 1);
-        var arg = arguments.get(index);
-        if (arg == null)
+        if (arguments.size() <= index)
             return List.of();
 
+        var arg = arguments.get(index);
         return arg.tabcomplete(sender, command, label, args, args[index]);
     }
 

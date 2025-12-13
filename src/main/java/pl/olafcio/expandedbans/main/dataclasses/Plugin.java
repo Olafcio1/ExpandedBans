@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.main;
+package pl.olafcio.expandedbans.main.dataclasses;
 
 import org.bukkit.command.PluginCommand;
 
