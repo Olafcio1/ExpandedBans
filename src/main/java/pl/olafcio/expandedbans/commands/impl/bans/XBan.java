@@ -24,7 +24,7 @@ public class XBan extends XCommand {
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
         if (!sender.hasPermission("expandedbans.ban")) {
             sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
-                    "§cError:§4 Insufficient permissions.");
+                               "§cError:§4 Insufficient permissions.");
             return;
         }
 
