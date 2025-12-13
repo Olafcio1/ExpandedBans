@@ -1,0 +1,156 @@
+package pl.olafcio.expandedbans.commands;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import pl.olafcio.expandedbans.ExpandedBans;
+import pl.olafcio.expandedbans.XBCommandDefinitionException;
+import pl.olafcio.expandedbans.commands.args.Argument;
+import pl.olafcio.expandedbans.commands.args.Tabcompleter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
+public abstract class XCommand implements CommandExecutor, TabExecutor {
+    private String name;
+    private String usage;
+    private final ArrayList<Argument<?>> arguments;
+
+    protected XCommand() {
+        this.usage = "";
+        this.arguments = new ArrayList<>();
+    }
+
+    public XCommand name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    private boolean declaredRest = false;
+    private boolean declaredOptional = false;
+    public XCommand then(String name, Argument<?> arg) {
+        if (declaredRest)
+            throw new XBCommandDefinitionException("Cannot declare an argument after a rest argument");
+
+        String uSingle = null;
+        if (arg.type == Argument.Type.REQUIRED) {
+            if (declaredOptional)
+                throw new XBCommandDefinitionException("Cannot declare required argument after optional argument");
+
+            uSingle = "<%s>";
+        } else if (arg.type == Argument.Type.OPTIONAL) {
+            declaredOptional = true;
+            uSingle = "[<%s>]";
+        } else if (arg.type == Argument.Type.REST) {
+            declaredRest = true;
+            uSingle = "%s...";
+        }
+
+        assert uSingle != null;
+
+        arguments.add(arg);
+        usage += " §n%s§7§o".formatted(uSingle).formatted(name);
+
+        return this;
+    }
+
+    public static <T> Argument<T> arg(
+            Argument.Type type,
+            Function<String, T> parser,
+            Tabcompleter tabcompleter
+    ) {
+        return new Argument<>(type) {
+            @Override
+            public T parse(String input) {
+                return parser.apply(input);
+            }
+
+            @Override
+            public List<String> tabcomplete(CommandSender sender, Command command, String label, String[] args, String arg) {
+                if (tabcompleter == null)
+                    return List.of();
+                else return tabcompleter.apply(sender, command, label, args, arg);
+            }
+        };
+    }
+
+    protected abstract void execute(CommandSender sender, Command command, String label, List<Object> args);
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (matches(command)) {
+            var parsed = new ArrayList<>();
+            var index = 0;
+
+            for (var arg : arguments) {
+                try {
+                    String input = null;
+                    if (arg.type == Argument.Type.REQUIRED) {
+                        input = args[index];
+                    } else if (arg.type == Argument.Type.OPTIONAL) {
+                        if (args.length > index)
+                            input = args[index];
+                        else break;
+                    } else if (arg.type == Argument.Type.REST) {
+                        input = String.join(" ", Arrays.copyOfRange(args, index, args.length));
+                    }
+
+                    assert input != null;
+                    parsed.add(arg.parse(input));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                                       "§7Usage: §o/%s%s".formatted(name, usage));
+
+                    return true;
+                }
+
+                index++;
+            }
+
+            execute(sender, command, label, parsed);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean erroredTC = false;
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        if (matches(command)) {
+            try {
+                return tabcomplete(sender, command, label, args);
+            } catch (Exception e) {
+                if (!erroredTC) {
+                    erroredTC = true;
+
+                    e.printStackTrace();
+                    ExpandedBans.Plugin.Logger.info("Failed to suggest '%s' completions".formatted(name));
+                }
+
+                return List.of();
+            }
+        }
+
+        return null;
+    }
+
+    protected List<String> tabcomplete(CommandSender sender, Command command, String label, String[] args) throws Exception {
+        var index = Math.max(0, args.length - 1);
+        var arg = arguments.get(index);
+        if (arg == null)
+            return List.of();
+
+        return arg.tabcomplete(sender, command, label, args, args[index]);
+    }
+
+    private boolean matches(Command command) {
+        return command.getName().equals(name);
+    }
+}
