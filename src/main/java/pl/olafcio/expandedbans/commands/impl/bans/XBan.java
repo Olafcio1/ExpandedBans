@@ -36,7 +36,7 @@ public class XBan extends XCommand {
             var target = "P" + player.getUniqueId();
             var by = sender.getName();
 
-            if (ExpandedBans.Database.getBan(target) == null) {
+            if (!ExpandedBans.Database.isBanned(target)) {
                 action = "Banned";
                 ExpandedBans.Database.ban(
                         target,

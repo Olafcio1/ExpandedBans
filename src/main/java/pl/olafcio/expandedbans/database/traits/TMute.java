@@ -31,6 +31,10 @@ public interface TMute extends DBPunishmentTrait {
         return punishments("mutes", target);
     }
 
+    default boolean isMuted(@NonNull String target) throws SQLException {
+        return isPunished("mutes", target);
+    }
+
     default void updateMute(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
         updatePunishment("mutes", target, by, reason, expires);
     }

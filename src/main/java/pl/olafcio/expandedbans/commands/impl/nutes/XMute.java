@@ -36,7 +36,7 @@ public class XMute extends XCommand {
             var target = "P" + player.getUniqueId();
             var by = sender.getName();
 
-            if (ExpandedBans.Database.getMute(target) == null) {
+            if (!ExpandedBans.Database.isMuted(target)) {
                 action = "Muted";
                 ExpandedBans.Database.mute(
                         target,

@@ -107,12 +107,15 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
             ResultSet ban;
 
             var uuid = event.getUniqueId();
-            if ((ban = Database.getBan("P" + uuid)) != null)
+            if ((ban = Database.getBan("P" + uuid)) != null) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Messages.ban(
                         Bukkit.getOfflinePlayer(uuid),
                         ban.getString(2),
                         ban.getString(3)
                 ));
+
+                ban.close();
+            }
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's ban state on connect", e);
         }
@@ -132,6 +135,8 @@ public final class ExpandedBans extends JavaPlugin implements Listener {
                         mute.getString(2),
                         mute.getString(3)
                 ));
+
+                mute.close();
             }
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's mute state on message send", e);

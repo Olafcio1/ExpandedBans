@@ -111,16 +111,25 @@ public interface DBPunishmentTrait extends DBTrait {
             String table,
             @NonNull String target
     ) throws SQLException {
-        try (var stmt = connection().prepareStatement(
+        var stmt = connection().prepareStatement(
                 "SELECT * FROM `%s` WHERE `target`=?".formatted(table)
-        )) {
-            stmt.setString(1, target);
-            stmt.execute();
+        );
 
-            var res = stmt.getResultSet();
-            if (res.next()) {
-                return res;
-            } else return null;
+        stmt.setString(1, target);
+        stmt.execute();
+
+        var res = stmt.getResultSet();
+        if (res.next()) {
+            return res;
+        } else return null;
+    }
+
+    default boolean isPunished(
+            String table,
+            @NonNull String target
+    ) throws SQLException {
+        try (var res = punishments(table, target)) {
+            return res != null;
         }
     }
 }

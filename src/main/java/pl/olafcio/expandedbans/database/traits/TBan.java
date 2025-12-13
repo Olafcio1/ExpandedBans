@@ -31,6 +31,10 @@ public interface TBan extends DBPunishmentTrait {
         return punishments("bans", target);
     }
 
+    default boolean isBanned(@NonNull String target) throws SQLException {
+        return isPunished("bans", target);
+    }
+
     default void updateBan(@NonNull String target, @NonNull String by, @Nullable String reason, @Nullable Long expires) throws SQLException {
         updatePunishment("bans", target, by, reason, expires);
     }
