@@ -3,7 +3,6 @@ package pl.olafcio.expandedbans.commands.impl.nutes;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.XCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
@@ -13,16 +12,16 @@ import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 import java.sql.SQLException;
 import java.util.List;
 
-public class XMute extends XCommand {
-    public XMute() {
-        super.name("xmute")
+public class XUnmute extends XCommand {
+    public XUnmute() {
+        super.name("xunmute")
              .then("player", new AnyPlayerArg(Argument.Type.REQUIRED))
              .then("reason", new StringArg(Argument.Type.REST));
     }
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
-        if (!sender.hasPermission("expandedbans.mute")) {
+        if (!sender.hasPermission("expandedbans.unmute")) {
             ExpandedBans.Messages.send(sender,
                     "§cError:§4 Insufficient permissions.");
             return;
@@ -31,34 +30,13 @@ public class XMute extends XCommand {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
-        String action;
         try {
             var target = "P" + player.getUniqueId();
-            var by = sender.getName();
+            if (!ExpandedBans.Database.removeMute(target, reason)) {
+                ExpandedBans.Messages.send(sender,
+                        "§cError:§6 %s§4 is not banned.".formatted(player.getName()));
 
-            if (!ExpandedBans.Database.isMuted(target)) {
-                action = "Muted";
-                ExpandedBans.Database.mute(
-                        target,
-                        by,
-                        reason,
-                        null
-                );
-
-                if (player.isOnline())
-                    ((Player) player).sendMessage(ExpandedBans.Messages.muteNotify(
-                            player,
-                            reason,
-                            by
-                    ));
-            } else {
-                action = "Updated the mute for";
-                ExpandedBans.Database.updateMute(
-                        target,
-                        by,
-                        reason,
-                        null
-                );
+                return;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +46,12 @@ public class XMute extends XCommand {
             return;
         }
 
-        ExpandedBans.Messages.send(sender,
-                "§7%s §6%s§7.".formatted(action, player.getName()));
+        if (reason == null) {
+            ExpandedBans.Messages.send(sender,
+                               "§7Unmuted §6%s§7.".formatted(player.getName()));
+        } else {
+            ExpandedBans.Messages.send(sender,
+                               "§7Unmuted §6%s§7 with the reason §o%s.".formatted(player.getName(), reason));
+        }
     }
 }

@@ -20,11 +20,11 @@ public class XClearBans extends XCommand {
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
         try {
             ExpandedBans.Database.clearBans((String) args.getFirst());
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                                "§7Cleared all bans.");
         } catch (SQLException e) {
             e.printStackTrace();
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§cError:§4 Database error.");
         }
     }

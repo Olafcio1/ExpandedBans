@@ -53,7 +53,11 @@ public interface DBPunishmentTrait extends DBTrait {
 
         return Stream.iterate(results, set -> {
             try {
-                return set.next();
+                var remaining = set.next();
+                if (!remaining)
+                    results.close();
+
+                return remaining;
             } catch (SQLException e) {
                 throw new XBDatabaseException("Failed to proceed to the next row", e);
             }

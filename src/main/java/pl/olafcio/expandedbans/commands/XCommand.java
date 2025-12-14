@@ -7,7 +7,8 @@ import org.bukkit.command.TabExecutor;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.XBCommandDefinitionException;
 import pl.olafcio.expandedbans.commands.args.Argument;
-import pl.olafcio.expandedbans.commands.args.Tabcompleter;
+import pl.olafcio.expandedbans.commands.args.PatternError;
+import pl.olafcio.expandedbans.commands.args.function.Tabcompleter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,8 +104,13 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                         parsed.add(null);
                     else parsed.add(arg.parse(input));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                    ExpandedBans.Messages.send(sender,
                                        "§7Usage: §o/%s%s".formatted(name, usage));
+
+                    return true;
+                } catch (PatternError e) {
+                    ExpandedBans.Messages.send(sender,
+                                       "§7Invalid syntax.");
 
                     return true;
                 }

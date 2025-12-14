@@ -4,6 +4,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.matrixcreations.libraries.MatrixColorAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.messages.traits.TBan;
 import pl.olafcio.expandedbans.messages.traits.TMute;
 
@@ -18,7 +20,22 @@ public final class Messages implements MSGTrait, TBan, TMute {
         if (isPAPIloaded)
             data = PlaceholderAPI.setPlaceholders(player, data);
 
-        data = MatrixColorAPI.process(data);
-        return data;
+        return format(data);
+    }
+
+    public String format(String data) {
+        // TODO: More message processors? MiniMessage would be cool to support, but that'd require integration with the
+        //       weird-ahh Adventure API - or, doing weird shit with:
+        //       > spigot().sendMessage(md_5::BaseComponent)
+        //       > sendMessage(kyori::Component)
+
+        return MatrixColorAPI.process(data);
+    }
+
+    public void send(CommandSender player, String data) {
+        data = ExpandedBans.Configurations.Messages.getString("prefix") +
+               data;
+
+        player.sendMessage(format(data));
     }
 }

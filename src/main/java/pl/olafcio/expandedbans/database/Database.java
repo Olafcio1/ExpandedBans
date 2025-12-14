@@ -4,13 +4,14 @@ import org.bukkit.Bukkit;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.database.traits.TBan;
 import pl.olafcio.expandedbans.database.traits.TMute;
+import pl.olafcio.expandedbans.database.traits.TPlayerIP;
 import pl.olafcio.expandedbans.database.traits.TWarn;
 
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
-public final class Database implements TBan, TMute, TWarn {
+public final class Database implements TBan, TMute, TWarn, TPlayerIP {
     private Connection connection;
     private Statement statement;
 
@@ -55,10 +56,34 @@ public final class Database implements TBan, TMute, TWarn {
     }
 
     public void setup() throws SQLException {
-        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `bans` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `mutes` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `warns` (target STRING NOT NULL, reason STRING, by STRING NOT NULL, expires BIGINT)");
-        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `notes` (target STRING NOT NULL, reason STRING, by STRING NOT NULL)");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `bans` (" +
+                                            "target STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "by STRING NOT NULL," +
+                                            "expires BIGINT" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `mutes` (" +
+                                            "target STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "by STRING NOT NULL," +
+                                            "expires BIGINT" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `warns` (" +
+                                            "target STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "by STRING NOT NULL," +
+                                            "expires BIGINT" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `notes` (" +
+                                            "target STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "by STRING NOT NULL" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `player-ip` (" +
+                                            "uuid STRING NOT NULL," +
+                                            "ip STRING NOT NULL," +
+                                            "UNIQUE(uuid, ip) ON CONFLICT REPLACE" +
+                                        ")");
     }
 
     public Connection connection() {

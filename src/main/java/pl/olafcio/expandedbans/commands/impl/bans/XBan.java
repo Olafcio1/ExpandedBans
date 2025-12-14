@@ -23,8 +23,10 @@ public class XBan extends XCommand {
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
         if (!sender.hasPermission("expandedbans.ban")) {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
-                               "§cError:§4 Insufficient permissions.");
+            ExpandedBans.Messages.send(
+                    sender,
+                    "§cError:§4 Insufficient permissions."
+            );
             return;
         }
 
@@ -62,13 +64,13 @@ public class XBan extends XCommand {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§cError:§4 Database error.");
 
             return;
         }
 
-        sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+        ExpandedBans.Messages.send(sender,
                 "§7%s §6%s§7.".formatted(action, player.getName()));
     }
 }

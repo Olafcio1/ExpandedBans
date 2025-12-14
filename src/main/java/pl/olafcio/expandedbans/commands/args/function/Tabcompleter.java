@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.commands.args;
+package pl.olafcio.expandedbans.commands.args.function;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

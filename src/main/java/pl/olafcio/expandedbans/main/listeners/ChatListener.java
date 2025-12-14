@@ -26,6 +26,15 @@ public class ChatListener implements Listener {
                 ));
 
                 mute.close();
+            } else if ((mute = ExpandedBans.Database.getMute("I" + player.getAddress().getHostString())) != null) {
+                event.setCancelled(true);
+                player.sendMessage(ExpandedBans.Messages.mute(
+                        player,
+                        mute.getString(2),
+                        mute.getString(3)
+                ));
+
+                mute.close();
             }
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's mute state on message send", e);

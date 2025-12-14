@@ -18,6 +18,6 @@ public abstract class Argument<T> {
         REST
     }
 
-    public abstract T parse(String input);
+    public abstract T parse(String input) throws PatternError;
     public abstract List<String> tabcomplete(CommandSender sender, Command command, String label, String[] args, String arg);
 }

@@ -28,7 +28,7 @@ public class XUnban extends XCommand {
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
         if (!sender.hasPermission("expandedbans.unban")) {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§cError:§4 Insufficient permissions.");
             return;
         }
@@ -39,24 +39,24 @@ public class XUnban extends XCommand {
         try {
             var target = "P" + player.getUniqueId();
             if (!ExpandedBans.Database.removeBan(target, reason)) {
-                sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+                ExpandedBans.Messages.send(sender,
                         "§cError:§6 %s§4 is not banned.".formatted(player.getName()));
 
                 return;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§cError:§4 Database error.");
 
             return;
         }
 
         if (reason == null) {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§7Unbanned §6%s§7.".formatted(player.getName()));
         } else {
-            sender.sendMessage(ExpandedBans.Configurations.Messages.getString("prefix") +
+            ExpandedBans.Messages.send(sender,
                     "§7Unbanned §6%s§7 with the reason §o%s.".formatted(player.getName(), reason));
         }
     }

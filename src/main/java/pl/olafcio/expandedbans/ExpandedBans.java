@@ -7,6 +7,8 @@ import pl.olafcio.expandedbans.commands.impl.bans.XBan;
 import pl.olafcio.expandedbans.commands.impl.bans.XClearBans;
 import pl.olafcio.expandedbans.commands.impl.bans.XUnban;
 import pl.olafcio.expandedbans.commands.impl.nutes.XMute;
+import pl.olafcio.expandedbans.commands.impl.nutes.XMuteIP;
+import pl.olafcio.expandedbans.commands.impl.nutes.XUnmute;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
@@ -91,6 +93,8 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xunban").setExecutor(new XUnban());
         getCommand("xclearbans").setExecutor(new XClearBans());
         getCommand("xmute").setExecutor(new XMute());
+        getCommand("xmuteip").setExecutor(new XMuteIP());
+        getCommand("xunmute").setExecutor(new XUnmute());
 
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
