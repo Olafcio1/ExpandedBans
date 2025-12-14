@@ -4,6 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.XBCommandDefinitionException;
 import pl.olafcio.expandedbans.commands.args.Argument;
@@ -17,17 +20,28 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class XCommand implements CommandExecutor, TabExecutor {
-    private String name;
-    private String usage;
+    private @MonotonicNonNull
+            String name;
+    private @NonNull
+            String usage;
+    private @Nullable
+            String permission;
+
     private final ArrayList<Argument<?>> arguments;
 
     protected XCommand() {
         this.usage = "";
+        this.permission = null;
         this.arguments = new ArrayList<>();
     }
 
     public XCommand name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public XCommand perm(String permission) {
+        this.permission = permission;
         return this;
     }
 
@@ -79,12 +93,20 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         };
     }
 
-    protected abstract void execute(CommandSender sender, Command command, String label, List<Object> args);
+    protected abstract void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException;
 
     @Override
     @SuppressWarnings("NullableProblems")
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (matches(command)) {
+            if (permission != null && !sender.hasPermission(permission)) {
+                ExpandedBans.Messages.send(
+                        sender,
+                        "§cError:§4 Insufficient permissions."
+                );
+                return true;
+            }
+
             var parsed = new ArrayList<>();
             var index = 0;
 
@@ -118,7 +140,13 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                 index++;
             }
 
-            execute(sender, command, label, parsed);
+            try {
+                execute(sender, command, label, parsed);
+            } catch (CommandMessageException e) {
+                ExpandedBans.Messages.send(sender,
+                        "§cError:§4 " + e.getMessage());
+            }
+
             return true;
         }
 
@@ -158,6 +186,7 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
     }
 
     private boolean matches(Command command) {
+        assert name != null;
         return command.getName().equals(name);
     }
 }

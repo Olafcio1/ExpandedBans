@@ -6,17 +6,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.XBDatabaseException;
+import pl.olafcio.expandedbans.commands.CommandMessageException;
+import pl.olafcio.expandedbans.commands.XPunishmentCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
-import pl.olafcio.expandedbans.commands.XCommand;
 import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-public class XUnban extends XCommand {
+public class XUnban extends XPunishmentCommand {
     public XUnban() {
         super.name("xunban")
+             .perm("expandedbans.unban")
              .then("player", arg(
                 Argument.Type.REQUIRED,
                 Bukkit::getOfflinePlayer,
@@ -26,31 +28,13 @@ public class XUnban extends XCommand {
     }
 
     @Override
-    protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
-        if (!sender.hasPermission("expandedbans.unban")) {
-            ExpandedBans.Messages.send(sender,
-                    "§cError:§4 Insufficient permissions.");
-            return;
-        }
-
+    protected void punish(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
-        try {
-            var target = "P" + player.getUniqueId();
-            if (!ExpandedBans.Database.removeBan(target, reason)) {
-                ExpandedBans.Messages.send(sender,
-                        "§cError:§6 %s§4 is not banned.".formatted(player.getName()));
-
-                return;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            ExpandedBans.Messages.send(sender,
-                    "§cError:§4 Database error.");
-
-            return;
-        }
+        var target = getTargetForPlayer(player);
+        if (!ExpandedBans.Database.removeBan(target, reason))
+            throw new CommandMessageException("§6%s§4 is not banned.".formatted(player.getName()));
 
         if (reason == null) {
             ExpandedBans.Messages.send(sender,
