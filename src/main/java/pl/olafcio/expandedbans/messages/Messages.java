@@ -7,10 +7,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.messages.traits.TBan;
+import pl.olafcio.expandedbans.messages.traits.TBanIP;
 import pl.olafcio.expandedbans.messages.traits.TKick;
 import pl.olafcio.expandedbans.messages.traits.TMute;
 
-public final class Messages implements MSGTrait, TBan, TMute, TKick {
+public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TKick {
     private final boolean isPAPIloaded;
     public Messages() {
         isPAPIloaded = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");

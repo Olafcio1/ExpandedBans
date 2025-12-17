@@ -3,9 +3,7 @@ package pl.olafcio.expandedbans;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
-import pl.olafcio.expandedbans.commands.impl.bans.XBan;
-import pl.olafcio.expandedbans.commands.impl.bans.XClearBans;
-import pl.olafcio.expandedbans.commands.impl.bans.XUnban;
+import pl.olafcio.expandedbans.commands.impl.bans.*;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
 import pl.olafcio.expandedbans.commands.impl.nutes.XMute;
 import pl.olafcio.expandedbans.commands.impl.nutes.XMuteIP;
@@ -92,7 +90,8 @@ public final class ExpandedBans extends JavaPlugin {
 
         getCommand("expandedbans").setExecutor(new XExpandedBans());
         getCommand("xban").setExecutor(new XBan());
-        getCommand("xunban").setExecutor(new XUnban());
+        getCommand("xbanip").setExecutor(new XBanIP());
+        getCommand("xunbanip").setExecutor(new XUnbanIP());
         getCommand("xclearbans").setExecutor(new XClearBans());
         getCommand("xmute").setExecutor(new XMute());
         getCommand("xmuteip").setExecutor(new XMuteIP());

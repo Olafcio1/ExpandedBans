@@ -12,6 +12,20 @@ ban:
     &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
     &6&m                                                  &r
 
+ban-ip:
+  default-reason: "&oNo reason provided."
+  message: |-
+    &6[&eExpandedBans&6]
+    &6&m                                                  &r
+    &6You have been permanently IP-banned from this server.
+    &6&m                                                  &r
+    &6Banned by&#cc8800 ›&7 %admin%
+    &6Reason&#cc8800 ›&7 %reason%
+    &6Expires&#cc8800 ›&7 never
+    &6&m                                                  &r
+    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6&m                                                  &r
+
 mute:
   default-reason: "&oNo reason provided."
   on-message: |-

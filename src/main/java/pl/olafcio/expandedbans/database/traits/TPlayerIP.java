@@ -18,16 +18,29 @@ public interface TPlayerIP extends DBPunishmentTrait {
         }
     }
 
-    default @Nullable String getIpByPlayer(UUID uuid) throws SQLException {
+    default @Nullable String getPlayer2IP(UUID uuid) throws SQLException {
         try (var statement = connection().prepareStatement(
                 "SELECT ip FROM `player-ip` WHERE uuid=?"
         )) {
             statement.setString(1, uuid.toString());
-            System.out.println(statement);
 
             try (var results = statement.executeQuery()) {
                 if (results.next())
                     return results.getString(1);
+                else return null;
+            }
+        }
+    }
+
+    default @Nullable UUID getIP2Player(String ip) throws SQLException {
+        try (var statement = connection().prepareStatement(
+                "SELECT uuid FROM `player-ip` WHERE ip=?"
+        )) {
+            statement.setString(1, ip);
+
+            try (var results = statement.executeQuery()) {
+                if (results.next())
+                    return UUID.fromString(results.getString(1));
                 else return null;
             }
         }

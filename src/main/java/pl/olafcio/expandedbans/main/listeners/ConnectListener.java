@@ -6,9 +6,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.XBDatabaseException;
+import pl.olafcio.expandedbans.messages.MessageProducer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class ConnectListener implements Listener {
     @EventHandler
@@ -27,25 +29,22 @@ public class ConnectListener implements Listener {
         try {
             ResultSet ban;
 
-            if ((ban = ExpandedBans.Database.getBan("P" + uuid)) != null) {
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ExpandedBans.Messages.ban(
-                        Bukkit.getOfflinePlayer(uuid),
-                        ban.getString(2),
-                        ban.getString(3)
-                ));
-
-                ban.close();
-            } else if ((ban = ExpandedBans.Database.getBan("I" + ip)) != null) {
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ExpandedBans.Messages.ban(
-                        Bukkit.getOfflinePlayer(uuid),
-                        ban.getString(2),
-                        ban.getString(3)
-                ));
-
-                ban.close();
-            }
+            if ((ban = ExpandedBans.Database.getBan("P" + uuid)) != null)
+                banned(event, uuid, ban, ExpandedBans.Messages::ban);
+            else if ((ban = ExpandedBans.Database.getBan("I" + ip)) != null)
+                banned(event, uuid, ban, ExpandedBans.Messages::banIP);
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's ban state on connect", e);
         }
+    }
+
+    private void banned(AsyncPlayerPreLoginEvent event, UUID uuid, ResultSet ban, MessageProducer producer) throws SQLException {
+        event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, producer.produce(
+                Bukkit.getOfflinePlayer(uuid),
+                ban.getString(2),
+                ban.getString(3)
+        ));
+
+        ban.close();
     }
 }
