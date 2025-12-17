@@ -5,10 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
 import pl.olafcio.expandedbans.commands.impl.bans.*;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
-import pl.olafcio.expandedbans.commands.impl.nutes.XMute;
-import pl.olafcio.expandedbans.commands.impl.nutes.XMuteIP;
-import pl.olafcio.expandedbans.commands.impl.nutes.XUnmute;
-import pl.olafcio.expandedbans.commands.impl.nutes.XUnmuteIP;
+import pl.olafcio.expandedbans.commands.impl.nutes.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
@@ -91,12 +88,14 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("expandedbans").setExecutor(new XExpandedBans());
         getCommand("xban").setExecutor(new XBan());
         getCommand("xbanip").setExecutor(new XBanIP());
+        getCommand("xunban").setExecutor(new XUnban());
         getCommand("xunbanip").setExecutor(new XUnbanIP());
         getCommand("xclearbans").setExecutor(new XClearBans());
         getCommand("xmute").setExecutor(new XMute());
         getCommand("xmuteip").setExecutor(new XMuteIP());
         getCommand("xunmute").setExecutor(new XUnmute());
         getCommand("xunmuteip").setExecutor(new XUnmuteIP());
+        getCommand("xclearmutes").setExecutor(new XClearMutes());
         getCommand("xkick").setExecutor(new XKick());
 
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);

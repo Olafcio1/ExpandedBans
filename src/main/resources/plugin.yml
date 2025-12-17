@@ -70,6 +70,10 @@ commands:
     description: Unmutes an IP address. Can be provided a player to get its IP.
     permission: expandedbans.unmuteip
     aliases: [unmuteip]
+  xclearmutes:
+    description: Unmutes all players and IP addresses.
+    permission: expandedbans.clearmutes
+    aliases: [clearmutes]
   xwarn:
     description: Warns a player.
     permission: expandedbans.warn
@@ -186,6 +190,8 @@ permissions:
   expandedbans.unmute:
     default: op
   expandedbans.unmuteip:
+    default: op
+  expandedbans.clearmutes:
     default: op
   expandedbans.warn:
     default: op
