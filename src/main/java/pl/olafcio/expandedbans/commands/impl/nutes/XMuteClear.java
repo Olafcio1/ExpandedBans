@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.commands.impl.bans;
+package pl.olafcio.expandedbans.commands.impl.nutes;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,17 +10,17 @@ import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 import java.sql.SQLException;
 import java.util.List;
 
-public class XClearBans extends XPunishmentCommand {
-    public XClearBans() {
-        super.name("xclearbans")
-             .perm("expandedbans.clearbans")
+public class XMuteClear extends XPunishmentCommand {
+    public XMuteClear() {
+        super.name("xmuteclear")
+             .perm("expandedbans.muteclear")
              .then("reason", new StringArg(Argument.Type.REST));
     }
 
     @Override
     protected void punish(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
-        ExpandedBans.Database.clearBans((String) args.getFirst());
+        ExpandedBans.Database.clearMutes((String) args.getFirst());
         ExpandedBans.Messages.send(sender,
-                           "§7Cleared all bans.");
+                           "§7All mutes have been removed.");
     }
 }

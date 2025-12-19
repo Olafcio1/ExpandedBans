@@ -90,12 +90,12 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xbanip").setExecutor(new XBanIP());
         getCommand("xunban").setExecutor(new XUnban());
         getCommand("xunbanip").setExecutor(new XUnbanIP());
-        getCommand("xclearbans").setExecutor(new XClearBans());
+        getCommand("xbanclear").setExecutor(new XBanClear());
         getCommand("xmute").setExecutor(new XMute());
         getCommand("xmuteip").setExecutor(new XMuteIP());
         getCommand("xunmute").setExecutor(new XUnmute());
         getCommand("xunmuteip").setExecutor(new XUnmuteIP());
-        getCommand("xclearmutes").setExecutor(new XClearMutes());
+        getCommand("xmuteclear").setExecutor(new XMuteClear());
         getCommand("xkick").setExecutor(new XKick());
 
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);

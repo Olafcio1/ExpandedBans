@@ -38,10 +38,10 @@ commands:
     description: Unbans an IP address. Can be provided a player to get its IP.
     permission: expandedbans.unbanip
     aliases: [unbanip]
-  xclearbans:
+  xbanclear:
     description: Unbans all players and IP addresses.
-    permission: expandedbans.clearbans
-    aliases: [clearbans]
+    permission: expandedbans.banclear
+    aliases: [banclear]
   xkick:
     description: Kicks a player.
     permission: expandedbans.kick
@@ -70,10 +70,10 @@ commands:
     description: Unmutes an IP address. Can be provided a player to get its IP.
     permission: expandedbans.unmuteip
     aliases: [unmuteip]
-  xclearmutes:
+  xmuteclear:
     description: Unmutes all players and IP addresses.
-    permission: expandedbans.clearmutes
-    aliases: [clearmutes]
+    permission: expandedbans.muteclear
+    aliases: [muteclear]
   xwarn:
     description: Warns a player.
     permission: expandedbans.warn
@@ -118,14 +118,14 @@ commands:
     description: Removes a note with the given ID.
     permission: expandedbans.unnote
     aliases: [unnote]
-  xclearnotes:
+  xnoteclear:
     description: Clears all notes of a player.
-    permission: expandedbans.clearnotes
-    aliases: [clearnotes]
-  xclearnotesip:
+    permission: expandedbans.noteclear
+    aliases: [noteclear]
+  xnoteipclear:
     description: Clears all notes of an IP address.
-    permission: expandedbans.clearnotesip
-    aliases: [clearnotesip]
+    permission: expandedbans.notesipclear
+    aliases: [noteipclear]
   xalts:
     description: Gets a player's alt list.
     permission: expandedbans.alts
@@ -175,7 +175,7 @@ permissions:
     default: op
   expandedbans.unbanip:
     default: op
-  expandedbans.clearbans:
+  expandedbans.banclear:
     default: op
   expandedbans.kick:
     default: op
@@ -191,7 +191,7 @@ permissions:
     default: op
   expandedbans.unmuteip:
     default: op
-  expandedbans.clearmutes:
+  expandedbans.muteclear:
     default: op
   expandedbans.warn:
     default: op
@@ -215,9 +215,9 @@ permissions:
     default: op
   expandedbans.unnote:
     default: op
-  expandedbans.clearnotes:
+  expandedbans.noteclear:
     default: op
-  expandedbans.clearnotesip:
+  expandedbans.notesipclear:
     default: op
   expandedbans.alts:
     default: op
