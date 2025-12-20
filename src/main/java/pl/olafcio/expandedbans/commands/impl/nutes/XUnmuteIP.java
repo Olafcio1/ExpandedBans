@@ -25,10 +25,10 @@ public class XUnmuteIP extends XPunishmentCommand {
         var target = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
-        var ip = target.ip();
+        var ipt = target.getTarget();
         var player = target.player();
 
-        if (!ExpandedBans.Database.removeMute(ip, reason)) {
+        if (!ExpandedBans.Database.removeMute(ipt, reason)) {
             ExpandedBans.Messages.send(sender,
                     "§cError:§6 %s§4 is not IP-muted.".formatted(target.getName()));
 
