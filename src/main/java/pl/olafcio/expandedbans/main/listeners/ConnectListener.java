@@ -27,6 +27,22 @@ public class ConnectListener implements Listener {
         }
 
         try {
+            ResultSet lockdown;
+            if ((lockdown = ExpandedBans.Database.getLockdown()) != null) {
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ExpandedBans.Messages.lockdown(
+                        Bukkit.getOfflinePlayer(uuid),
+                        lockdown.getString(2),
+                        lockdown.getString(1)
+                ));
+
+                lockdown.close();
+                return;
+            }
+        } catch (SQLException e) {
+            throw new XBDatabaseException("Failed to check server's lockdown state on connect", e);
+        }
+
+        try {
             ResultSet ban;
 
             if ((ban = ExpandedBans.Database.getBan("P" + uuid)) != null)

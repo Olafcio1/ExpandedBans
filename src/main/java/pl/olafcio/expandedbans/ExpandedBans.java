@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
 import pl.olafcio.expandedbans.commands.impl.bans.*;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
+import pl.olafcio.expandedbans.commands.impl.lockdown.XLockdown;
+import pl.olafcio.expandedbans.commands.impl.lockdown.XUnLockdown;
 import pl.olafcio.expandedbans.commands.impl.nutes.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
@@ -97,6 +99,8 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xunmuteip").setExecutor(new XUnmuteIP());
         getCommand("xmuteclear").setExecutor(new XMuteClear());
         getCommand("xkick").setExecutor(new XKick());
+        getCommand("xlockdown").setExecutor(new XLockdown());
+        getCommand("xunlockdown").setExecutor(new XUnLockdown());
 
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);

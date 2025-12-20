@@ -142,6 +142,10 @@ commands:
     description: Locks the server down.
     permission: expandedbans.lockdown
     aliases: [lockdown]
+  xunlockdown:
+    descriptions: Removes the server lockdown.
+    permission: expandedbans.unlockdown
+    aliases: [unlockdown]
   xwhois:
     description: Gets information about a player.
     permission: expandedbans.whois
@@ -226,6 +230,8 @@ permissions:
   expandedbans.unfreeze:
     default: op
   expandedbans.lockdown:
+    default: op
+  expandedbans.unlockdown:
     default: op
   expandedbans.whois:
     default: op

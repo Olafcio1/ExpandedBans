@@ -2,16 +2,13 @@ package pl.olafcio.expandedbans.database;
 
 import org.bukkit.Bukkit;
 import pl.olafcio.expandedbans.ExpandedBans;
-import pl.olafcio.expandedbans.database.traits.TBan;
-import pl.olafcio.expandedbans.database.traits.TMute;
-import pl.olafcio.expandedbans.database.traits.TPlayerIP;
-import pl.olafcio.expandedbans.database.traits.TWarn;
+import pl.olafcio.expandedbans.database.traits.*;
 
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
-public final class Database implements TBan, TMute, TWarn, TPlayerIP {
+public final class Database implements TBan, TMute, TWarn, TPlayerIP, TLockdown {
     private Connection connection;
     private Statement statement;
 
@@ -60,32 +57,44 @@ public final class Database implements TBan, TMute, TWarn, TPlayerIP {
                                             "target STRING NOT NULL," +
                                             "reason STRING," +
                                             "by STRING NOT NULL," +
-                                            "expires BIGINT" +
+                                            "expires BIGINT," +
+                                            "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `mutes` (" +
                                             "target STRING NOT NULL," +
                                             "reason STRING," +
                                             "by STRING NOT NULL," +
-                                            "expires BIGINT" +
+                                            "expires BIGINT," +
+                                            "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `warns` (" +
                                             "target STRING NOT NULL," +
                                             "reason STRING," +
                                             "by STRING NOT NULL," +
-                                            "expires BIGINT" +
+                                            "expires BIGINT," +
+                                            "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `notes` (" +
                                             "target STRING NOT NULL," +
                                             "reason STRING," +
-                                            "by STRING NOT NULL" +
+                                            "by STRING NOT NULL," +
+                                            "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `player-ip` (" +
                                             "uuid STRING NOT NULL," +
                                             "ip STRING NOT NULL," +
+                                            "last_connected TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                                             "UNIQUE(uuid, ip) ON CONFLICT REPLACE" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `lockdowns` (" +
+                                            "by STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "active BOOLEAN NOT NULL," +
+                                            "at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
     }
 
+    @Override
     public Connection connection() {
         return connection;
     }
@@ -103,6 +112,10 @@ public final class Database implements TBan, TMute, TWarn, TPlayerIP {
             e.printStackTrace();
         }
 
-        startThread.interrupt();
+        try {
+            startThread.interrupt();
+        } catch (NullPointerException e) {
+            ExpandedBans.Plugin.Logger.warning("Cannot interrupt the keepalive thread");
+        }
     }
 }

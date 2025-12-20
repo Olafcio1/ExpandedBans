@@ -59,3 +59,14 @@ kick:
     &6Kicked by&#cc8800 ›&7 %admin%
     &6Reason&#cc8800 ›&7 %reason%
     &6&m                                                  &r
+
+lockdown:
+  default-reason: "The server needs maintenance."
+  message: |-
+    &6[&eExpandedBans&6]
+    &6&m                                                  &r
+    &6The server is currently locked down.
+    &6&m                                                  &r
+    &6Locked by&#cc8800 ›&7 %admin%
+    &6Reason&#cc8800 ›&7 %reason%
+    &6&m                                                  &r
