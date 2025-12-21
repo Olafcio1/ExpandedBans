@@ -23,9 +23,10 @@ public interface TLockdown extends DBTrait {
         return statement().executeUpdate("UPDATE `lockdowns` SET active=FALSE WHERE active=TRUE") >= 1;
     }
 
-    default ResultSet getLockdown() throws SQLException {
+    default @Nullable ResultSet getLockdown() throws SQLException {
         var res = statement().executeQuery("SELECT by, reason, at FROM `lockdowns` WHERE active=TRUE LIMIT 1");
-        res.next();
-        return res;
+        if (res.next())
+            return res;
+        else return null;
     }
 }
