@@ -10,7 +10,7 @@ import pl.olafcio.expandedbans.commands.impl.freeze.XUnFreeze;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
 import pl.olafcio.expandedbans.commands.impl.lockdown.XLockdown;
 import pl.olafcio.expandedbans.commands.impl.lockdown.XUnLockdown;
-import pl.olafcio.expandedbans.commands.impl.nutes.*;
+import pl.olafcio.expandedbans.commands.impl.mutes.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
