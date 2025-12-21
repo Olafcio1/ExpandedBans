@@ -22,7 +22,7 @@ public class ConnectListener implements Listener {
         try {
             persona = getPersona(ip, uuid);
 
-            ExpandedBans.Database.registerPersonaIP(persona, ip);
+            ExpandedBans.Database.registerPersonaIP(ip, persona);
             ExpandedBans.Database.registerPlayerPersona(uuid, persona);
 
             ExpandedBans.Personas.put(uuid, persona);
