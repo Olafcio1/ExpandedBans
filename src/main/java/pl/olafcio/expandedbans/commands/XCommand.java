@@ -132,7 +132,7 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                     return true;
                 } catch (PatternError e) {
                     ExpandedBans.Messages.send(sender,
-                                       "§7Invalid syntax.");
+                                       "§cParameter Error: §4" + e.getMessage());
 
                     return true;
                 }
