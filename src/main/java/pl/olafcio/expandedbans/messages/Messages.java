@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.messages.traits.*;
 
-public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TMuteIP, TKick, TLockdown {
+public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TMuteIP, TKick, TLockdown, TLockChat {
     private final boolean isPAPIloaded;
     public Messages() {
         isPAPIloaded = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");

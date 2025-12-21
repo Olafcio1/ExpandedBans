@@ -138,6 +138,14 @@ commands:
     description: Unfreezes a player.
     permission: expandedbans.unfreeze
     aliases: [unfreeze]
+  xlockchat:
+    description: Locks the chat.
+    permission: expandedbans.lockchat
+    aliases: [lockchat]
+  xunlockchat:
+    description: Unlocks the chat.
+    permission: expandedbans.unlockchat
+    aliases: [unlockchat]
   xlockdown:
     description: Locks the server down.
     permission: expandedbans.lockdown
@@ -228,6 +236,12 @@ permissions:
   expandedbans.freeze:
     default: op
   expandedbans.unfreeze:
+    default: op
+  expandedbans.lockchat:
+    default: op
+  expandedbans.lockchat-bypass:
+    default: op
+  expandedbans.unlockchat:
     default: op
   expandedbans.lockdown:
     default: op

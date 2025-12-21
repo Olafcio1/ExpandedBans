@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans;
+package pl.olafcio.expandedbans.main;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.protocolextension.server.ProtocolExtension;
 import pl.olafcio.protocolextension.server.VariableAPI;
 

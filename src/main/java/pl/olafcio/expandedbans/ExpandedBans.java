@@ -2,16 +2,18 @@ package pl.olafcio.expandedbans;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
-import pl.olafcio.expandedbans.commands.impl.alts.XAlts;
+import pl.olafcio.expandedbans.commands.impl.alts.*;
 import pl.olafcio.expandedbans.commands.impl.ban.*;
-import pl.olafcio.expandedbans.commands.impl.freeze.XFreeze;
-import pl.olafcio.expandedbans.commands.impl.freeze.XUnFreeze;
-import pl.olafcio.expandedbans.commands.impl.kick.XKick;
-import pl.olafcio.expandedbans.commands.impl.lockdown.XLockdown;
-import pl.olafcio.expandedbans.commands.impl.lockdown.XUnLockdown;
+import pl.olafcio.expandedbans.commands.impl.freeze.*;
+import pl.olafcio.expandedbans.commands.impl.kick.*;
+import pl.olafcio.expandedbans.commands.impl.lockchat.*;
+import pl.olafcio.expandedbans.commands.impl.lockdown.*;
 import pl.olafcio.expandedbans.commands.impl.mute.*;
 import pl.olafcio.expandedbans.database.Database;
+import pl.olafcio.expandedbans.main.ChatLock;
+import pl.olafcio.expandedbans.main.PlayerMap;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
 import pl.olafcio.expandedbans.main.listeners.*;
@@ -31,6 +33,7 @@ public final class ExpandedBans extends JavaPlugin {
 
     public static Database Database;
     public static PlayerMap Players;
+    public static @Nullable ChatLock ChatLock;
 
     private static Path db_path;
 
@@ -90,6 +93,7 @@ public final class ExpandedBans extends JavaPlugin {
 
         Database = new Database(db_path);
         Players = new PlayerMap();
+        ChatLock = null;
 
         Plugin.Commands = section.getKeys(false).stream().map(this::getCommand).toList();
 
@@ -107,6 +111,8 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xkick").setExecutor(new XKick());
         getCommand("xfreeze").setExecutor(new XFreeze());
         getCommand("xunfreeze").setExecutor(new XUnFreeze());
+        getCommand("xlockchat").setExecutor(new XLockChat());
+        getCommand("xunlockchat").setExecutor(new XUnLockChat());
         getCommand("xlockdown").setExecutor(new XLockdown());
         getCommand("xunlockdown").setExecutor(new XUnLockdown());
         getCommand("xalts").setExecutor(new XAlts());

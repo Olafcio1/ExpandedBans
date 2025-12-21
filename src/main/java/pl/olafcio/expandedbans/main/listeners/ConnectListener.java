@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import pl.olafcio.expandedbans.ExpandedBans;
-import pl.olafcio.expandedbans.PlayerMap;
+import pl.olafcio.expandedbans.main.PlayerMap;
 import pl.olafcio.expandedbans.XBDatabaseException;
 import pl.olafcio.expandedbans.messages.MessageProducer;
 

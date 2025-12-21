@@ -83,6 +83,18 @@ kick:
     &6Reason&#cc8800 ›&7 %reason%
     &6&m                                                  &r
 
+lockchat:
+  default-reason: "&oNo reason provided."
+  message: |-
+    &6⚖&8 ∣&7 The chat is locked!
+  notify: |-
+    &6⚖&8 ∣&7 &m                                &r
+    &6⚖&8 ∣&7 The chat has been locked.
+    &6⚖&8 ∣&7 &m                                &r
+    &6⚖&8 ∣&6 Locked by&#cc8800 ›&7 %admin%
+    &6⚖&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6⚖&8 ∣&7 &m                                &r
+
 lockdown:
   default-reason: "The server needs maintenance."
   message: |-
