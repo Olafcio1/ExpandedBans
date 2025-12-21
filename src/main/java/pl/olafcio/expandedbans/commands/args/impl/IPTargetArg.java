@@ -14,6 +14,7 @@ import pl.olafcio.expandedbans.commands.args.PatternError;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
@@ -21,10 +22,11 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
         super(type);
     }
 
-    public static final Pattern IPv4_PATTERN = Pattern.compile("([0-9](|[0-9]){2}\\.){3}(|[0-9]){3}", Pattern.CASE_INSENSITIVE);
+    public static final Pattern IPv4_PATTERN = Pattern.compile("^([0-9](|[0-9]){2}\\.){3}(|[0-9]){3}$", Pattern.CASE_INSENSITIVE);
     public record IPTarget(
             @Nullable OfflinePlayer player,
-            @NonNull String ip
+            @NonNull String ip,
+            @NonNull String persona
     ) {
         public String getName() {
             if (player != null)
@@ -33,7 +35,7 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
         }
 
         public String getTarget() {
-            return "I" + ip;
+            return "P" + persona;
         }
     }
 
@@ -49,28 +51,37 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
     public static IPTarget _parseInternal(String arg) throws PatternError, SQLException {
         OfflinePlayer player;
         String ip;
+        String persona;
 
         if (IPv4_PATTERN.matcher(arg).find()) {
-            var uuid = ExpandedBans.Database.getIP2Player(arg);
+            ip = arg;
+            persona = ExpandedBans.Database.IP2Persona(arg);
 
+            if (persona == null) {
+                persona = UUID.randomUUID().toString();
+                ExpandedBans.Database.registerPersonaIP(ip, persona);
+            }
+
+            var uuid = ExpandedBans.Database.Persona2Player(persona);
             player = uuid == null
                     ? null
                     : Bukkit.getOfflinePlayer(uuid);
-
-            ip = arg;
         } else {
             player = Bukkit.getOfflinePlayer(arg);
 
-            try { ip = ExpandedBans.Database.getPlayer2IP(player.getUniqueId()); }
+            try { persona = ExpandedBans.Database.Player2Persona(player.getUniqueId()); }
             catch (SQLException e) {
                 throw new PatternError("Database error.");
             }
 
-            if (ip == null)
+            if (persona == null)
                 throw new PatternError("Player never joined; cannot find the IP.");
+
+            ip = ExpandedBans.Database.Persona2IP(persona);
+            assert ip != null;
         }
 
-        return new IPTarget(player, ip);
+        return new IPTarget(player, ip, persona);
     }
 
     @Override

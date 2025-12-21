@@ -13,8 +13,9 @@ public interface TBan extends DBPunishmentTrait {
      * Inserts a ban entry.
      * @param target A target can be either:
      *               <ul>
-     *                 <li>{@code "P" + uuid}, for a player</li>
-     *                 <li>{@code "I" + ip},   for an IP address</li>
+     *                 <li>{@code "U" + uuid},    for a player</li>
+     *                 <li>{@code "I" + ip},      for an IP address</li>
+     *                 <li>{@code "P" + persona}, for a persona</li>
      *               </ul>
      * @param reason The ban reason. May be {@code null} which shows the default ban message.
      * @param expires The time when the ban expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}

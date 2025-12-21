@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
-public final class Database implements TBan, TMute, TWarn, TPlayerIP, TLockdown {
+public final class Database implements TBan, TMute, TWarn, TPlayers, TPersona, TLockdown {
     private Connection connection;
     private Statement statement;
 
@@ -80,11 +80,17 @@ public final class Database implements TBan, TMute, TWarn, TPlayerIP, TLockdown 
                                             "by STRING NOT NULL," +
                                             "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
-        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `player-ip` (" +
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `players` (" +
                                             "uuid STRING NOT NULL," +
-                                            "ip STRING NOT NULL," +
+                                            "tag STRING NOT NULL," +
                                             "last_connected TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                                            "UNIQUE(uuid, ip) ON CONFLICT REPLACE" +
+                                            "UNIQUE(uuid, tag) ON CONFLICT REPLACE" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `personas` (" +
+                                            "ip STRING NOT NULL," +
+                                            "tag STRING NOT NULL," +
+                                            "last_connected TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                                            "UNIQUE(ip, tag) ON CONFLICT REPLACE" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `lockdowns` (" +
                                             "by STRING NOT NULL," +

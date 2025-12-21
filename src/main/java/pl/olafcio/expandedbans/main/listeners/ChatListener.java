@@ -17,7 +17,7 @@ public class ChatListener implements Listener {
 
         try {
             ResultSet mute;
-            if ((mute = ExpandedBans.Database.getMute("P" + uuid)) != null) {
+            if ((mute = ExpandedBans.Database.getMute("U" + uuid)) != null) {
                 event.setCancelled(true);
                 player.sendMessage(ExpandedBans.Messages.mute(
                         player,

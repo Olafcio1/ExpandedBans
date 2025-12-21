@@ -13,8 +13,9 @@ public interface TMute extends DBPunishmentTrait {
      * Inserts a mute entry.
      * @param target A target can be either:
      *               <ul>
-     *                 <li>{@code "P" + uuid}, for a player</li>
-     *                 <li>{@code "I" + ip},   for an IP address</li>
+     *                 <li>{@code "U" + uuid},    for a player</li>
+     *                 <li>{@code "I" + ip},      for an IP address</li>
+     *                 <li>{@code "P" + persona}, for a persona</li>
      *               </ul>
      * @param reason The ban reason. May be {@code null} which shows the default mute message.
      * @param expires The time when the mute expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}

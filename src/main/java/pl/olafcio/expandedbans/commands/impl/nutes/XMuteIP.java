@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.CommandMessageException;
-import pl.olafcio.expandedbans.commands.XPunishmentCommand;
+import pl.olafcio.expandedbans.commands.XTargetCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
 import pl.olafcio.expandedbans.commands.args.impl.IPTargetArg;
 import pl.olafcio.expandedbans.commands.args.impl.StringArg;
@@ -12,7 +12,7 @@ import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 import java.sql.SQLException;
 import java.util.List;
 
-public class XMuteIP extends XPunishmentCommand {
+public class XMuteIP extends XTargetCommand {
     public XMuteIP() {
         super.name("xmuteip")
              .perm("expandedbans.muteip")
@@ -21,7 +21,7 @@ public class XMuteIP extends XPunishmentCommand {
     }
 
     @Override
-    protected void punish(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 

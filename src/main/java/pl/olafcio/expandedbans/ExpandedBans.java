@@ -3,6 +3,7 @@ package pl.olafcio.expandedbans;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
+import pl.olafcio.expandedbans.commands.impl.alts.XAlts;
 import pl.olafcio.expandedbans.commands.impl.bans.*;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
 import pl.olafcio.expandedbans.commands.impl.lockdown.XLockdown;
@@ -13,11 +14,14 @@ import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
 import pl.olafcio.expandedbans.main.listeners.ChatListener;
 import pl.olafcio.expandedbans.main.listeners.ConnectListener;
+import pl.olafcio.expandedbans.main.listeners.DisconnectListener;
 import pl.olafcio.expandedbans.messages.Messages;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class ExpandedBans extends JavaPlugin {
     private static ExpandedBans INSTANCE;
@@ -28,6 +32,8 @@ public final class ExpandedBans extends JavaPlugin {
     public static Plugin Plugin;
 
     public static Database Database;
+    public static HashMap<UUID, String> Personas;
+
     private static Path db_path;
 
     public ExpandedBans() {
@@ -85,6 +91,8 @@ public final class ExpandedBans extends JavaPlugin {
         var section = Objects.requireNonNull(config.getConfigurationSection("commands"));
 
         Database = new Database(db_path);
+        Personas = new HashMap<>();
+
         Plugin.Commands = section.getKeys(false).stream().map(this::getCommand).toList();
 
         getCommand("expandedbans").setExecutor(new XExpandedBans());
@@ -101,7 +109,9 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xkick").setExecutor(new XKick());
         getCommand("xlockdown").setExecutor(new XLockdown());
         getCommand("xunlockdown").setExecutor(new XUnLockdown());
+        getCommand("xalts").setExecutor(new XAlts());
 
+        getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
     }

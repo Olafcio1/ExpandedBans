@@ -14,7 +14,7 @@ public interface DBPunishmentTrait extends DBTrait {
      * Inserts a punishment entry.
      * @param target A target can be either:
      *               <ul>
-     *                 <li>{@code "P" + uuid}, for a player</li>
+     *                 <li>{@code "U" + uuid}, for a player</li>
      *                 <li>{@code "I" + ip},   for an IP address</li>
      *               </ul>
      * @param reason The punishment reason. May be {@code null} which shows the default message for this punishment.

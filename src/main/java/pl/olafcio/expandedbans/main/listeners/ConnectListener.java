@@ -17,11 +17,15 @@ public class ConnectListener implements Listener {
     public void onAsyncPreLogin(AsyncPlayerPreLoginEvent event) {
         var uuid = event.getUniqueId();
         var ip = event.getAddress().getHostAddress();
-        System.out.println(uuid);
-        System.out.println(ip);
 
+        String persona;
         try {
-            ExpandedBans.Database.registerPlayerIp(uuid, ip);
+            persona = getPersona(ip, uuid);
+
+            ExpandedBans.Database.registerPersonaIP(persona, ip);
+            ExpandedBans.Database.registerPlayerPersona(uuid, persona);
+
+            ExpandedBans.Personas.put(uuid, persona);
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to register player's IP address on connect", e);
         }
@@ -45,16 +49,28 @@ public class ConnectListener implements Listener {
         try {
             ResultSet ban;
 
-            if ((ban = ExpandedBans.Database.getBan("P" + uuid)) != null)
+            if ((ban = ExpandedBans.Database.getBan("U" + uuid)) != null)
                 banned(event, uuid, ban, ExpandedBans.Messages::ban);
             else if ((ban = ExpandedBans.Database.getBan("I" + ip)) != null)
+                banned(event, uuid, ban, ExpandedBans.Messages::banIP);
+            else if ((ban = ExpandedBans.Database.getBan("P" + persona)) != null)
                 banned(event, uuid, ban, ExpandedBans.Messages::banIP);
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to check player's ban state on connect", e);
         }
     }
 
-    private void banned(AsyncPlayerPreLoginEvent event, UUID uuid, ResultSet ban, MessageProducer producer) throws SQLException {
+    private static String getPersona(String ip, UUID uuid) throws SQLException {
+        String persona;
+
+        if ((persona = ExpandedBans.Database.IP2Persona(ip)) != null);
+        else if ((persona = ExpandedBans.Database.Player2Persona(uuid)) != null);
+        else persona = UUID.randomUUID().toString();
+
+        return persona;
+    }
+
+    private static void banned(AsyncPlayerPreLoginEvent event, UUID uuid, ResultSet ban, MessageProducer producer) throws SQLException {
         event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, producer.produce(
                 Bukkit.getOfflinePlayer(uuid),
                 ban.getString(2),

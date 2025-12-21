@@ -13,8 +13,9 @@ public interface TWarn extends DBPunishmentTrait {
      * Inserts a warn entry.
      * @param target A target can be either:
      *               <ul>
-     *                 <li>{@code "P" + uuid}, for a player</li>
-     *                 <li>{@code "I" + ip},   for an IP address</li>
+     *                 <li>{@code "U" + uuid},    for a player</li>
+     *                 <li>{@code "I" + ip},      for an IP address</li>
+     *                 <li>{@code "P" + persona}, for a persona</li>
      *               </ul>
      * @param reason The ban reason. May be {@code null} which shows the default warn message.
      * @param expires The time when the warn expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}

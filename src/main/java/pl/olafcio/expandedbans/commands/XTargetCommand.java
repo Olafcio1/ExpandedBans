@@ -13,11 +13,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class XPunishmentCommand extends XCommand {
+public abstract class XTargetCommand extends XCommand {
     @Override
     protected final void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException {
         try {
-            punish(sender, command, label, args);
+            apply(sender, command, label, args);
         } catch (SQLException e) {
             e.printStackTrace();
             ExpandedBans.Messages.send(sender,
@@ -25,7 +25,7 @@ public abstract class XPunishmentCommand extends XCommand {
         }
     }
 
-    protected abstract void punish(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException;
+    protected abstract void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException;
 
     protected final IPTargetArg.IPTarget ipTarget(String arg) throws CommandMessageException, SQLException {
         try {
@@ -40,11 +40,12 @@ public abstract class XPunishmentCommand extends XCommand {
             handler.accept((Player) player);
     }
 
+    @Deprecated(forRemoval = true)
     protected final String getTargetForIP(String ip) {
         return "I" + ip;
     }
 
     protected final String getTargetForPlayer(OfflinePlayer player) {
-        return "P" + player.getUniqueId();
+        return "U" + player.getUniqueId();
     }
 }
