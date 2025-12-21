@@ -30,12 +30,12 @@ public interface TFreeze extends DBTrait {
         }
     }
 
-    default void unfreeze(@NonNull String target) throws SQLException {
+    default int unfreeze(@NonNull String target) throws SQLException {
         try (var stmt = connection().prepareStatement(
                 "DELETE FROM freezes WHERE target=?"
         )) {
             stmt.setString(1, target);
-            stmt.executeUpdate();
+            return stmt.executeUpdate();
         }
     }
 }

@@ -26,7 +26,7 @@ public class ConnectListener implements Listener {
             ExpandedBans.Database.registerPersonaIP(ip, persona);
             ExpandedBans.Database.registerPlayerPersona(uuid, persona);
 
-            ExpandedBans.Players.put(new PlayerMap.Player(persona, uuid));
+            ExpandedBans.Players.put(new PlayerMap.Entry(persona, uuid));
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to register player's IP address on connect", e);
         }

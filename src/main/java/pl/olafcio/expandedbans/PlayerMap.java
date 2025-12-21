@@ -4,19 +4,25 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public final class PlayerMap extends HashMap<UUID, PlayerMap.Player> {
-    public final static class Player {
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import pl.olafcio.protocolextension.server.ProtocolExtension;
+import pl.olafcio.protocolextension.server.VariableAPI;
+
+public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
+    public final static class Entry {
         private final String persona;
         private final UUID uuid;
         private boolean frozen;
 
-        public Player(String persona, UUID uuid, boolean frozen) {
+        public Entry(String persona, UUID uuid, boolean frozen) {
             this.persona = persona;
             this.uuid = uuid;
-            this.frozen = frozen;
+            this.setFrozen(frozen);
         }
 
-        public Player(String persona, UUID uuid) throws SQLException {
+        public Entry(String persona, UUID uuid) throws SQLException {
             this(persona, uuid, ExpandedBans.Database.isFrozen("P" + persona) ||
                                        ExpandedBans.Database.isFrozen("U" + uuid));
         }
@@ -33,8 +39,38 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Player> {
             return frozen;
         }
 
+        private Player player = null;
+        public Player getPlayer() {
+            if (player == null)
+                player = Bukkit.getPlayer(uuid);
+
+            return player;
+        }
+
         public void setFrozen(boolean frozen) {
             this.frozen = frozen;
+            updateFrozen();
+        }
+
+        public void updateFrozen() {
+            this.getPlayer();
+            if (this.player != null) {
+                this.player.setAllowFlight(frozen || (
+                        this.player.getGameMode() == GameMode.CREATIVE ||
+                        this.player.getGameMode() == GameMode.SPECTATOR
+                ));
+
+                this.player.setFlying(
+                        frozen ||
+                        this.player.getGameMode() == GameMode.SPECTATOR
+                );
+            }
+
+            if (VariableAPI.isActivated(player))
+                ProtocolExtension.getAPI().playerManager().moveToggle(
+                        player,
+                        !frozen
+                );
         }
 
         @Override
@@ -43,7 +79,7 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Player> {
         }
     }
 
-    public void put(Player player) {
+    public void put(Entry player) {
         this.put(player.uuid, player);
     }
 }

@@ -14,10 +14,7 @@ import pl.olafcio.expandedbans.commands.impl.nutes.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.dataclasses.Configurations;
 import pl.olafcio.expandedbans.main.dataclasses.Plugin;
-import pl.olafcio.expandedbans.main.listeners.ChatListener;
-import pl.olafcio.expandedbans.main.listeners.ConnectListener;
-import pl.olafcio.expandedbans.main.listeners.DisconnectListener;
-import pl.olafcio.expandedbans.main.listeners.MoveListener;
+import pl.olafcio.expandedbans.main.listeners.*;
 import pl.olafcio.expandedbans.messages.Messages;
 
 import java.io.File;
@@ -114,10 +111,11 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xunlockdown").setExecutor(new XUnLockdown());
         getCommand("xalts").setExecutor(new XAlts());
 
+        getServer().getPluginManager().registerEvents(new FreezeListener(), this);
         getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new MoveListener(), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(), this);
     }
 
     @Override

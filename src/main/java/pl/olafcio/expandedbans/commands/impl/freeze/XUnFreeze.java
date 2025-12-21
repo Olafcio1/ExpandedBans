@@ -32,7 +32,8 @@ public class XUnFreeze extends XTargetCommand {
         var uuid = player.getUniqueId();
 
         ExpandedBans.Players.get(uuid).setFrozen(false);
-        ExpandedBans.Database.unfreeze("U" + uuid);
+        if (ExpandedBans.Database.unfreeze("U" + uuid) == 0)
+            throw new CommandMessageException("The player isn't frozen.");
 
         if (reason == null) {
             ExpandedBans.Messages.send(sender,

@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import pl.olafcio.expandedbans.ExpandedBans;
 
-public class MoveListener implements Listener {
+public class FreezeListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         var player = event.getPlayer();
