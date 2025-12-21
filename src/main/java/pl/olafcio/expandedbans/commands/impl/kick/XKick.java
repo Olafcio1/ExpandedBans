@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.commands.impl.kicks;
+package pl.olafcio.expandedbans.commands.impl.kick;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.commands.impl.bans;
+package pl.olafcio.expandedbans.commands.impl.ban;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;

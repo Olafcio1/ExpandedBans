@@ -1,4 +1,4 @@
-package pl.olafcio.expandedbans.commands.impl.mutes;
+package pl.olafcio.expandedbans.commands.impl.mute;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
