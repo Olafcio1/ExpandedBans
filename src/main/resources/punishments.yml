@@ -29,48 +29,68 @@ ban-ip:
 mute:
   default-reason: "&oNo reason provided."
   on-message: |-
-    &6&m                                                  &r
-    &6You're muted and are unable to speak.
-    &6&m                                                  &r
-    &6Muted by&#cc8800 ›&7 %admin%
-    &6Reason&#cc8800 ›&7 %reason%
-    &6Expires&#cc8800 ›&7 never
-    &6&m                                                  &r
-    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
-    &6&m                                                  &r
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You're muted and are unable to speak.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Muted by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 Expires&#cc8800 ›&7 never
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6🏛&8 ∣&6 &m                                                  &r
   notify: |-
-    &6&m                                                  &r
-    &6You have been muted.
-    &6&m                                                  &r
-    &6Muted by&#cc8800 ›&7 %admin%
-    &6Reason&#cc8800 ›&7 %reason%
-    &6Expires&#cc8800 ›&7 never
-    &6&m                                                  &r
-    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
-    &6&m                                                  &r
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You have been muted.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Muted by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 Expires&#cc8800 ›&7 never
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6🏛&8 ∣&6 &m                                                  &r
 
 mute-ip:
   default-reason: "&oNo reason provided."
   on-message: |-
-    &6&m                                                  &r
-    &6You're IP-muted and are unable to speak.
-    &6&m                                                  &r
-    &6Muted by&#cc8800 ›&7 %admin%
-    &6Reason&#cc8800 ›&7 %reason%
-    &6Expires&#cc8800 ›&7 never
-    &6&m                                                  &r
-    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
-    &6&m                                                  &r
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You're IP-muted and are unable to speak.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Muted by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 Expires&#cc8800 ›&7 never
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6🏛&8 ∣&6 &m                                                  &r
   notify: |-
-    &6&m                                                  &r
-    &6You have been IP-muted.
-    &6&m                                                  &r
-    &6Muted by&#cc8800 ›&7 %admin%
-    &6Reason&#cc8800 ›&7 %reason%
-    &6Expires&#cc8800 ›&7 never
-    &6&m                                                  &r
-    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
-    &6&m                                                  &r
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You have been IP-muted.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Muted by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 Expires&#cc8800 ›&7 never
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6🏛&8 ∣&6 &m                                                  &r
+
+warn:
+  default-reason: "&oNo reason provided."
+  message: |-
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You have been warned.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Warned by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 &m                                                  &r
+
+warn-ip:
+  default-reason: "&oNo reason provided."
+  message: |-
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 You have been IP-warned.
+    &6🏛&8 ∣&6 &m                                                  &r
+    &6🏛&8 ∣&6 Warned by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&6 &m                                                  &r
 
 kick:
   default-reason: "&oNo reason provided."
@@ -86,14 +106,14 @@ kick:
 lockchat:
   default-reason: "&oNo reason provided."
   message: |-
-    &6⚖&8 ∣&7 The chat is locked!
+    &6🏛&8 ∣&7 The chat is locked!
   notify: |-
-    &6⚖&8 ∣&7 &m                                &r
-    &6⚖&8 ∣&7 The chat has been locked.
-    &6⚖&8 ∣&7 &m                                &r
-    &6⚖&8 ∣&6 Locked by&#cc8800 ›&7 %admin%
-    &6⚖&8 ∣&6 Reason&#cc8800 ›&7 %reason%
-    &6⚖&8 ∣&7 &m                                &r
+    &6🏛&8 ∣&7 &m                                 &r
+    &6🏛&8 ∣&7 The chat has been locked.
+    &6🏛&8 ∣&7 &m                                 &r
+    &6🏛&8 ∣&6 Locked by&#cc8800 ›&7 %admin%
+    &6🏛&8 ∣&6 Reason&#cc8800 ›&7 %reason%
+    &6🏛&8 ∣&7 &m                                 &r
 
 lockdown:
   default-reason: "The server needs maintenance."

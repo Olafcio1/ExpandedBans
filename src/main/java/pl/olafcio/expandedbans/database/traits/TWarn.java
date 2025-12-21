@@ -35,7 +35,7 @@ public interface TWarn extends DBPunishmentTrait {
         updatePunishment("warns", target, by, reason, expires);
     }
 
-    default boolean removeWarn(@NonNull String target, @Nullable String reason) throws SQLException {
+    default boolean removeWarns(@NonNull String target, @Nullable String reason) throws SQLException {
         return removePunishment("warns", target, reason);
     }
 

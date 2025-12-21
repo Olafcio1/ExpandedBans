@@ -98,6 +98,10 @@ commands:
     description: Removes a warning of the specified ID or an IP address's last warning.
     permission: expandedbans.unwarnip
     aliases: [unwarnip]
+  xwarnclear:
+    description: Unwarns all players and IP addresses.
+    permission: expandedbans.warnclear
+    aliases: [warnclear]
   xnote:
     description: Adds a note to a player.
     permission: expandedbans.note
@@ -216,6 +220,8 @@ permissions:
   expandedbans.unwarn:
     default: op
   expandedbans.unwarnip:
+    default: op
+  expandedbans.warnclear:
     default: op
   expandedbans.note:
     default: op
