@@ -40,11 +40,6 @@ public abstract class XTargetCommand extends XCommand {
             handler.accept((Player) player);
     }
 
-    @Deprecated(forRemoval = true)
-    protected final String getTargetForIP(String ip) {
-        return "I" + ip;
-    }
-
     protected final String getTargetForPlayer(OfflinePlayer player) {
         return "U" + player.getUniqueId();
     }

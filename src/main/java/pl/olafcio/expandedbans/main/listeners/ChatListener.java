@@ -26,7 +26,7 @@ public class ChatListener implements Listener {
                 ));
 
                 mute.close();
-            } else if ((mute = ExpandedBans.Database.getMute("I" + player.getAddress().getHostString())) != null) {
+            } else if ((mute = ExpandedBans.Database.getMute("P" + ExpandedBans.Personas.get(player.getUniqueId()))) != null) {
                 event.setCancelled(true);
                 player.sendMessage(ExpandedBans.Messages.mute(
                         player,

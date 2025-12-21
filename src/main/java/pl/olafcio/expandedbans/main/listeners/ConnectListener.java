@@ -51,8 +51,6 @@ public class ConnectListener implements Listener {
 
             if ((ban = ExpandedBans.Database.getBan("U" + uuid)) != null)
                 banned(event, uuid, ban, ExpandedBans.Messages::ban);
-            else if ((ban = ExpandedBans.Database.getBan("I" + ip)) != null)
-                banned(event, uuid, ban, ExpandedBans.Messages::banIP);
             else if ((ban = ExpandedBans.Database.getBan("P" + persona)) != null)
                 banned(event, uuid, ban, ExpandedBans.Messages::banIP);
         } catch (SQLException e) {

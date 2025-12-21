@@ -15,7 +15,7 @@ public interface DBPunishmentTrait extends DBTrait {
      * @param target A target can be either:
      *               <ul>
      *                 <li>{@code "U" + uuid}, for a player</li>
-     *                 <li>{@code "I" + ip},   for an IP address</li>
+     *                 <li>{@code "P" + persona}, for a persona</li>
      *               </ul>
      * @param reason The punishment reason. May be {@code null} which shows the default message for this punishment.
      * @param expires The time when the punishment expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}
