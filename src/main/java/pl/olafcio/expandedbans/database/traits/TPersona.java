@@ -4,7 +4,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import pl.olafcio.expandedbans.database.DBTrait;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface TPersona extends DBTrait {
@@ -47,12 +46,12 @@ public interface TPersona extends DBTrait {
         }
     }
 
-    default @NonNull ResultSet Persona2IPs(String tag) throws SQLException {
-        try (var statement = connection().prepareStatement(
+    default @NonNull ResultIterator Persona2IPs(String tag) throws SQLException {
+        var statement = connection().prepareStatement(
                 "SELECT ip, last_connected FROM `personas` WHERE tag=? ORDER BY last_connected DESC"
-        )) {
-            statement.setString(1, tag);
-            return statement.executeQuery();
-        }
+        );
+
+        statement.setString(1, tag);
+        return results(statement, statement::executeQuery);
     }
 }

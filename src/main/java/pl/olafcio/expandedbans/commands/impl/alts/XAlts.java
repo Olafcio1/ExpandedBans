@@ -37,7 +37,7 @@ public class XAlts extends XTargetCommand {
         }
 
         var ips = new ArrayList<String>();
-        try (var res = ExpandedBans.Database.Persona2Players(persona)) {
+        try (var res = ExpandedBans.Database.Persona2IPs(persona)) {
             while (res.next()) {
                 var ip = res.getString(1);
                 ips.add(ip);
