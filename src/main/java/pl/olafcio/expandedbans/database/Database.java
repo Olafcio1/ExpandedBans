@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.sql.*;
 import java.util.function.Consumer;
 
-public final class Database implements TBan, TMute, TWarn, TPlayers, TPersona, TLockdown {
+public final class Database implements TBan, TMute, TWarn, TPlayers, TPersona, TLockdown, TFreeze {
     private Connection connection;
     private Statement statement;
 
@@ -75,6 +75,12 @@ public final class Database implements TBan, TMute, TWarn, TPlayers, TPersona, T
                                             "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                                         ")");
         this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `notes` (" +
+                                            "target STRING NOT NULL," +
+                                            "reason STRING," +
+                                            "by STRING NOT NULL," +
+                                            "given TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
+                                        ")");
+        this.statement.executeUpdate("CREATE TABLE IF NOT EXISTS `freezes` (" +
                                             "target STRING NOT NULL," +
                                             "reason STRING," +
                                             "by STRING NOT NULL," +

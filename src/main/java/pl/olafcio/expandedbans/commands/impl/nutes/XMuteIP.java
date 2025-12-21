@@ -40,7 +40,7 @@ public class XMuteIP extends XTargetCommand {
                     null
             );
 
-            ifOnline(player, plr -> ExpandedBans.Messages.muteNotify(
+            ifOnline(player, plr -> ExpandedBans.Messages.muteIPNotify(
                     plr,
                     reason,
                     by

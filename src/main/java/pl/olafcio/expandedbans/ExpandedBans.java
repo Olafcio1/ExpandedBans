@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
 import pl.olafcio.expandedbans.commands.impl.alts.XAlts;
 import pl.olafcio.expandedbans.commands.impl.bans.*;
+import pl.olafcio.expandedbans.commands.impl.freeze.XFreeze;
+import pl.olafcio.expandedbans.commands.impl.freeze.XUnFreeze;
 import pl.olafcio.expandedbans.commands.impl.kicks.XKick;
 import pl.olafcio.expandedbans.commands.impl.lockdown.XLockdown;
 import pl.olafcio.expandedbans.commands.impl.lockdown.XUnLockdown;
@@ -15,13 +17,12 @@ import pl.olafcio.expandedbans.main.dataclasses.Plugin;
 import pl.olafcio.expandedbans.main.listeners.ChatListener;
 import pl.olafcio.expandedbans.main.listeners.ConnectListener;
 import pl.olafcio.expandedbans.main.listeners.DisconnectListener;
+import pl.olafcio.expandedbans.main.listeners.MoveListener;
 import pl.olafcio.expandedbans.messages.Messages;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class ExpandedBans extends JavaPlugin {
     private static ExpandedBans INSTANCE;
@@ -32,7 +33,7 @@ public final class ExpandedBans extends JavaPlugin {
     public static Plugin Plugin;
 
     public static Database Database;
-    public static HashMap<UUID, String> Personas;
+    public static PlayerMap Players;
 
     private static Path db_path;
 
@@ -91,7 +92,7 @@ public final class ExpandedBans extends JavaPlugin {
         var section = Objects.requireNonNull(config.getConfigurationSection("commands"));
 
         Database = new Database(db_path);
-        Personas = new HashMap<>();
+        Players = new PlayerMap();
 
         Plugin.Commands = section.getKeys(false).stream().map(this::getCommand).toList();
 
@@ -107,6 +108,8 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xunmuteip").setExecutor(new XUnmuteIP());
         getCommand("xmuteclear").setExecutor(new XMuteClear());
         getCommand("xkick").setExecutor(new XKick());
+        getCommand("xfreeze").setExecutor(new XFreeze());
+        getCommand("xunfreeze").setExecutor(new XUnFreeze());
         getCommand("xlockdown").setExecutor(new XLockdown());
         getCommand("xunlockdown").setExecutor(new XUnLockdown());
         getCommand("xalts").setExecutor(new XAlts());
@@ -114,6 +117,7 @@ public final class ExpandedBans extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new MoveListener(), this);
     }
 
     @Override

@@ -77,9 +77,9 @@
         <dependency>
             <groupId>pl.olafcio</groupId>
             <artifactId>protocolextension</artifactId>
-            <version>5</version>
+            <version>6</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/protocolextension-5-api.jar</systemPath>
+            <systemPath>${project.basedir}/libs/protocolextension-6-api.jar</systemPath>
             <optional>true</optional>
         </dependency>
         <dependency>

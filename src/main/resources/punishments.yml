@@ -49,6 +49,29 @@ mute:
     &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
     &6&m                                                  &r
 
+mute-ip:
+  default-reason: "&oNo reason provided."
+  on-message: |-
+    &6&m                                                  &r
+    &6You're IP-muted and are unable to speak.
+    &6&m                                                  &r
+    &6Muted by&#cc8800 ›&7 %admin%
+    &6Reason&#cc8800 ›&7 %reason%
+    &6Expires&#cc8800 ›&7 never
+    &6&m                                                  &r
+    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6&m                                                  &r
+  notify: |-
+    &6&m                                                  &r
+    &6You have been IP-muted.
+    &6&m                                                  &r
+    &6Muted by&#cc8800 ›&7 %admin%
+    &6Reason&#cc8800 ›&7 %reason%
+    &6Expires&#cc8800 ›&7 never
+    &6&m                                                  &r
+    &6Appeal at&#cc8800 ›&7 &nhttps://discord.gg/yourserver
+    &6&m                                                  &r
+
 kick:
   default-reason: "&oNo reason provided."
   message: |-

@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import pl.olafcio.expandedbans.ExpandedBans;
+import pl.olafcio.expandedbans.PlayerMap;
 import pl.olafcio.expandedbans.XBDatabaseException;
 import pl.olafcio.expandedbans.messages.MessageProducer;
 
@@ -25,7 +26,7 @@ public class ConnectListener implements Listener {
             ExpandedBans.Database.registerPersonaIP(ip, persona);
             ExpandedBans.Database.registerPlayerPersona(uuid, persona);
 
-            ExpandedBans.Personas.put(uuid, persona);
+            ExpandedBans.Players.put(new PlayerMap.Player(persona, uuid));
         } catch (SQLException e) {
             throw new XBDatabaseException("Failed to register player's IP address on connect", e);
         }

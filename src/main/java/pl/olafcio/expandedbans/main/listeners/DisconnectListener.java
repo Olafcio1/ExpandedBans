@@ -8,6 +8,6 @@ import pl.olafcio.expandedbans.ExpandedBans;
 public class DisconnectListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        ExpandedBans.Personas.remove(event.getPlayer().getUniqueId());
+        ExpandedBans.Players.remove(event.getPlayer().getUniqueId());
     }
 }
