@@ -1,5 +1,6 @@
 package pl.olafcio.expandedbans.commands.impl.alts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,12 +13,13 @@ import pl.olafcio.expandedbans.commands.args.impl.AnyPlayerArg;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class XAlts extends XTargetCommand {
     public XAlts() {
         super.name("xalts")
-             .perm("expandedbans.alts")
-             .then("player", new AnyPlayerArg(Argument.Type.REQUIRED));
+                .perm("expandedbans.alts")
+                .then("player", new AnyPlayerArg(Argument.Type.REQUIRED));
     }
 
     @Override
@@ -31,8 +33,10 @@ public class XAlts extends XTargetCommand {
         var nicks = new ArrayList<String>();
         try (var res = ExpandedBans.Database.Persona2Players(persona)) {
             while (res.next()) {
-                var nick = res.getString(1);
-                nicks.add(nick);
+                var uuid = UUID.fromString(res.getString(1));
+                var plr = Bukkit.getOfflinePlayer(uuid);
+
+                nicks.add(plr.getName());
             }
         }
 
