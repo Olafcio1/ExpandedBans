@@ -115,10 +115,9 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (matches(command)) {
             if (permission != null && !sender.hasPermission(permission)) {
-                ExpandedBans.Messages.$send(
-                        sender,
-                        "§cError:§4 Insufficient permissions."
-                );
+                $send(sender,
+                      $translateMeta("errors.no-permission"));
+
                 return true;
             }
 
@@ -141,13 +140,13 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                         parsed.add(null);
                     else parsed.add(arg.parse(input));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    ExpandedBans.Messages.$send(sender,
-                                       "§7Usage: §o/%s%s".formatted(name, usage));
+                    $send(sender,
+                          $translateMeta("usage").formatted(name, usage));
 
                     return true;
                 } catch (PatternError e) {
-                    ExpandedBans.Messages.$send(sender,
-                                       "§cParameter Error: §4" + e.getMessage());
+                    $send(sender,
+                          $translateMeta("errors.pattern-error").formatted(e.getMessage()));
 
                     return true;
                 }
@@ -158,12 +157,12 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
             try {
                 execute(sender, command, label, parsed);
             } catch (CommandMessageException e) {
-                ExpandedBans.Messages.$send(sender,
-                        "§cError:§4 " + e.getMessage());
+                $send(sender,
+                      $translateMeta("custom-error").formatted(e.getMessage()));
             } catch (SQLException e) {
                 e.printStackTrace();
-                ExpandedBans.Messages.$send(sender,
-                        "§cError:§4 Database error.");
+                $send(sender,
+                      $translateMeta("errors.database-error"));
             }
 
             return true;
@@ -188,7 +187,7 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                     erroredTC = true;
 
                     e.printStackTrace();
-                    ExpandedBans.Plugin.Logger.info("Failed to suggest '%s' completions".formatted(name));
+                    ExpandedBans.Plugin.Logger.warning("Failed to suggest '%s' completions".formatted(name));
                 }
 
                 return List.of();
@@ -217,17 +216,21 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         return ExpandedBans.Messages.$translate("commands." + name + "." + key);
     }
 
-    @SuppressWarnings("all")
+    private String $translateMeta(String key) {
+        return ExpandedBans.Messages.$translate("command-meta." + key);
+    }
+
+    @SuppressWarnings("FinalStaticMethod")
     protected static final String $format(String data) {
         return ExpandedBans.Messages.$format(data);
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("FinalStaticMethod")
     protected static final String $format(OfflinePlayer player, String data) {
         return ExpandedBans.Messages.$format(player, data);
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("FinalStaticMethod")
     protected static final void $send(CommandSender sender, String data) {
         ExpandedBans.Messages.$send(sender, data);
     }
