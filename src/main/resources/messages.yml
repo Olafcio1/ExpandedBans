@@ -9,10 +9,10 @@ commands:
   # ban/
   xban:
     created: "&7Banned &6%s&7 for &e%s&7."
-    updated: "&7Updated the ban for &6%s%7 to &e%s&7."
+    updated: "&7Updated the ban for &6%s&7 to &e%s&7."
   xbanip:
     created: "&7IP-banned &6%s&7 for &e%s&7."
-    updated: "&7Updated the IP-ban for &6%s%7 to &e%s%7."
+    updated: "&7Updated the IP-ban for &6%s&7 to &e%s&7."
   xunban:
     not-banned: "&6%s&4 is not banned."
     success:
@@ -64,11 +64,11 @@ commands:
       with-reason: "&7Removed the current lockdown with the reason &e%s&7."
   # mute/
   xmute:
-    created: "&7Muted &6%s&7 for &e%s%7."
-    updated: "&7Updated the mute for &6%s%7 for &e%s%7."
+    created: "&7Muted &6%s&7 for &e%s&7."
+    updated: "&7Updated the mute for &6%s&7 for &e%s&7."
   xmuteip:
-    created: "&7IP-muted &6%s%7 for &e%s%7."
-    updated: "&7Updated the IP-mute for &6%s%7 for &e%s%7."
+    created: "&7IP-muted &6%s&7 for &e%s&7."
+    updated: "&7Updated the IP-mute for &6%s&7 for &e%s&7."
   xunmute:
     not-muted: "&6%s&4 is not muted."
     success:
