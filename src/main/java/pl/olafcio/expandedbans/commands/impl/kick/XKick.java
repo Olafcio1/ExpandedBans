@@ -3,7 +3,6 @@ package pl.olafcio.expandedbans.commands.impl.kick;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.CommandMessageException;
 import pl.olafcio.expandedbans.commands.XTargetCommand;
 import pl.olafcio.expandedbans.commands.args.Argument;
@@ -22,21 +21,21 @@ public class XKick extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var player = (Player) args.get(0);
         var reason = (String) args.get(1);
 
         if (player == null)
-            throw new CommandMessageException("Player not found.");
+            throw new CommandMessageException($translate("unknown-player"));
 
-        player.kickPlayer(ExpandedBans.Messages.kick(player, reason, sender.getName()));
+        player.kickPlayer($Messages.kick(player, reason, sender.getName()));
 
         if (reason == null) {
-            ExpandedBans.Messages.send(sender,
-                    "§7Kicked §6%s§7.".formatted(player.getName()));
+            $send(sender,
+                  $translate("success.without-reason").formatted(player.getName()));
         } else {
-            ExpandedBans.Messages.send(sender,
-                    "§7Kicked §6%s§7 for §e%s§7.".formatted(player.getName(), reason));
+            $send(sender,
+                  $translate("success.with-reason").formatted(player.getName(), reason));
         }
     }
 }

@@ -22,25 +22,25 @@ public class XUnFreeze extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var player = (Player) args.get(0);
         var reason = (String) args.get(1);
 
         if (player == null)
-            throw new CommandMessageException("Player not found.");
+            throw new CommandMessageException($translate("unknown-player"));
 
         var uuid = player.getUniqueId();
 
         ExpandedBans.Players.get(uuid).setFrozen(false);
         if (ExpandedBans.Database.unfreeze("U" + uuid) == 0)
-            throw new CommandMessageException("The player isn't frozen.");
+            throw new CommandMessageException($translate("player-not-frozen"));
 
         if (reason == null) {
-            ExpandedBans.Messages.send(sender,
-                    "§7Unfroze §6%s§7.".formatted(player.getName()));
+            $send(sender,
+                  $translate("success.without-reason").formatted(player.getName()));
         } else {
-            ExpandedBans.Messages.send(sender,
-                    "§7Unfroze §6%s§7 for §e%s§7.".formatted(player.getName(), reason));
+            $send(sender,
+                  $translate("success.with-reason").formatted(player.getName(), reason));
         }
     }
 }

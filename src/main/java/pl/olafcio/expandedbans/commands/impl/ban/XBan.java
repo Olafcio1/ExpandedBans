@@ -22,19 +22,17 @@ public class XBan extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
         var target = getTargetForPlayer(player);
         var by = sender.getName();
 
-        String action;
-        String reasonPtr;
+        String format;
 
         if (!ExpandedBans.Database.isBanned(target)) {
-            action = "Banned";
-            reasonPtr = "for";
+            format = $translate("created");
 
             ExpandedBans.Database.ban(
                     target,
@@ -43,14 +41,13 @@ public class XBan extends XTargetCommand {
                     null
             );
 
-            ifOnline(player, plr -> plr.kickPlayer(ExpandedBans.Messages.ban(
+            ifOnline(player, plr -> plr.kickPlayer($Messages.ban(
                     player,
                     reason,
                     by
             )));
         } else {
-            action = "Updated the ban for";
-            reasonPtr = "to";
+            format = $translate("updated");
 
             ExpandedBans.Database.updateBan(
                     target,
@@ -60,9 +57,9 @@ public class XBan extends XTargetCommand {
             );
         }
 
-        ExpandedBans.Messages.send(sender, "§7%s §6%s§7 %s §e%s§7.".formatted(
-                action, player.getName(),
-                reasonPtr, Objects.requireNonNullElse(reason, ExpandedBans.Configurations.Punishments.getString("ban.default-reason"))
+        $send(sender, format.formatted(
+                player.getName(),
+                Objects.requireNonNullElse(reason, $Punishments.getString("ban.default-reason"))
         ));
     }
 }

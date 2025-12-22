@@ -24,15 +24,15 @@ public class XLockChat extends XCommand {
         var reason = (String) args.getFirst();
 
         ExpandedBans.ChatLock = new ChatLock(reason, sender.getName());
-        Bukkit.getServer().broadcastMessage(ExpandedBans.Messages.lockchatNotify(
+        Bukkit.getServer().broadcastMessage($Messages.lockchatNotify(
                 ExpandedBans.ChatLock.reason(),
                 ExpandedBans.ChatLock.by()
         ));
 
         if (reason == null)
-            ExpandedBans.Messages.send(sender,
-                    "§7Locked the chat.");
-        else ExpandedBans.Messages.send(sender,
-                "§7Locked the chat with the reason §e%s§7.".formatted(reason));
+            $send(sender,
+                  $translate("without-reason"));
+        else $send(sender,
+                   $translate("with-reason").formatted(reason));
     }
 }

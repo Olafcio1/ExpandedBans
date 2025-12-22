@@ -18,9 +18,8 @@ public class XBanClear extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
         ExpandedBans.Database.clearBans((String) args.getFirst());
-        ExpandedBans.Messages.send(sender,
-                           "§7All bans have been removed.");
+        $send(sender, $translate("success"));
     }
 }

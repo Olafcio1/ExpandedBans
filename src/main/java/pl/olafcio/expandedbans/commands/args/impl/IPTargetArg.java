@@ -68,11 +68,7 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
                     : Bukkit.getOfflinePlayer(uuid);
         } else {
             player = Bukkit.getOfflinePlayer(arg);
-
-            try { persona = ExpandedBans.Database.Player2Persona(player.getUniqueId()); }
-            catch (SQLException e) {
-                throw new PatternError("Database error.");
-            }
+            persona = ExpandedBans.Database.Player2Persona(player.getUniqueId());
 
             if (persona == null)
                 throw new PatternError("Player never joined; cannot find the IP.");

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.protocolextension.server.ProtocolExtension;
 import pl.olafcio.protocolextension.server.VariableAPI;
@@ -53,6 +54,7 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
             updateFrozen();
         }
 
+        @ApiStatus.Internal
         public void updateFrozen() {
             this.getPlayer();
             if (this.player != null) {

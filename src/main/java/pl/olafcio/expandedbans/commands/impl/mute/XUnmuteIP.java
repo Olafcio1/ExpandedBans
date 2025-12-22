@@ -21,26 +21,26 @@ public class XUnmuteIP extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
-        var target = (IPTargetArg.IPTarget) args.get(0);
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
+        var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
-        var ipt = target.getTarget();
-        var player = target.player();
+        var target = ipInfo.getTarget();
+        var player = ipInfo.player();
 
-        if (!ExpandedBans.Database.removeMute(ipt, reason)) {
-            ExpandedBans.Messages.send(sender,
-                    "§cError:§6 %s§4 is not IP-muted.".formatted(target.getName()));
+        if (!ExpandedBans.Database.removeMute(target, reason)) {
+            $send(sender,
+                  $translate("not-ipmuted").formatted(ipInfo.getName()));
 
             return;
         }
 
         if (reason == null) {
-            ExpandedBans.Messages.send(sender,
-                               "§7Removed the IP-mute for §6%s§7.".formatted(target.getName()));
+            $send(sender,
+                  $translate("success.without-reason").formatted(ipInfo.getName()));
         } else {
-            ExpandedBans.Messages.send(sender,
-                               "§7Removed the IP-mute for §6%s§7 with the reason §o%s.".formatted(target.getName(), reason));
+            $send(sender,
+                  $translate("success.with-reason").formatted(ipInfo.getName(), reason));
         }
     }
 }

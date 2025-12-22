@@ -22,7 +22,7 @@ public class XWarnIP extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
@@ -38,15 +38,15 @@ public class XWarnIP extends XTargetCommand {
 
         var player = ipInfo.player();
         if (player != null)
-            ifOnline(player, plr -> plr.sendMessage(ExpandedBans.Messages.warnIP(
+            ifOnline(player, plr -> plr.sendMessage($Messages.warnIP(
                     player,
                     reason,
                     by
             )));
 
-        ExpandedBans.Messages.send(sender, "§7IP-warned §6%s§7 for §e%s§7.".formatted(
+        $send(sender, $translate("success").formatted(
                 ipInfo.getName(),
-                Objects.requireNonNullElse(reason, ExpandedBans.Configurations.Punishments.getString("ban-ip.default-reason"))
+                Objects.requireNonNullElse(reason, $Punishments.getString("ban-ip.default-reason"))
         ));
     }
 }

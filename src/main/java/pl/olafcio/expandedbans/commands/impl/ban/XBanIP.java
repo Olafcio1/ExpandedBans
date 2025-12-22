@@ -22,19 +22,17 @@ public class XBanIP extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
         var target = ipInfo.getTarget();
         var by = sender.getName();
 
-        String action;
-        String reasonPtr;
+        String format;
 
         if (!ExpandedBans.Database.isBanned(target)) {
-            action = "IP-banned";
-            reasonPtr = "for";
+            format = $translate("created");
 
             ExpandedBans.Database.ban(
                     target,
@@ -45,14 +43,13 @@ public class XBanIP extends XTargetCommand {
 
             var player = ipInfo.player();
             if (player != null)
-                ifOnline(player, plr -> plr.kickPlayer(ExpandedBans.Messages.banIP(
+                ifOnline(player, plr -> plr.kickPlayer($Messages.banIP(
                         player,
                         reason,
                         by
                 )));
         } else {
-            action = "Updated the IP-ban for";
-            reasonPtr = "to";
+            format = $translate("updated");
 
             ExpandedBans.Database.updateBan(
                     target,
@@ -62,9 +59,9 @@ public class XBanIP extends XTargetCommand {
             );
         }
 
-        ExpandedBans.Messages.send(sender, "§7%s §6%s§7 %s §e%s§7.".formatted(
-                action, ipInfo.getName(),
-                reasonPtr, Objects.requireNonNullElse(reason, ExpandedBans.Configurations.Punishments.getString("ban-ip.default-reason"))
+        $send(sender, format.formatted(
+                ipInfo.getName(),
+                Objects.requireNonNullElse(reason, $Punishments.getString("ban-ip.default-reason"))
         ));
     }
 }

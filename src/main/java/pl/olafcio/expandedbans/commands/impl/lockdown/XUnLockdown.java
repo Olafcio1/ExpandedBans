@@ -19,23 +19,15 @@ public class XUnLockdown extends XCommand {
     }
 
     @Override
-    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var reason = (String) args.getFirst();
+        if (!ExpandedBans.Database.unLockdown())
+            throw new CommandMessageException($translate("no-lockdown"));
 
-        try {
-            if (ExpandedBans.Database.unLockdown()) {
-                if (reason == null)
-                    ExpandedBans.Messages.send(sender,
-                            "§7Removed the current lockdown.");
-                else ExpandedBans.Messages.send(sender,
-                            "§7Removed the current lockdown with the reason §e%s§7.".formatted(reason));
-            } else {
-                throw new CommandMessageException("There is currently no lockdown active.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            ExpandedBans.Messages.send(sender,
-                    "§cError:§4 Database error.");
-        }
+        if (reason == null)
+            $send(sender,
+                  $translate("success.without-reason"));
+        else $send(sender,
+                   $translate("success.with-reason").formatted(reason));
     }
 }

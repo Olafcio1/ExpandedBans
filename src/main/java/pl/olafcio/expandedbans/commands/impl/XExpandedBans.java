@@ -40,11 +40,11 @@ public class XExpandedBans extends XCommand {
                 .map(Command::getName)
         .toList();
 
-        ExpandedBans.Messages.send(sender,
-                             "§7Made by §2Olafcio§7 with §4🖤");
+        $send(sender,
+              "§7Made by §2Olafcio§7 with §4🖤");
 
         if (!cmds.isEmpty())
-            ExpandedBans.Messages.send(sender,
+            $send(sender,
                     "§7Available commands: §7[§8" +
                     String.join(", ", cmds) +
                     "§7]"
@@ -56,21 +56,19 @@ public class XExpandedBans extends XCommand {
         ExpandedBans.getInstance().reloadConfigurations();
         var diff = System.currentTimeMillis() - start;
 
-        ExpandedBans.Messages.send(
-                sender,
-                "§7Reloaded in §2" + diff + "ms§7."
-        );
+        $send(sender,
+              "§7Reloaded in §2" + diff + "ms§7.");
     }
 
     private static void help(CommandSender sender) {
-        ExpandedBans.Messages.send(sender,
-                           "§7Available commands:");
+        $send(sender,
+              "§7Available commands:");
 
         for (var cmd : ExpandedBans.Plugin.Commands) {
             var perm = cmd.getPermission();
             if (perm != null && sender.hasPermission(perm)) {
-                ExpandedBans.Messages.send(sender,
-                                   "§7› §3" + cmd.getName());
+                $send(sender,
+                      "§7› §3" + cmd.getName());
             }
         }
     }

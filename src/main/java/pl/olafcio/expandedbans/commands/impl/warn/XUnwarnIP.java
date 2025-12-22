@@ -21,7 +21,7 @@ public class XUnwarnIP extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
@@ -30,15 +30,14 @@ public class XUnwarnIP extends XTargetCommand {
         var by = sender.getName();
 
         if (!ExpandedBans.Database.removeWarns(target, reason))
-            throw new CommandMessageException("§6%s§4 doesn't have any warns.".formatted(
+            throw new CommandMessageException($translate("not-warned").formatted(
                     nick
             ));
 
         if (reason == null)
-            ExpandedBans.Messages.send(sender, "§c%s§7 has been unwarned by §6%s§7.".formatted(
-                    nick, by
-            ));
-        else ExpandedBans.Messages.send(sender, "§c%s§7 has been unwarned by §6%s§7, with the reason: §e%s§7.".formatted(
+            $send(sender, $translate("success.without-reason").formatted(
+                  nick, by));
+        else $send(sender, $translate("success.with-reason").formatted(
                 nick, by,
                 reason
         ));

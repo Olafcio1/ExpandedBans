@@ -9,10 +9,10 @@ import pl.olafcio.expandedbans.messages.MSGTrait;
 public interface TMute extends MSGTrait {
     default String muteNotify(@NonNull OfflinePlayer player, @Nullable String reason, @NonNull String by) {
         if (reason == null)
-            reason = ExpandedBans.Configurations.Punishments.getString("mute.default-reason");
+            reason = ExpandedBans.Configurations.Notifications.getString("mute.default-reason");
 
-        return format(player,
-                ExpandedBans.Configurations.Punishments.getString("mute.notify")
+        return $format(player,
+                ExpandedBans.Configurations.Notifications.getString("mute.notify")
                         .replace("%player%", player.getName())
                         .replace("%admin%", by)
                         .replace("%reason%", reason)
@@ -21,10 +21,10 @@ public interface TMute extends MSGTrait {
 
     default String mute(@NonNull OfflinePlayer player, @Nullable String reason, @NonNull String by) {
         if (reason == null)
-            reason = ExpandedBans.Configurations.Punishments.getString("mute.default-reason");
+            reason = ExpandedBans.Configurations.Notifications.getString("mute.default-reason");
 
-        return format(player,
-                ExpandedBans.Configurations.Punishments.getString("mute.on-message")
+        return $format(player,
+                ExpandedBans.Configurations.Notifications.getString("mute.on-message")
                         .replace("%player%", player.getName())
                         .replace("%admin%", by)
                         .replace("%reason%", reason)

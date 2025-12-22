@@ -15,14 +15,14 @@ public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TMuteIP, T
     }
 
     @Override
-    public String format(OfflinePlayer player, String data) {
+    public String $format(OfflinePlayer player, String data) {
         if (isPAPIloaded)
             data = PlaceholderAPI.setPlaceholders(player, data);
 
-        return format(data);
+        return $format(data);
     }
 
-    public String format(String data) {
+    public String $format(String data) {
         // TODO: More message processors? MiniMessage would be cool to support, but that'd require integration with the
         //       weird-ahh Adventure API - or, doing weird shit with:
         //       > spigot().sendMessage(md_5::BaseComponent)
@@ -31,10 +31,14 @@ public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TMuteIP, T
         return MatrixColorAPI.process(data);
     }
 
-    public void send(CommandSender player, String data) {
+    public void $send(CommandSender player, String data) {
         data = ExpandedBans.Configurations.Messages.getString("prefix") +
                data;
 
-        player.sendMessage(format(data));
+        player.sendMessage($format(data));
+    }
+
+    public String $translate(String key) {
+        return ExpandedBans.Configurations.Messages.getString(key);
     }
 }

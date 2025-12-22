@@ -22,7 +22,7 @@ public class XWarn extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
@@ -36,15 +36,15 @@ public class XWarn extends XTargetCommand {
                 null
         );
 
-        ifOnline(player, plr -> plr.sendMessage(ExpandedBans.Messages.warn(
+        ifOnline(player, plr -> plr.sendMessage($Messages.warn(
                 player,
                 reason,
                 by
         )));
 
-        ExpandedBans.Messages.send(sender, "§7Warned §6%s§7 for §e%s§7.".formatted(
+        $send(sender, $translate("success").formatted(
                 player.getName(),
-                Objects.requireNonNullElse(reason, ExpandedBans.Configurations.Punishments.getString("ban.default-reason"))
+                Objects.requireNonNullElse(reason, $Punishments.getString("ban.default-reason"))
         ));
     }
 }

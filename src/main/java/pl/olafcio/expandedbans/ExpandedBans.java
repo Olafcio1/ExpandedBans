@@ -51,7 +51,8 @@ public final class ExpandedBans extends JavaPlugin {
 
     public void reloadConfigurations() {
         Configurations.Messages = config("messages.yml");
-        Configurations.Punishments = config("punishments.yml");
+        Configurations.Notifications = config("notifications.yml");
+        Configurations.Settings = config("settings.yml");
     }
 
     @Override
@@ -99,30 +100,39 @@ public final class ExpandedBans extends JavaPlugin {
         Plugin.Commands = section.getKeys(false).stream().map(this::getCommand).toList();
 
         getCommand("expandedbans").setExecutor(new XExpandedBans());
+
         getCommand("xban").setExecutor(new XBan());
         getCommand("xbanip").setExecutor(new XBanIP());
+        getCommand("xbanclear").setExecutor(new XBanClear());
         getCommand("xunban").setExecutor(new XUnban());
         getCommand("xunbanip").setExecutor(new XUnbanIP());
-        getCommand("xbanclear").setExecutor(new XBanClear());
+
         getCommand("xmute").setExecutor(new XMute());
         getCommand("xmuteip").setExecutor(new XMuteIP());
+        getCommand("xmuteclear").setExecutor(new XMuteClear());
         getCommand("xunmute").setExecutor(new XUnmute());
         getCommand("xunmuteip").setExecutor(new XUnmuteIP());
-        getCommand("xmuteclear").setExecutor(new XMuteClear());
+
         getCommand("xwarn").setExecutor(new XWarn());
         getCommand("xwarnip").setExecutor(new XWarnIP());
         getCommand("xwarnclear").setExecutor(new XWarnClear());
         getCommand("xunwarn").setExecutor(new XUnwarn());
         getCommand("xunwarnip").setExecutor(new XUnwarnIP());
+
         getCommand("xkick").setExecutor(new XKick());
+
         getCommand("xfreeze").setExecutor(new XFreeze());
         getCommand("xunfreeze").setExecutor(new XUnFreeze());
+
         getCommand("xlockchat").setExecutor(new XLockChat());
         getCommand("xunlockchat").setExecutor(new XUnLockChat());
+
         getCommand("xlockdown").setExecutor(new XLockdown());
         getCommand("xunlockdown").setExecutor(new XUnLockdown());
+
         getCommand("xalts").setExecutor(new XAlts());
 
+        getServer().getPluginManager().registerEvents(new MuteListener(), this);
         getServer().getPluginManager().registerEvents(new FreezeListener(), this);
         getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);

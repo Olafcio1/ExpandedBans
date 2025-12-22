@@ -22,17 +22,17 @@ public class XMute extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
         var target = getTargetForPlayer(player);
         var by = sender.getName();
 
-        String action;
+        String format;
 
         if (!ExpandedBans.Database.isMuted(target)) {
-            action = "Muted";
+            format = $translate("created");
             ExpandedBans.Database.mute(
                     target,
                     by,
@@ -41,13 +41,13 @@ public class XMute extends XTargetCommand {
             );
 
             if (player.isOnline())
-                ((Player) player).sendMessage(ExpandedBans.Messages.muteNotify(
+                ((Player) player).sendMessage($Messages.muteNotify(
                         player,
                         reason,
                         by
                 ));
         } else {
-            action = "Updated the mute for";
+            format = $translate("updated");
             ExpandedBans.Database.updateMute(
                     target,
                     by,
@@ -56,7 +56,7 @@ public class XMute extends XTargetCommand {
             );
         }
 
-        ExpandedBans.Messages.send(sender,
-                "§7%s §6%s§7.".formatted(action, player.getName()));
+        $send(sender,
+              format.formatted(player.getName(), reason));
     }
 }

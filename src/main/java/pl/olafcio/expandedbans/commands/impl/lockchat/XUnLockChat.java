@@ -26,9 +26,9 @@ public class XUnLockChat extends XCommand {
         ExpandedBans.ChatLock = null;
 
         if (reason == null)
-            ExpandedBans.Messages.send(sender,
-                    "§7Unlocked the chat.");
-        else ExpandedBans.Messages.send(sender,
-                "§7Unlocked the chat with the reason §e%s§7.".formatted(reason));
+            $send(sender,
+                  $translate("without-reason"));
+        else $send(sender,
+                   $translate("with-reason").formatted(reason));
     }
 }

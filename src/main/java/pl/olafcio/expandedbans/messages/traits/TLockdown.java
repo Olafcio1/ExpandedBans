@@ -9,10 +9,10 @@ import pl.olafcio.expandedbans.messages.MSGTrait;
 public interface TLockdown extends MSGTrait {
     default String lockdown(@NonNull OfflinePlayer player, @Nullable String reason, @NonNull String by) {
         if (reason == null)
-            reason = ExpandedBans.Configurations.Punishments.getString("lockdown.default-reason");
+            reason = ExpandedBans.Configurations.Notifications.getString("lockdown.default-reason");
 
-        return format(player,
-                ExpandedBans.Configurations.Punishments.getString("lockdown.message")
+        return $format(player,
+                ExpandedBans.Configurations.Notifications.getString("lockdown.message")
                     .replace("%player%", player.getName())
                     .replace("%admin%", by)
                     .replace("%reason%", reason)

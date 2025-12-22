@@ -22,12 +22,12 @@ public class XFreeze extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var player = (Player) args.get(0);
         var reason = (String) args.get(1);
 
         if (player == null)
-            throw new CommandMessageException("Player not found.");
+            throw new CommandMessageException($translate("unknown-player"));
 
         var uuid = player.getUniqueId();
 
@@ -35,11 +35,11 @@ public class XFreeze extends XTargetCommand {
         ExpandedBans.Database.freeze("U" + uuid, reason, sender.getName());
 
         if (reason == null) {
-            ExpandedBans.Messages.send(sender,
-                    "§7Froze §6%s§7.".formatted(player.getName()));
+            $send(sender,
+                  $translate("success.without-reason").formatted(player.getName()));
         } else {
-            ExpandedBans.Messages.send(sender,
-                    "§7Froze §6%s§7 for §e%s§7.".formatted(player.getName(), reason));
+            $send(sender,
+                  $translate("success.with-reason").formatted(player.getName(), reason));
         }
     }
 }

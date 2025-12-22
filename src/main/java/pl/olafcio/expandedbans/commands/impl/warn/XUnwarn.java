@@ -28,20 +28,20 @@ public class XUnwarn extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException, CommandMessageException {
         var player = (OfflinePlayer) args.get(0);
         var reason = (String) args.get(1);
 
         var target = getTargetForPlayer(player);
         if (!ExpandedBans.Database.removeWarns(target, reason))
-            throw new CommandMessageException("§6%s§4 is not warned.".formatted(player.getName()));
+            throw new CommandMessageException($translate("not-warned").formatted(player.getName()));
 
         if (reason == null) {
-            ExpandedBans.Messages.send(sender,
-                    "§7Unwarned §6%s§7.".formatted(player.getName()));
+            $send(sender,
+                  $translate("success.without-reason").formatted(player.getName()));
         } else {
-            ExpandedBans.Messages.send(sender,
-                    "§7Unwarned §6%s§7 with the reason §o%s.".formatted(player.getName(), reason));
+            $send(sender,
+                  $translate("success.with-reason").formatted(player.getName(), reason));
         }
     }
 

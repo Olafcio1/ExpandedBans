@@ -2,6 +2,7 @@ package pl.olafcio.expandedbans.database;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.XBDatabaseException;
 
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ public interface DBPunishmentTrait extends DBTrait {
      * @param reason The punishment reason. May be {@code null} which shows the default message for this punishment.
      * @param expires The time when the punishment expires. Can be calculated by adding {@code System.currentTimeMillis() + durationInMs}
      */
+    @ApiStatus.Internal
     default void punish(
             String table,
             @NonNull String target,
@@ -42,6 +44,7 @@ public interface DBPunishmentTrait extends DBTrait {
         stmt.executeUpdate();
     }
 
+    @ApiStatus.Internal
     default Stream<ResultSet> punishments(String table) throws SQLException {
         statement().execute(
                 "SELECT * FROM `%s`".formatted(table)
@@ -64,6 +67,7 @@ public interface DBPunishmentTrait extends DBTrait {
         }, set -> set);
     }
 
+    @ApiStatus.Internal
     default void updatePunishment(
             String table,
             @NonNull String target,
@@ -89,6 +93,7 @@ public interface DBPunishmentTrait extends DBTrait {
         }
     }
 
+    @ApiStatus.Internal
     default boolean removePunishment(
             String table,
             @NonNull String target,
@@ -102,6 +107,7 @@ public interface DBPunishmentTrait extends DBTrait {
         }
     }
 
+    @ApiStatus.Internal
     default int clearPunishments(
             String table,
             @Nullable String reason
@@ -111,6 +117,7 @@ public interface DBPunishmentTrait extends DBTrait {
         );
     }
 
+    @ApiStatus.Internal
     default @Nullable ResultSet punishments(
             String table,
             @NonNull String target
@@ -128,6 +135,7 @@ public interface DBPunishmentTrait extends DBTrait {
         } else return null;
     }
 
+    @ApiStatus.Internal
     default boolean isPunished(
             String table,
             @NonNull String target

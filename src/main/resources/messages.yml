@@ -1,1 +1,100 @@
 prefix: "&#9591d6[&#d76ffcExpandedBans&#9591d6] "
+commands:
+  # alts/
+  xalts:
+    unknown-player: "Player never played before; unable to resolve alts"
+    results:
+      usernames: "&7Usernames: "
+      ip-addresses: "&7IP addresses: "
+  # ban/
+  xban:
+    created: "&7Banned &6%s&7 for &e%s&7."
+    updated: "&7Updated the ban for &6%s%7 to &e%s&7."
+  xbanip:
+    created: "&7IP-banned &6%s&7 for &e%s&7."
+    updated: "&7Updated the IP-ban for &6%s%7 to &e%s%7."
+  xunban:
+    not-banned: "&6%s&4 is not banned."
+    success:
+      without-reason: "&7Unbanned &6%s&7."
+      with-reason: "&7Unbanned &6%s&7 with the reason &o%s."
+    broadcast:
+      without-reason: "&c%s&7 has been unbanned by &6%s&7."
+      with-reason: "&c%s&7 has been unbanned by &6%s&7, with the reason: &e%s&7."
+  xunbanip:
+    not-banned: "&6%s&4 is not banned."
+    success:
+      without-reason: "&7Unbanned &6%s&7."
+      with-reason: "&7Unbanned &6%s&7 with the reason &o%s."
+  xbanclear:
+    success: "&7All bans have been removed."
+  # freeze/
+  xfreeze:
+    unknown-player: "Player not found."
+    success:
+      without-reason: "&7Froze &6%s&7."
+      with-reason: "&7Froze &6%s&7 for &e%s&7."
+  xunfreeze:
+    unknown-player: "Player not found."
+    player-not-frozen: "The player isn't frozen."
+    success:
+      without-reason: "&7Unfroze &6%s&7."
+      with-reason: "&7Unfroze &6%s&7 for &e%s&7."
+  # kick/
+  xkick:
+    unknown-player: "Player not found."
+    success:
+      without-reason: "&7Kicked &6%s&7."
+      with-reason: "&7Kicked &6%s&7 for &e%s&7."
+  # lockchat/
+  xlockchat:
+    without-reason: "&7Locked the chat."
+    with-reason: "&7Locked the chat with the reason &e%s&7."
+  xunlockchat:
+    without-reason: "&7Unlocked the chat."
+    with-reason: "&7Unlocked the chat with the reason &e%s&7."
+  # lockdown/
+  xlockdown:
+    without-reason: "&7Applied a lockdown with the default reason."
+    with-reason: "&7Applied a lockdown with the reason &e%s&7."
+  xunlockdown:
+    no-lockdown: "There is currently no lockdown active."
+    success:
+      without-reason: "&7Removed the current lockdown."
+      with-reason: "&7Removed the current lockdown with the reason &e%s&7."
+  # mute/
+  xmute:
+    created: "&7Muted &6%s&7 for &e%s%7."
+    updated: "&7Updated the mute for &6%s%7 for &e%s%7."
+  xmuteip:
+    created: "&7IP-muted &6%s%7 for &e%s%7."
+    updated: "&7Updated the IP-mute for &6%s%7 for &e%s%7."
+  xunmute:
+    not-muted: "&6%s&4 is not muted."
+    success:
+      without-reason: "&7Unmuted &6%s&7."
+      with-reason: "&7Unmuted &6%s&7 with the reason &o%s."
+  xunmuteip:
+    not-ipmuted: "&cError:&6 %s&4 is not IP-muted."
+    success:
+      without-reason: "&7Removed the IP-mute for &6%s&7."
+      with-reason: "&7Removed the IP-mute for &6%s&7 with the reason &o%s."
+  xmuteclear:
+    success: "&7All mutes have been removed."
+  # warn/
+  xwarn:
+    success: "&7Warned &6%s&7 for &e%s&7."
+  xwarnip:
+    success: "&7IP-warned &6%s&7 for &e%s&7."
+  xunwarn:
+    not-warned: "&6%s&4 is not warned."
+    success:
+      without-reason: "&7Unwarned &6%s&7."
+      with-reason: "&7Unwarned &6%s&7 with the reason &o%s."
+  xunwarnip:
+    not-warned: "&6%s&4 doesn't have any warns."
+    success:
+      without-reason: "&c%s&7 has been unwarned by &6%s&7."
+      with-reason: "&c%s&7 has been unwarned by &6%s&7, with the reason: &e%s&7."
+  xwarnclear:
+    success: "&7All warns have been removed."

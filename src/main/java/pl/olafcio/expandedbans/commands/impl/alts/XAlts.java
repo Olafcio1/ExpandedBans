@@ -23,12 +23,12 @@ public class XAlts extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var player = (Player) args.getFirst();
         var persona = ExpandedBans.Database.Player2Persona(player.getUniqueId());
 
         if (persona == null)
-            throw new CommandMessageException("Player never played before; unable to resolve alts");
+            throw new CommandMessageException($translate("unknown-player"));
 
         var nicks = new ArrayList<String>();
         try (var res = ExpandedBans.Database.Persona2Players(persona)) {
@@ -48,7 +48,9 @@ public class XAlts extends XTargetCommand {
             }
         }
 
-        ExpandedBans.Messages.send(sender, "§7Usernames: §6" + String.join("§7, §6", nicks));
-        ExpandedBans.Messages.send(sender, "§7IP addresses: §6" + String.join("§7, §6", ips));
+        $send(sender, $translate("results.usernames") +
+                           "§6" + String.join("§7, §6", nicks));
+        $send(sender, $translate("results.ip-addresses") +
+                           "§6" + String.join("§7, §6", ips));
     }
 }

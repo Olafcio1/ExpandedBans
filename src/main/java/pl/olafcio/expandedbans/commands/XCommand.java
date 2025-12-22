@@ -1,9 +1,11 @@
 package pl.olafcio.expandedbans.commands;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -12,7 +14,9 @@ import pl.olafcio.expandedbans.XBCommandDefinitionException;
 import pl.olafcio.expandedbans.commands.args.Argument;
 import pl.olafcio.expandedbans.commands.args.PatternError;
 import pl.olafcio.expandedbans.commands.args.function.Tabcompleter;
+import pl.olafcio.expandedbans.messages.Messages;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +39,14 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         this.arguments = new ArrayList<>();
     }
 
+    private boolean matches(Command command) {
+        assert name != null;
+        return command.getName().equals(name);
+    }
+
+    //----------------------------------------------------------------------------------------//
+    //------------------------------------ Initialization ------------------------------------//
+    //----------------------------------------------------------------------------------------//
     public XCommand name(String name) {
         this.name = name;
         return this;
@@ -93,14 +105,17 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         };
     }
 
-    protected abstract void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException;
+    //-----------------------------------------------------------------------------------//
+    //------------------------------------ Execution ------------------------------------//
+    //-----------------------------------------------------------------------------------//
+    protected abstract void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException;
 
     @Override
     @SuppressWarnings("NullableProblems")
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (matches(command)) {
             if (permission != null && !sender.hasPermission(permission)) {
-                ExpandedBans.Messages.send(
+                ExpandedBans.Messages.$send(
                         sender,
                         "§cError:§4 Insufficient permissions."
                 );
@@ -126,12 +141,12 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
                         parsed.add(null);
                     else parsed.add(arg.parse(input));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    ExpandedBans.Messages.send(sender,
+                    ExpandedBans.Messages.$send(sender,
                                        "§7Usage: §o/%s%s".formatted(name, usage));
 
                     return true;
                 } catch (PatternError e) {
-                    ExpandedBans.Messages.send(sender,
+                    ExpandedBans.Messages.$send(sender,
                                        "§cParameter Error: §4" + e.getMessage());
 
                     return true;
@@ -143,8 +158,12 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
             try {
                 execute(sender, command, label, parsed);
             } catch (CommandMessageException e) {
-                ExpandedBans.Messages.send(sender,
+                ExpandedBans.Messages.$send(sender,
                         "§cError:§4 " + e.getMessage());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                ExpandedBans.Messages.$send(sender,
+                        "§cError:§4 Database error.");
             }
 
             return true;
@@ -153,6 +172,9 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         return false;
     }
 
+    //---------------------------------------------------------------------------------------//
+    //------------------------------------ Tabcompletion ------------------------------------//
+    //---------------------------------------------------------------------------------------//
     private boolean erroredTC = false;
 
     @Override
@@ -185,8 +207,28 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
         return arg.tabcomplete(sender, command, label, args, args[index]);
     }
 
-    private boolean matches(Command command) {
-        assert name != null;
-        return command.getName().equals(name);
+    //----------------------------------------------------------------------------------//
+    //------------------------------------ Messages ------------------------------------//
+    //----------------------------------------------------------------------------------//
+    protected final Messages $Messages = ExpandedBans.Messages;
+    protected final YamlConfiguration $Punishments = ExpandedBans.Configurations.Notifications;
+
+    protected final String $translate(String key) {
+        return ExpandedBans.Messages.$translate("commands." + name + "." + key);
+    }
+
+    @SuppressWarnings("all")
+    protected static final String $format(String data) {
+        return ExpandedBans.Messages.$format(data);
+    }
+
+    @SuppressWarnings("all")
+    protected static final String $format(OfflinePlayer player, String data) {
+        return ExpandedBans.Messages.$format(player, data);
+    }
+
+    @SuppressWarnings("all")
+    protected static final void $send(CommandSender sender, String data) {
+        ExpandedBans.Messages.$send(sender, data);
     }
 }

@@ -21,7 +21,7 @@ public class XMuteIP extends XTargetCommand {
     }
 
     @Override
-    protected void apply(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
+    protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
@@ -29,10 +29,10 @@ public class XMuteIP extends XTargetCommand {
         var target = ipInfo.getTarget();
 
         var by = sender.getName();
-        String action;
+        String format;
 
         if (!ExpandedBans.Database.isBanned(target)) {
-            action = "IP-muted";
+            format = $translate("created");
             ExpandedBans.Database.mute(
                     target,
                     by,
@@ -40,13 +40,13 @@ public class XMuteIP extends XTargetCommand {
                     null
             );
 
-            ifOnline(player, plr -> ExpandedBans.Messages.muteIPNotify(
+            ifOnline(player, plr -> $Messages.muteIPNotify(
                     plr,
                     reason,
                     by
             ));
         } else {
-            action = "Updated the mute for";
+            format = $translate("updated");
             ExpandedBans.Database.updateMute(
                     target,
                     by,
@@ -55,7 +55,7 @@ public class XMuteIP extends XTargetCommand {
             );
         }
 
-        ExpandedBans.Messages.send(sender,
-                "§7%s §6%s§7.".formatted(action, player.getName()));
+        $send(sender,
+              format.formatted(ipInfo.getName(), reason));
     }
 }
