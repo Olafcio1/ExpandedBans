@@ -18,8 +18,8 @@ import java.util.UUID;
 public class XAlts extends XTargetCommand {
     public XAlts() {
         super.name("xalts")
-                .perm("expandedbans.alts")
-                .then("player", new AnyPlayerArg(Argument.Type.REQUIRED));
+             .perm("expandedbans.alts")
+             .then("player", new AnyPlayerArg(Argument.Type.REQUIRED));
     }
 
     @Override
