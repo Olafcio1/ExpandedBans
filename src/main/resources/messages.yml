@@ -51,15 +51,23 @@ commands:
     with-reason: "&7Kicked &6%d&7 players with the reason &e%s&7."
   # lockchat/
   xlockchat:
-    without-reason: "&7Locked the chat."
-    with-reason: "&7Locked the chat with the reason &e%s&7."
+    created:
+      without-reason: "&7Locked the chat."
+      with-reason: "&7Locked the chat with the reason &e%s&7."
+    updated:
+      without-reason: "&7Updated the chat-lock."
+      with-reason: "&7Updated the chat-lock with the reason &e%s&7."
   xunlockchat:
     without-reason: "&7Unlocked the chat."
     with-reason: "&7Unlocked the chat with the reason &e%s&7."
   # lockdown/
   xlockdown:
-    without-reason: "&7Applied a lockdown with the default reason."
-    with-reason: "&7Applied a lockdown with the reason &e%s&7."
+    created:
+      without-reason: "&7Applied a lockdown with the default reason."
+      with-reason: "&7Applied a lockdown with the reason &e%s&7."
+    updated:
+      without-reason: "&7Updated the lockdown with the default reason."
+      with-reason: "&7Updated the lockdown with the reason &e%s&7."
   xunlockdown:
     no-lockdown: "There is currently no lockdown active."
     success:

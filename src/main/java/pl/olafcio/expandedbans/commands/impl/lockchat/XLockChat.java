@@ -22,17 +22,21 @@ public class XLockChat extends XCommand {
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException {
         var reason = (String) args.getFirst();
+        var action = ExpandedBans.ChatLock != null
+                ? "updated"
+                : "created";
 
         ExpandedBans.ChatLock = new ChatLock(reason, sender.getName());
-        Bukkit.getServer().broadcastMessage($Messages.lockchatNotify(
-                ExpandedBans.ChatLock.reason(),
-                ExpandedBans.ChatLock.by()
-        ));
+        if (action.equals("created"))
+            Bukkit.getServer().broadcastMessage($Messages.lockchatNotify(
+                    ExpandedBans.ChatLock.reason(),
+                    ExpandedBans.ChatLock.by()
+            ));
 
         if (reason == null)
             $send(sender,
-                  $translate("without-reason"));
+                  $translate(action + ".without-reason"));
         else $send(sender,
-                   $translate("with-reason").formatted(reason));
+                   $translate(action + ".with-reason").formatted(reason));
     }
 }

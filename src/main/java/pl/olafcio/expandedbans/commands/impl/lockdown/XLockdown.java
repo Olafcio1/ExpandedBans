@@ -20,14 +20,16 @@ public class XLockdown extends XCommand {
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
         var reason = (String) args.getFirst();
+        var action = ExpandedBans.Database.unLockdown()
+                ? "updated"
+                : "created";
 
-        ExpandedBans.Database.unLockdown();
         ExpandedBans.Database.lockdown(sender.getName(), reason);
 
         if (reason == null)
             $send(sender,
-                  $translate("without-reason"));
+                  $translate(action + ".without-reason"));
         else $send(sender,
-                   $translate("with-reason").formatted(reason));
+                   $translate(action + "with-reason").formatted(reason));
     }
 }
