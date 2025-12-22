@@ -2,7 +2,9 @@ prefix: "&#9591d6[&#d76ffcExpandedBans&#9591d6] "
 command-meta:
   usage: "§7Usage: §o/%s%s"
   errors:
-    no-permission: "§cError:§4 Insufficient permissions."
+    no-permission:
+      missing: "§cError:§4 Insufficient permissions."
+      command-block: "§cError:§4 Command blocks are disabled in the configuration."
     database-error: "§cError:§4 Database error."
     pattern-error: "§cParameter Error: §4%s"
   custom-error: "§cError: §4%s"

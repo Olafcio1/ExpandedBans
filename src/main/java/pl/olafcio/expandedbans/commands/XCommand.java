@@ -1,10 +1,7 @@
 package pl.olafcio.expandedbans.commands;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
+import org.bukkit.command.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -114,9 +111,19 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
     @SuppressWarnings("NullableProblems")
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (matches(command)) {
+            if (
+                    sender instanceof BlockCommandSender &&
+                    !ExpandedBans.Configurations.Settings.getBoolean("allow-command-blocks")
+            ) {
+                $send(sender,
+                      $translateMeta("errors.no-permission.command-block"));
+
+                return true;
+            }
+
             if (permission != null && !sender.hasPermission(permission)) {
                 $send(sender,
-                      $translateMeta("errors.no-permission"));
+                      $translateMeta("errors.no-permission.missing"));
 
                 return true;
             }
