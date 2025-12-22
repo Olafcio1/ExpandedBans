@@ -46,6 +46,10 @@ commands:
     description: Kicks a player.
     permission: expandedbans.kick
     aliases: [kick]
+  xkickall:
+    description: Kicks all players.
+    permission: expandedbans.kickall
+    aliases: [kickall]
   xmute:
     description: Mutes a player.
     permission: expandedbans.mute
@@ -194,6 +198,8 @@ permissions:
   expandedbans.banclear:
     default: op
   expandedbans.kick:
+    default: op
+  expandedbans.kickall:
     default: op
   expandedbans.mute:
     default: op

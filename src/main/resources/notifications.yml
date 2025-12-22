@@ -9,6 +9,17 @@ kick:
     &6Reason&#cc8800 ›&7 %reason%
     &6&m                                                  &r
 
+kickall:
+  default-reason: "&oNo reason provided."
+  message: |-
+    &6[&eExpandedBans&6]
+    &6&m                                                  &r
+    &6You have been kicked from the server.
+    &6&m                                                  &r
+    &6Kicked by&#cc8800 ›&7 %admin%
+    &6Reason&#cc8800 ›&7 %reason%
+    &6&m                                                  &r
+
 warn:
   default-reason: "&oNo reason provided."
   message: |-
