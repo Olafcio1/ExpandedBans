@@ -11,6 +11,7 @@ import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class XMuteIP extends XTargetCommand {
     public XMuteIP() {
@@ -55,7 +56,9 @@ public class XMuteIP extends XTargetCommand {
             );
         }
 
-        $send(sender,
-              format.formatted(ipInfo.getName(), reason));
+        $send(sender, format.formatted(
+                ipInfo.getName(),
+                Objects.requireNonNullElse(reason, $Notifications.getString("mute-ip.default-reason"))
+        ));
     }
 }

@@ -17,7 +17,7 @@ commands:
     not-banned: "&6%s&4 is not banned."
     success:
       without-reason: "&7Unbanned &6%s&7."
-      with-reason: "&7Unbanned &6%s&7 with the reason &o%s."
+      with-reason: "&7Unbanned &6%s&7 with the reason &e%s."
     broadcast:
       without-reason: "&c%s&7 has been unbanned by &6%s&7."
       with-reason: "&c%s&7 has been unbanned by &6%s&7, with the reason: &e%s&7."
@@ -25,7 +25,7 @@ commands:
     not-banned: "&6%s&4 is not banned."
     success:
       without-reason: "&7Unbanned &6%s&7."
-      with-reason: "&7Unbanned &6%s&7 with the reason &o%s."
+      with-reason: "&7Unbanned &6%s&7 with the reason &e%s."
   xbanclear:
     success: "&7All bans have been removed."
   # freeze/
@@ -73,12 +73,12 @@ commands:
     not-muted: "&6%s&4 is not muted."
     success:
       without-reason: "&7Unmuted &6%s&7."
-      with-reason: "&7Unmuted &6%s&7 with the reason &o%s."
+      with-reason: "&7Unmuted &6%s&7 with the reason &e%s."
   xunmuteip:
     not-ipmuted: "&cError:&6 %s&4 is not IP-muted."
     success:
       without-reason: "&7Removed the IP-mute for &6%s&7."
-      with-reason: "&7Removed the IP-mute for &6%s&7 with the reason &o%s."
+      with-reason: "&7Removed the IP-mute for &6%s&7 with the reason &e%s."
   xmuteclear:
     success: "&7All mutes have been removed."
   # warn/
@@ -90,7 +90,7 @@ commands:
     not-warned: "&6%s&4 is not warned."
     success:
       without-reason: "&7Unwarned &6%s&7."
-      with-reason: "&7Unwarned &6%s&7 with the reason &o%s."
+      with-reason: "&7Unwarned &6%s&7 with the reason &e%s."
   xunwarnip:
     not-warned: "&6%s&4 doesn't have any warns."
     success:

@@ -61,7 +61,7 @@ public class XBanIP extends XTargetCommand {
 
         $send(sender, format.formatted(
                 ipInfo.getName(),
-                Objects.requireNonNullElse(reason, $Punishments.getString("ban-ip.default-reason"))
+                Objects.requireNonNullElse(reason, $Notifications.getString("ban-ip.default-reason"))
         ));
     }
 }

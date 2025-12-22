@@ -44,7 +44,7 @@ public class XWarn extends XTargetCommand {
 
         $send(sender, $translate("success").formatted(
                 player.getName(),
-                Objects.requireNonNullElse(reason, $Punishments.getString("ban.default-reason"))
+                Objects.requireNonNullElse(reason, $Notifications.getString("ban.default-reason"))
         ));
     }
 }

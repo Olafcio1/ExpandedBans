@@ -12,6 +12,7 @@ import pl.olafcio.expandedbans.commands.args.impl.StringArg;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class XMute extends XTargetCommand {
     public XMute() {
@@ -56,7 +57,9 @@ public class XMute extends XTargetCommand {
             );
         }
 
-        $send(sender,
-              format.formatted(player.getName(), reason));
+        $send(sender, format.formatted(
+                player.getName(),
+                Objects.requireNonNullElse(reason, $Notifications.getString("mute.default-reason"))
+        ));
     }
 }

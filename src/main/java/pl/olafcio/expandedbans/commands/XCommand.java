@@ -211,7 +211,7 @@ public abstract class XCommand implements CommandExecutor, TabExecutor {
     //------------------------------------ Messages ------------------------------------//
     //----------------------------------------------------------------------------------//
     protected final Messages $Messages = ExpandedBans.Messages;
-    protected final YamlConfiguration $Punishments = ExpandedBans.Configurations.Notifications;
+    protected final YamlConfiguration $Notifications = ExpandedBans.Configurations.Notifications;
 
     protected final String $translate(String key) {
         return ExpandedBans.Messages.$translate("commands." + name + "." + key);
