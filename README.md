@@ -16,7 +16,7 @@
 | /freeze         | ✖️                                                                                                                                     | ✖️                                                                                                                        | ✖️                                                                                                                                        | ✅                                                                                                                                       |
 
 ## 📦 Addons
-| Name              | Changes                                    | Link                                          |
-|-------------------|--------------------------------------------|-----------------------------------------------|
-| ProtocolExtension | currently none (planning)                  | https://modrinth.com/plugin/protocolextension |
-| PlaceholderAPI    | allows placeholders in punishment messages | https://modrinth.com/plugin/placeholderapi    |
+| Name              | Changes                                           | Link                                          |
+|-------------------|---------------------------------------------------|-----------------------------------------------|
+| ProtocolExtension | additional client-side move blocking while frozen | https://modrinth.com/plugin/protocolextension |
+| PlaceholderAPI    | allows placeholders in punishment messages        | https://modrinth.com/plugin/placeholderapi    |
