@@ -69,7 +69,7 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
                 );
             }
 
-            if (VariableAPI.isActivated(player))
+            if (Bukkit.getPluginManager().isPluginEnabled("protocolextension") && VariableAPI.isActivated(player))
                 ProtocolExtension.getAPI().playerManager().moveToggle(
                         player,
                         !frozen
