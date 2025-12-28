@@ -22,7 +22,7 @@ public class XUnLockChat extends XCommand {
         if (ExpandedBans.ChatLock == null)
             throw new CommandMessageException("The chat isn't locked.");
 
-        var reason = (String) args.getFirst();
+        var reason = (String) args.get(0);
         ExpandedBans.ChatLock = null;
 
         if (reason == null)

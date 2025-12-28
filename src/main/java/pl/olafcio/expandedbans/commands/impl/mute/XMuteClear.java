@@ -19,7 +19,7 @@ public class XMuteClear extends XTargetCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws SQLException {
-        ExpandedBans.Database.clearMutes((String) args.getFirst());
+        ExpandedBans.Database.clearMutes((String) args.get(0));
         $send(sender,
               $translate("success"));
     }

@@ -24,7 +24,7 @@ public class XAlts extends XTargetCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
-        var player = (Player) args.getFirst();
+        var player = (Player) args.get(0);
         var persona = ExpandedBans.Database.Player2Persona(player.getUniqueId());
 
         if (persona == null)

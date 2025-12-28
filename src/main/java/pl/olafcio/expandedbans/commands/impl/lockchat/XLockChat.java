@@ -21,7 +21,7 @@ public class XLockChat extends XCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException {
-        var reason = (String) args.getFirst();
+        var reason = (String) args.get(0);
         var action = ExpandedBans.ChatLock != null
                 ? "updated"
                 : "created";

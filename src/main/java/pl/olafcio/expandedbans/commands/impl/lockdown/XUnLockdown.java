@@ -20,7 +20,7 @@ public class XUnLockdown extends XCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
-        var reason = (String) args.getFirst();
+        var reason = (String) args.get(0);
         if (!ExpandedBans.Database.unLockdown())
             throw new CommandMessageException($translate("no-lockdown"));
 

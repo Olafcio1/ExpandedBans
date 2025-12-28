@@ -21,7 +21,7 @@ public class XExpandedBans extends XCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) {
-        var arg = args.getFirst();
+        var arg = args.get(0);
         if (Objects.equals(arg, "reload")) {
             reload(sender);
         } else if (Objects.equals(arg, "help")) {

@@ -1,7 +1,7 @@
 name: ExpandedBans
 version: '0.1'
 main: pl.olafcio.expandedbans.ExpandedBans
-api-version: '1.21'
+api-version: '1.16'
 load: STARTUP
 authors: [Olafcio]
 description: The most feature-rich free punishment plugin.
