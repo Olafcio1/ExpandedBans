@@ -1,6 +1,8 @@
 package pl.olafcio.expandedbans;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import pl.olafcio.expandedbans.commands.impl.XExpandedBans;
@@ -133,12 +135,21 @@ public final class ExpandedBans extends JavaPlugin {
 
         getCommand("xalts").setExecutor(new XAlts());
 
+        ConnectListener forEach1;
+        JoinListener forEach2;
+
         getServer().getPluginManager().registerEvents(new MuteListener(), this);
         getServer().getPluginManager().registerEvents(new FreezeListener(), this);
         getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
-        getServer().getPluginManager().registerEvents(new ConnectListener(), this);
+        getServer().getPluginManager().registerEvents(forEach1 = new ConnectListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(), this);
+        getServer().getPluginManager().registerEvents(forEach2 = new JoinListener(), this);
+
+        var players = getServer().getOnlinePlayers();
+        for (var player : players) {
+            forEach1.onAsyncPreLogin(new AsyncPlayerPreLoginEvent(player.getName(), player.getAddress().getAddress(), player.getUniqueId()));
+            forEach2.onPlayerJoin(new PlayerJoinEvent(player, ""));
+        }
     }
 
     @Override
