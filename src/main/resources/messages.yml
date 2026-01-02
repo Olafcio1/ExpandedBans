@@ -55,6 +55,11 @@ commands:
     success:
       without-reason: "&7Kicked &6%s&7."
       with-reason: "&7Kicked &6%s&7 for &e%s&7."
+  xkickip:
+    no-matches: "No players found."
+    success:
+      without-reason: "&7Kicked &6%s&7."
+      with-reason: "&7Kicked &6%s&7 for &e%s&7."
   xkickall:
     without-reason: "&7Kicked &6%d&7 players."
     with-reason: "&7Kicked &6%d&7 players with the reason &e%s&7."

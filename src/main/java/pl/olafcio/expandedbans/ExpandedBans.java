@@ -122,6 +122,7 @@ public final class ExpandedBans extends JavaPlugin {
         getCommand("xunwarnip").setExecutor(new XUnwarnIP());
 
         getCommand("xkick").setExecutor(new XKick());
+        getCommand("xkickip").setExecutor(new XKickIP());
         getCommand("xkickall").setExecutor(new XKickAll());
 
         getCommand("xfreeze").setExecutor(new XFreeze());
