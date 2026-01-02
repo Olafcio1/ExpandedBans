@@ -6,16 +6,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.commands.args.Argument;
 import pl.olafcio.expandedbans.commands.args.PatternError;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
     public IPTargetArg(Type type) {
@@ -24,18 +25,28 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
 
     public static final Pattern IPv4_PATTERN = Pattern.compile("^([0-9](|[0-9]){2}\\.){3}(|[0-9]){3}$", Pattern.CASE_INSENSITIVE);
     public record IPTarget(
-            @Nullable OfflinePlayer player,
-            @NonNull String ip,
+            @NonNull List<@NonNull OfflinePlayer> players,
+            @NonNull List<@NonNull String> ips,
             @NonNull String persona
     ) {
         public String getName() {
-            if (player != null)
-                return player.getName();
-            else return ip;
+            if (!players.isEmpty())
+                return players.stream()
+                              .map(OfflinePlayer::getName)
+                              .collect(Collectors.joining(" / "));
+            else return ips.get(0);
         }
 
         public String getTarget() {
             return "P" + persona;
+        }
+
+        public boolean contains(Player player) {
+            return players.contains(player);
+        }
+
+        public boolean contains(String ip) {
+            return ips.contains(ip);
         }
     }
 
@@ -49,35 +60,43 @@ public class IPTargetArg extends Argument<IPTargetArg.IPTarget> {
 
     @ApiStatus.Internal
     public static IPTarget _parseInternal(String arg) throws PatternError, SQLException {
-        OfflinePlayer player;
-        String ip;
+        var players = new ArrayList<OfflinePlayer>();
+        var ips = new ArrayList<String>();
+
         String persona;
 
         if (IPv4_PATTERN.matcher(arg).find()) {
-            ip = arg;
             persona = ExpandedBans.Database.IP2Persona(arg);
 
             if (persona == null) {
                 persona = UUID.randomUUID().toString();
-                ExpandedBans.Database.registerPersonaIP(ip, persona);
+                ExpandedBans.Database.registerPersonaIP(arg, persona);
             }
-
-            var uuid = ExpandedBans.Database.Persona2Player(persona);
-            player = uuid == null
-                    ? null
-                    : Bukkit.getOfflinePlayer(uuid);
         } else {
-            player = Bukkit.getOfflinePlayer(arg);
+            var player = Bukkit.getOfflinePlayer(arg);
             persona = ExpandedBans.Database.Player2Persona(player.getUniqueId());
 
             if (persona == null)
                 throw new PatternError("Player never joined; cannot find the IP.");
-
-            ip = ExpandedBans.Database.Persona2IP(persona);
-            assert ip != null;
         }
 
-        return new IPTarget(player, ip, persona);
+        try (var results = ExpandedBans.Database.Persona2Players(persona)) {
+            while (results.next()) {
+                var uuid = UUID.fromString(results.getString(1));
+                var player = Bukkit.getOfflinePlayer(uuid);
+
+                players.add(player);
+            }
+        }
+
+        try (var results = ExpandedBans.Database.Persona2IPs(persona)) {
+            while (results.next()) {
+                var ip = results.getString(1);
+                ips.add(ip);
+            }
+        }
+
+        return new IPTarget(players, ips, persona);
     }
 
     @Override

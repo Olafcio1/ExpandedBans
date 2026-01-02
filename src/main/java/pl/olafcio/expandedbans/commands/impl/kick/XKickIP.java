@@ -29,7 +29,7 @@ public class XKickIP extends XTargetCommand {
         var players = Bukkit.getOnlinePlayers();
         for (var player : players) {
             var ip = player.getAddress().getHostString();
-            if (target.ip() == ip) {
+            if (target.contains(ip)) {
                 player.kickPlayer($Messages.kick(player, reason, sender.getName()));
                 any = true;
             }

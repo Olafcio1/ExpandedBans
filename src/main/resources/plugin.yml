@@ -46,6 +46,10 @@ commands:
     description: Kicks a player.
     permission: expandedbans.kick
     aliases: [kick]
+  xkickip:
+    description: Kicks all players with a provided IP address.
+    permission: expandedbans.kickip
+    aliases: [kickip]
   xkickall:
     description: Kicks all players.
     permission: expandedbans.kickall
@@ -198,6 +202,8 @@ permissions:
   expandedbans.banclear:
     default: op
   expandedbans.kick:
+    default: op
+  expandedbans.kickip:
     default: op
   expandedbans.kickall:
     default: op

@@ -26,7 +26,7 @@ public class XUnmuteIP extends XTargetCommand {
         var reason = (String) args.get(1);
 
         var target = ipInfo.getTarget();
-        var player = ipInfo.player();
+        var players = ipInfo.players();
 
         if (!ExpandedBans.Database.removeMute(target, reason)) {
             $send(sender,

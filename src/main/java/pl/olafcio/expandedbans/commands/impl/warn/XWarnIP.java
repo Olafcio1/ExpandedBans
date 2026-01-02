@@ -36,13 +36,12 @@ public class XWarnIP extends XTargetCommand {
                 null
         );
 
-        var player = ipInfo.player();
-        if (player != null)
-            ifOnline(player, plr -> plr.sendMessage($Messages.warnIP(
-                    player,
-                    reason,
-                    by
-            )));
+        var players = ipInfo.players();
+        forPlayer(players, plr -> plr.sendMessage($Messages.warnIP(
+                plr,
+                reason,
+                by
+        )));
 
         $send(sender, $translate("success").formatted(
                 ipInfo.getName(),

@@ -26,7 +26,7 @@ public class XMuteIP extends XTargetCommand {
         var ipInfo = (IPTargetArg.IPTarget) args.get(0);
         var reason = (String) args.get(1);
 
-        var player = ipInfo.player();
+        var players = ipInfo.players();
         var target = ipInfo.getTarget();
 
         var by = sender.getName();
@@ -41,7 +41,7 @@ public class XMuteIP extends XTargetCommand {
                     null
             );
 
-            ifOnline(player, plr -> $Messages.muteIPNotify(
+            forPlayer(players, plr -> $Messages.muteIPNotify(
                     plr,
                     reason,
                     by

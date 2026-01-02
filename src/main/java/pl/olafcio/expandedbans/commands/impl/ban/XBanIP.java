@@ -41,13 +41,12 @@ public class XBanIP extends XTargetCommand {
                     null
             );
 
-            var player = ipInfo.player();
-            if (player != null)
-                ifOnline(player, plr -> plr.kickPlayer($Messages.banIP(
-                        player,
-                        reason,
-                        by
-                )));
+            var players = ipInfo.players();
+            forPlayer(players, plr -> plr.kickPlayer($Messages.banIP(
+                    plr,
+                    reason,
+                    by
+            )));
         } else {
             format = $translate("updated");
 
