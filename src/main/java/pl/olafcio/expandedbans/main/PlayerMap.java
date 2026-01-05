@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.protocolextension.server.ProtocolExtension;
@@ -82,7 +83,26 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
         }
     }
 
+    @Override
+    public Entry get(Object key) {
+        assert key instanceof UUID;
+        return operation(Operation.GET, (UUID) key, null);
+    }
+
     public void put(Entry player) {
-        this.put(player.uuid, player);
+        operation(Operation.PUT, player.uuid, player);
+    }
+
+    public enum Operation {
+        GET, PUT
+    }
+
+    private synchronized Entry operation(Operation operation, UUID uuid, @Nullable Entry value) {
+        if (operation == Operation.GET) {
+            return super.get(uuid);
+        } else {
+            super.put(uuid, value);
+            return value;
+        }
     }
 }
