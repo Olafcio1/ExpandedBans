@@ -13,6 +13,7 @@ import java.util.Objects;
 public class XExpandedBans extends XCommand {
     public XExpandedBans() {
         super.name("expandedbans")
+             .perm("expandedbans")
              .then("arg", new EnumArg.Builder<>()
                      .type(Argument.Type.OPTIONAL)
                      .with("", "help", "reload")
