@@ -189,7 +189,7 @@ commands:
     aliases: [warnlist]
 permissions:
   expandedbans:
-    default: op
+    default: true
   expandedbans.ban:
     default: op
   expandedbans.banip:
