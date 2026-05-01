@@ -148,6 +148,7 @@ public final class ExpandedBans extends JavaPlugin {
 
         var players = getServer().getOnlinePlayers();
         for (var player : players) {
+            //noinspection deprecation -- I cannot use the non-deprecated constructor, as I need to support older versions
             forEach1.onAsyncPreLogin(new AsyncPlayerPreLoginEvent(player.getName(), player.getAddress().getAddress(), player.getUniqueId()));
             forEach2.onPlayerJoin(new PlayerJoinEvent(player, ""));
         }
