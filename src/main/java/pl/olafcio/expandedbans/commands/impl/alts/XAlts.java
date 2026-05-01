@@ -1,6 +1,7 @@
 package pl.olafcio.expandedbans.commands.impl.alts;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ public class XAlts extends XTargetCommand {
 
     @Override
     protected void execute(CommandSender sender, Command command, String label, List<Object> args) throws CommandMessageException, SQLException {
-        var player = (Player) args.get(0);
+        var player = (OfflinePlayer) args.get(0);
         var persona = ExpandedBans.Database.Player2Persona(player.getUniqueId());
 
         if (persona == null)
