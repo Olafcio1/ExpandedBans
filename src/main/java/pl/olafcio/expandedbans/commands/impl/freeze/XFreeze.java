@@ -34,12 +34,16 @@ public class XFreeze extends XTargetCommand {
         ExpandedBans.Players.get(uuid).setFrozen(true);
         ExpandedBans.Database.freeze("U" + uuid, reason, sender.getName());
 
+        var freshness = !ExpandedBans.Database.isFrozen("U" + uuid)
+                            ? "created"
+                            : "updated";
+
         if (reason == null) {
             $send(sender,
-                  $translate("success.without-reason").formatted(player.getName()));
+                  $translate(freshness + ".without-reason").formatted(player.getName()));
         } else {
             $send(sender,
-                  $translate("success.with-reason").formatted(player.getName(), reason));
+                  $translate(freshness + ".with-reason").formatted(player.getName(), reason));
         }
     }
 }

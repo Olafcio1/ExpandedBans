@@ -40,9 +40,12 @@ commands:
   # freeze/
   xfreeze:
     unknown-player: "Player not found."
-    success:
+    created:
       without-reason: "&7Froze &6%s&7."
       with-reason: "&7Froze &6%s&7 for &e%s&7."
+    updated:
+      without-reason: "&7Updated the freeze for &6%s&7."
+      with-reason: "&7Updated the freeze for &6%s&7 to &e%s&7."
   xunfreeze:
     unknown-player: "Player not found."
     player-not-frozen: "The player isn't frozen."
