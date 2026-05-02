@@ -13,8 +13,31 @@ import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.protocolextension.server.ProtocolExtension;
 import pl.olafcio.protocolextension.server.VariableAPI;
 
-public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
-    public final static class Entry {
+public final class PlayerMap extends HashMap<UUID, PlayerMap.BaseEntry> {
+    public abstract static class BaseEntry {
+        public abstract void setFrozen(boolean frozen);
+        public abstract boolean isFrozen();
+        public abstract void updateFrozen();
+
+        private static final BaseEntry BLANK = new BaseEntry() {
+            private boolean frozen = true;
+
+            @Override
+            public void setFrozen(boolean frozen) {
+                this.frozen = frozen;
+            }
+
+            @Override
+            public boolean isFrozen() {
+                return frozen;
+            }
+
+            @Override
+            public void updateFrozen() {}
+        };
+    }
+
+    public final static class Entry extends BaseEntry {
         private final String persona;
         private final UUID uuid;
         private boolean frozen;
@@ -84,9 +107,9 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
     }
 
     @Override
-    public Entry get(Object key) {
+    public BaseEntry get(Object key) {
         assert key instanceof UUID;
-        return operation(Operation.GET, (UUID) key, null);
+        return operation(Operation.GET, (UUID) key, BaseEntry.BLANK);
     }
 
     public void put(Entry player) {
@@ -97,9 +120,9 @@ public final class PlayerMap extends HashMap<UUID, PlayerMap.Entry> {
         GET, PUT
     }
 
-    private synchronized Entry operation(Operation operation, UUID uuid, @Nullable Entry value) {
+    private synchronized BaseEntry operation(Operation operation, UUID uuid, @Nullable BaseEntry value) {
         if (operation == Operation.GET) {
-            return super.get(uuid);
+            return super.getOrDefault(uuid, value);
         } else {
             super.put(uuid, value);
             return value;
