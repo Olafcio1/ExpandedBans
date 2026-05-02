@@ -90,10 +90,10 @@ commands:
   # mute/
   xmute:
     created: "&7Muted &6%s&7 for &e%s&7."
-    updated: "&7Updated the mute for &6%s&7 for &e%s&7."
+    updated: "&7Updated the mute for &6%s&7 to &e%s&7."
   xmuteip:
     created: "&7IP-muted &6%s&7 for &e%s&7."
-    updated: "&7Updated the IP-mute for &6%s&7 for &e%s&7."
+    updated: "&7Updated the IP-mute for &6%s&7 to &e%s&7."
   xunmute:
     not-muted: "&6%s&4 is not muted."
     success:
