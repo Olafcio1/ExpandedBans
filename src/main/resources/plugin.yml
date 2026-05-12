@@ -256,6 +256,8 @@ permissions:
     default: op
   expandedbans.alts:
     default: op
+  expandedbans.alts-autonotify:
+    default: op
   expandedbans.freeze:
     default: op
   expandedbans.unfreeze:

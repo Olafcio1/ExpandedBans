@@ -1,4 +1,7 @@
 prefix: "&#9591d6[&#d76ffcExpandedBans&#9591d6] "
+alts-autonotify:
+  empty: "&6%s&7 has no alt accounts."
+  has: "&7Usernames of &e%s&7: "
 command-meta:
   usage: "§7Usage: §o/%s%s"
   errors:

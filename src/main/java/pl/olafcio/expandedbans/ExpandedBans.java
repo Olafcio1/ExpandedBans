@@ -143,6 +143,7 @@ public final class ExpandedBans extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FreezeListener(), this);
         getServer().getPluginManager().registerEvents(new DisconnectListener(), this);
         getServer().getPluginManager().registerEvents(forEach1 = new ConnectListener(), this);
+        getServer().getPluginManager().registerEvents(new ConnectedListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(forEach2 = new JoinListener(), this);
 
