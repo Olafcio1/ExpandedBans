@@ -39,6 +39,10 @@ public final class Messages implements MSGTrait, TBan, TBanIP, TMute, TMuteIP, T
     }
 
     public String $translate(String key) {
-        return ExpandedBans.Configurations.Messages.getString(key);
+        var str = ExpandedBans.Configurations.Messages.getString(key);
+        if (str == null)
+            return "(missing) [›] Backup and delete your messages.yml! [‹]";
+
+        return str;
     }
 }
