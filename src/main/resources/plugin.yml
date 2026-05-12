@@ -190,6 +190,8 @@ commands:
 permissions:
   expandedbans:
     default: true
+  expandedbans.reload:
+    default: op
   expandedbans.ban:
     default: op
   expandedbans.banip:

@@ -53,6 +53,13 @@ public class XExpandedBans extends XCommand {
     }
 
     private static void reload(CommandSender sender) {
+        if (!sender.hasPermission("expandedbans.reload")) {
+            $send(sender,
+                  "§cError: §4No permission.");
+
+            return;
+        }
+
         var start = System.currentTimeMillis();
         ExpandedBans.getInstance().reloadConfigurations();
         var diff = System.currentTimeMillis() - start;
