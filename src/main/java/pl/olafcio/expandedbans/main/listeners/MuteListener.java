@@ -5,6 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.ExpandedBans;
@@ -36,14 +37,13 @@ public class MuteListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onServerCommand(ServerCommandEvent event) {
-        var sender = event.getSender();
+    public void onServerCommand(PlayerCommandPreprocessEvent event) {
+        var player = event.getPlayer();
         if (
-                sender instanceof Player player &&
                 ExpandedBans.Configurations.Settings.getStringList("chat-commands")
-                                                    .contains(event.getCommand().substring(
-                                                            0,
-                                                            event.getCommand().indexOf(" ")
+                                                    .contains(event.getMessage().substring(
+                                                            1,
+                                                            event.getMessage().indexOf(" ")
                                                     ))
         ) {
             var uuid = player.getUniqueId();
