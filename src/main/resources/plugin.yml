@@ -164,7 +164,7 @@ commands:
     permission: expandedbans.lockdown
     aliases: [lockdown]
   xunlockdown:
-    descriptions: Removes the server lockdown.
+    description: Removes the server lockdown.
     permission: expandedbans.unlockdown
     aliases: [unlockdown]
   xwhois:
