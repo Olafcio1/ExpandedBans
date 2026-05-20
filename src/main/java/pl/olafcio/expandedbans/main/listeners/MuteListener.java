@@ -39,11 +39,14 @@ public class MuteListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onServerCommand(PlayerCommandPreprocessEvent event) {
         var player = event.getPlayer();
+        var space = event.getMessage().indexOf(" ");
+
         if (
+                space != -1 &&
                 ExpandedBans.Configurations.Settings.getStringList("chat-commands")
                                                     .contains(event.getMessage().substring(
                                                             1,
-                                                            event.getMessage().indexOf(" ")
+                                                            space
                                                     ))
         ) {
             var uuid = player.getUniqueId();
