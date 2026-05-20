@@ -1,5 +1,13 @@
 allow-command-blocks: false
 enabled-commands:
+  ##########################################
+  ### This section allows you to disable ###
+  ### certain ExpandedBans commands for  ###
+  ### everyone.                          ###
+  ### ---------------------------------- ###
+  ### NOTE: Works only on Paper!         ###
+  ##########################################
+
   - xban
   - xbanip
   - xtempban
@@ -44,6 +52,12 @@ enabled-commands:
   - xmutelist
   - xwarnlist
 chat-commands:
+  ##########################################
+  ### This section allows you to disable ###
+  ### specific server commands for muted ###
+  ### players.                           ###
+  ##########################################
+
   # Unprefixed
   - w
   - me
