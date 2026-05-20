@@ -151,7 +151,7 @@ public final class ExpandedBans extends JavaPlugin {
 
             assert obj != null;
 
-            if (nonPaper || enabledCommands.contains(name)) {
+            if (nonPaper || enabledCommands.contains(name) || name.equals("expandedbans")) {
                 obj.setExecutor(entry.getValue().get());
             } else {
                 EXPaperOnly.unregister(obj);
