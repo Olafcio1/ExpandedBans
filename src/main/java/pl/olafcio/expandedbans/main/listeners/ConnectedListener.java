@@ -40,7 +40,8 @@ public class ConnectedListener implements Listener {
             String message;
 
             if (nicks.isEmpty()) {
-                message = ExpandedBans.Messages.$translate("alts-autonotify.empty");
+                message = ExpandedBans.Messages.$translate("alts-autonotify.empty")
+                                               .formatted(event.getName());
             } else {
                 message = ExpandedBans.Messages.$translate("alts-autonotify.has")
                                                .formatted(event.getName()) + "§6" + String.join("§7, §6", nicks);
