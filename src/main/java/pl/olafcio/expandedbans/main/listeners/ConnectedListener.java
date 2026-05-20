@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.jetbrains.annotations.ApiStatus;
 import pl.olafcio.expandedbans.ExpandedBans;
 import pl.olafcio.expandedbans.XBDatabaseException;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+@ApiStatus.Internal
 public class ConnectedListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onConnect(AsyncPlayerPreLoginEvent event) {
