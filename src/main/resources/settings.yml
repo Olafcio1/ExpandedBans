@@ -1,4 +1,48 @@
 allow-command-blocks: false
+enabled-commands:
+  - xban
+  - xbanip
+  - xtempban
+  - xtempbanip
+  - xunban
+  - xunbanip
+  - xbanclear
+  - xkick
+  - xkickip
+  - xkickall
+  - xmute
+  - xmuteip
+  - xtempmute
+  - xtempmuteip
+  - xunmute
+  - xunmuteip
+  - xmuteclear
+  - xwarn
+  - xwarnip
+  - xtempwarn
+  - xtempwarnip
+  - xunwarn
+  - xunwarnip
+  - xwarnclear
+  - xnote
+  - xnoteip
+  - xnotes
+  - xnotesip
+  - xunnote
+  - xnoteclear
+  - xnoteipclear
+  - xalts
+  - xfreeze
+  - xunfreeze
+  - xlockchat
+  - xunlockchat
+  - xlockdown
+  - xunlockdown
+  - xwhois
+  - xhistory
+  - xbanlist
+  - xmutelist
+  - xwarnlist
 chat-commands:
   # Unprefixed
   - w

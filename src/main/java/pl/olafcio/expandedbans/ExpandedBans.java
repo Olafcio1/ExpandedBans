@@ -1,5 +1,7 @@
 package pl.olafcio.expandedbans;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -24,7 +26,9 @@ import pl.olafcio.expandedbans.messages.Messages;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public final class ExpandedBans extends JavaPlugin {
     private static ExpandedBans INSTANCE;
@@ -101,40 +105,58 @@ public final class ExpandedBans extends JavaPlugin {
 
         Plugin.Commands = section.getKeys(false).stream().map(this::getCommand).toList();
 
-        getCommand("expandedbans").setExecutor(new XExpandedBans());
+        var commands = new HashMap<String, Supplier<CommandExecutor>>() {{
+            put("expandedbans", XExpandedBans::new);
 
-        getCommand("xban").setExecutor(new XBan());
-        getCommand("xbanip").setExecutor(new XBanIP());
-        getCommand("xbanclear").setExecutor(new XBanClear());
-        getCommand("xunban").setExecutor(new XUnban());
-        getCommand("xunbanip").setExecutor(new XUnbanIP());
+            put("xban", XBan::new);
+            put("xbanip", XBanIP::new);
+            put("xbanclear", XBanClear::new);
+            put("xunban", XUnban::new);
+            put("xunbanip", XUnbanIP::new);
 
-        getCommand("xmute").setExecutor(new XMute());
-        getCommand("xmuteip").setExecutor(new XMuteIP());
-        getCommand("xmuteclear").setExecutor(new XMuteClear());
-        getCommand("xunmute").setExecutor(new XUnmute());
-        getCommand("xunmuteip").setExecutor(new XUnmuteIP());
+            put("xmute", XMute::new);
+            put("xmuteip", XMuteIP::new);
+            put("xmuteclear", XMuteClear::new);
+            put("xunmute", XUnmute::new);
+            put("xunmuteip", XUnmuteIP::new);
 
-        getCommand("xwarn").setExecutor(new XWarn());
-        getCommand("xwarnip").setExecutor(new XWarnIP());
-        getCommand("xwarnclear").setExecutor(new XWarnClear());
-        getCommand("xunwarn").setExecutor(new XUnwarn());
-        getCommand("xunwarnip").setExecutor(new XUnwarnIP());
+            put("xwarn", XWarn::new);
+            put("xwarnip", XWarnIP::new);
+            put("xwarnclear", XWarnClear::new);
+            put("xunwarn", XUnwarn::new);
+            put("xunwarnip", XUnwarnIP::new);
 
-        getCommand("xkick").setExecutor(new XKick());
-        getCommand("xkickip").setExecutor(new XKickIP());
-        getCommand("xkickall").setExecutor(new XKickAll());
+            put("xkick", XKick::new);
+            put("xkickip", XKickIP::new);
+            put("xkickall", XKickAll::new);
 
-        getCommand("xfreeze").setExecutor(new XFreeze());
-        getCommand("xunfreeze").setExecutor(new XUnFreeze());
+            put("xfreeze", XFreeze::new);
+            put("xunfreeze", XUnFreeze::new);
 
-        getCommand("xlockchat").setExecutor(new XLockChat());
-        getCommand("xunlockchat").setExecutor(new XUnLockChat());
+            put("xlockchat", XLockChat::new);
+            put("xunlockchat", XUnLockChat::new);
 
-        getCommand("xlockdown").setExecutor(new XLockdown());
-        getCommand("xunlockdown").setExecutor(new XUnLockdown());
+            put("xlockdown", XLockdown::new);
+            put("xunlockdown", XUnLockdown::new);
 
-        getCommand("xalts").setExecutor(new XAlts());
+            put("xalts", XAlts::new);
+        }};
+
+        var enabledCommands = Configurations.Settings.getStringList("enabled-commands");
+        var nonPaper = !Bukkit.getName().contains("Paper");
+
+        for (var entry : commands.entrySet()) {
+            var name = entry.getKey();
+            var obj = getCommand(name);
+
+            assert obj != null;
+
+            if (nonPaper || enabledCommands.contains(name)) {
+                obj.setExecutor(entry.getValue().get());
+            } else {
+                EXPaperOnly.unregister(obj);
+            }
+        }
 
         ConnectListener forEach1;
         JoinListener forEach2;
