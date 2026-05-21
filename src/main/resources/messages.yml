@@ -129,3 +129,6 @@ commands:
       with-reason: "&c%s&7 has been unwarned by &6%s&7, with the reason: &e%s&7."
   xwarnclear:
     success: "&7All warns have been removed."
+  # relate/
+  xrelate:
+    success: "&7Related &e%s&7 with &6%s&7."

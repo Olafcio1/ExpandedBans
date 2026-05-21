@@ -15,6 +15,7 @@ import pl.olafcio.expandedbans.commands.impl.kick.*;
 import pl.olafcio.expandedbans.commands.impl.lockchat.*;
 import pl.olafcio.expandedbans.commands.impl.lockdown.*;
 import pl.olafcio.expandedbans.commands.impl.mute.*;
+import pl.olafcio.expandedbans.commands.impl.relate.XRelate;
 import pl.olafcio.expandedbans.commands.impl.warn.*;
 import pl.olafcio.expandedbans.database.Database;
 import pl.olafcio.expandedbans.main.ChatLock;
@@ -140,6 +141,7 @@ public final class ExpandedBans extends JavaPlugin {
             put("xunlockdown", XUnLockdown::new);
 
             put("xalts", XAlts::new);
+            put("xrelate", XRelate::new);
         }};
 
         var enabledCommands = Configurations.Settings.getStringList("enabled-commands");
