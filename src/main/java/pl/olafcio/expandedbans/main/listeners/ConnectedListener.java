@@ -38,12 +38,15 @@ public class ConnectedListener implements Listener {
             }
 
             String message;
+            String section = event.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED
+                                ? "joined"
+                                : "failed";
 
             if (nicks.isEmpty()) {
-                message = ExpandedBans.Messages.$translate("alts-autonotify.empty")
+                message = ExpandedBans.Messages.$translate("alts-autonotify." + section + ".empty")
                                                .formatted(event.getName());
             } else {
-                message = ExpandedBans.Messages.$translate("alts-autonotify.has")
+                message = ExpandedBans.Messages.$translate("alts-autonotify." + section + ".has")
                                                .formatted(event.getName()) + "§6" + String.join("§7, §6", nicks);
             }
 
