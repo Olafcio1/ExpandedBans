@@ -187,6 +187,10 @@ commands:
     description: Gets warn history of a player or an IP address.
     permission: expandedbans.warnlist
     aliases: [warnlist]
+  xrelate:
+    description: Relates a player to another player.
+    permission: expandedbans.relate
+    aliases: [relate]
 permissions:
   expandedbans:
     default: true
@@ -281,4 +285,6 @@ permissions:
   expandedbans.mutelist:
     default: op
   expandedbans.warnlist:
+    default: op
+  expandedbans.relate:
     default: op
